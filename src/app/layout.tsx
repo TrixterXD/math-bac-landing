@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import { Manrope } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
+
+const manrope = Manrope({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-manrope",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Math BAC — Educational Prototype",
@@ -9,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={manrope.variable}>
       <body>{children}</body>
     </html>
   );

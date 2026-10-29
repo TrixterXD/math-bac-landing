@@ -1,9 +1,81 @@
-* {
+:root {
+  --color-background: #fff9f4;
+  --color-surface: #ffffff;
+  --color-text: #111a32;
+  --color-text-muted: #42475a;
+  --color-primary: #f45c62;
+  --color-primary-soft: #ffe4de;
+  --color-secondary: #8a71ee;
+  --color-secondary-soft: #e9e3ff;
+  --color-mint: #c9f3df;
+  --color-border: #e9e5e5;
+
+  --font-body: var(--font-manrope), Arial, Helvetica, sans-serif;
+  --font-size-body: 1rem;
+  --font-size-heading: 2.5rem;
+  --line-height-body: 1.5;
+  --line-height-heading: 1.15;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  --radius-card: 1.5rem;
+  --radius-pill: 9999px;
+  --content-width: 75rem;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.5;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--line-height-heading);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }

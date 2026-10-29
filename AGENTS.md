@@ -9,6 +9,10 @@ The developer owns scope, product decisions, architecture, review and acceptance
 1. Read `PRODUCT_SPEC.md`, `DECISIONS.md`, `CODE_STYLE_GUIDE.md`, and the active task in `IMPLEMENTATION_PLAN.md`.
 2. State goal, allowed files, dependencies, acceptance checks and unresolved choices.
 3. If essential requirements conflict, explain and ask rather than silently guess. Avoid turning every implementation detail into a blocking question.
+4. For visual implementation tasks, read `DESIGN_GUIDE.md`
+   and inspect `design/reference/landing-desktop.png`.
+   Follow the approved reference without inventing
+   business claims or unapproved functionality.
 
 ## During implementation
 - Modify only the agreed scope; avoid unrelated refactoring and cosmetic churn.
