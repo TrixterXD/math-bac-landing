@@ -1,6 +1,6 @@
 # Implementation Plan — Math BAC Landing Page
 
-> Version: **0.2** · Date: **2026-10-29** · Status: **Foundation created; final human acceptance pending**
+> Version: **0.3** · Date: **2026-10-29** · Status: **Foundation and Header integrated; Hero preparation underway**
 > Scope: **independent educational MVP**; Nastya has not approved commercial requirements. No code is authorized merely by this plan.
 
 ## 1. Goal and execution contract
@@ -19,7 +19,7 @@ Build a responsive one-page website for an online mathematics BAC preparation sc
 - Static sections default to Server Components; the form is a focused Client Component. Local `useState` draft; **no Jotai**.
 - Phone: custom UI + `libphonenumber-js`, international countries, default `MD`, normalized E.164 on accepted input.
 - Contact: required name and phone, optional comment. Client checks for UX; independent server validation. Server Action is thin coordinator; email provider not yet chosen. Structured field errors. First validation errors appear after submission; update as user corrects. Confirmed success clears fields; failure or uncertain outcome preserves values.
-- No verified program content, testimonials, teacher credentials, scores, prices or brand assets yet. Do not present mocks as real business claims.
+- No verified program content, testimonials, teacher credentials, scores, prices or brand assets yet. The prepared Nastya portrait is for prototype use, not proof of permission to publish. Do not present mocks as real business claims.
 
 ## 3. Working Git workflow
 
@@ -30,7 +30,7 @@ Build a responsive one-page website for an online mathematics BAC preparation sc
 
 ## 4. Task backlog
 
-Each task includes an acceptance gate. **Original task IDs remain stable**, but the AI executor implemented the combined setup under its own TASK-001 label: planning TASK-001 and TASK-002 are implemented; initial TASK-003 shell files exist. Final review/acceptance is pending. Do not start feature implementation until the developer explicitly approves.
+Each task includes an acceptance gate. **Original task IDs remain stable**; the executor combined initial setup under TASK-001. Design Foundation and responsive Header have been implemented and reviewed. TASK-005 is next; further feature work still requires explicit developer authorization.
 
 ### Phase A — Foundation
 
@@ -49,7 +49,7 @@ Each task includes an acceptance gate. **Original task IDs remain stable**, but 
 - Commit candidate: `chore: initialize next app`.
 
 **TASK-003 — Global shell and minimal styles**
-- **Status:** Minimal placeholder `layout.tsx`, `page.tsx`, `globals.css`, `page.module.css` already exist; final mobile/browser checks pending. Shared Header/Footer are planned for RootLayout but are not yet implemented.
+- **Status:** Initial shell and Design Foundation implemented; Manrope and global CSS tokens in use. Header is integrated in RootLayout; Footer remains pending.
 - Depends on: TASK-002.
 - Scope: `layout.tsx`, `page.tsx`, base CSS, fonts and basic layout primitives only as needed; no comprehensive design system invented.
 - Accept: semantic page shell renders, no hydration warnings, mobile width check.
@@ -57,19 +57,27 @@ Each task includes an acceptance gate. **Original task IDs remain stable**, but 
 
 ### Phase B — Static landing sections
 
+**Navigation dependency:** Header includes a `#reviews` anchor because the approved visual reference does. The current section backlog has no standalone Reviews task. Decide whether to add a real Reviews section (with clearly labeled demo content) or adjust navigation before final navigation acceptance; do not invent testimonials to fill the gap.
+
 **TASK-004 — Header/navigation**
+- **Status:** Desktop TASK-004A and mobile TASK-004B implemented and reviewed. Final anchor destinations depend on subsequent sections.
 - Depends on: TASK-003.
 - Scope: minimal brand placeholder and navigation anchors to existing/future sections; accessible navigation semantics. Render shared Header through root `layout.tsx` (A-018).
 - Accept: keyboard navigation works, links target correct anchors after target sections are added; no fabricated social URLs.
 
 **TASK-005 — Hero section**
+- **Status:** Reference and prepared portrait paths selected; implementation not started.
 - Depends on: TASK-003; coordinate anchor with TASK-004.
-- Scope: online BAC offer, clear CTA to contact, placeholder for approved Nastya portrait; responsive mobile layout.
-- Accept: CTA reaches form once wired, clear text/CTA on mobile, fictional visual unmistakably placeholder until approved.
+- References: `design/reference/landing-desktop.png` (overall) and `design/reference/hero/desktop.png` (desktop crop).
+- Runtime portrait: `public/images/hero/nastya-hero.png` (prepared image based on the supplied Nastya photograph; public/commercial-use approval pending).
+- **TASK-005A (desktop):** implement the Hero as semantic HTML/CSS Modules and a responsive-positionable `next/image` portrait; headline, supporting text, illustrative benefit items and contact CTA. Compare at an agreed desktop width (starting at 1440px). Recreate simple decorations where practical; identify missing standalone imagery. No other landing sections.
+- **TASK-005B (mobile):** after review of 005A, design/adapt Hero for narrow viewports; preserve prominent copy, portrait and CTA without overflow.
+- **Video CTA:** no verified video or URL exists. Do not add a deceptive functional control. Defer or mark clearly as a nonfunctional mock only if specifically approved.
+- **Accept:** desktop visual differences documented, sensible semantics, contrast and keyboard behavior, no unsupported school claims, build/lint/typecheck run, mobile checked after 005B; CTA resolves to the actual form once the Contact section exists. Do not merge as a completed responsive section until both phases are accepted.
 
 **TASK-006 — Team section**
 - Depends on: TASK-003.
-- Scope: own component + typed demo team data; no fabricated real bios.
+- Scope: own component + typed demo team data; no fabricated real bios or unauthorized photos. A real portrait of Nastya may be reused only with permission; other teacher portraits remain pending.
 - Accept: consistent cards and responsive rendering; copy marked as demonstrative.
 
 **TASK-007 — Advantages section**
@@ -178,6 +186,6 @@ Each task includes an acceptance gate. **Original task IDs remain stable**, but 
 
 ## 7. Current handoff
 
-Repository: `https://github.com/TrixterXD/math-bac-landing` (private), branch `main`, initial commit `e5d96f5` (`chore: initialize project foundation`). The AI has reported passing install, lint, typecheck, build, audit and HTTP smoke tests; these have **not yet been independently rerun** by the developer in this review.
+Repository: `https://github.com/TrixterXD/math-bac-landing` (private), stable branch `main`. Design Foundation and Header were developed and reviewed in prior PRs. The next scoped change is TASK-005A, **desktop Hero only**.
 
-**Before feature development:** place the four companion Markdown files alongside `AGENTS.md` at the project root; check instructions, ignored files and changes; perform remaining manual browser/mobile/console checks. Then explicitly accept the foundation. The next implementation should follow the existing backlog, respecting A-018 and avoiding redoing completed setup.
+Before invoking an agent, confirm the files `design/reference/hero/desktop.png` and `public/images/hero/nastya-hero.png` are in the target branch; use the reference only for design guidance and the portrait as the runtime image. Review implementation before any commit/merge. Unverified claims and public-use permission remain open.

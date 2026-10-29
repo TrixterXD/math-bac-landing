@@ -1,7 +1,7 @@
 # Design Guide — Math BAC Landing Page
 
-> Version: **0.1** · 2026-10-29 · Status: **visual reference approved; tokens are provisional**
-> Reference: `design/reference/landing-desktop.png` (941 × 1672 px). Source is an AI-generated **static concept**, not an annotated Figma design or a responsive specification.
+> Version: **0.2** · 2026-10-29 · Status: **visual reference approved; tokens are provisional**
+> Full-page reference: `design/reference/landing-desktop.png`; Header reference: `design/reference/header/image.png`; Hero desktop reference: `design/reference/hero/desktop.png`. These are AI-generated **static concepts**, not annotated Figma designs or responsive specifications. Reference dimensions may change when the files are replaced.
 
 ## 1. Design objective
 
@@ -9,7 +9,7 @@ Recreate **Design Concept A — Warm & Playful** as faithfully as practical. Pre
 
 **Priority:** fidelity at a specified desktop viewport → visual consistency → deliberate responsive adaptation. Do not achieve screenshot similarity at the cost of semantic HTML, accessibility, working controls, or understandable CSS.
 
-**Image ≠ verified content.** The generated portrait does not represent Nastya. Team photos, school claims, prices, videos, testimonials, program details, social links and outcomes visible or implied in the artwork are **not approved business facts**. Use approved or explicitly marked placeholder content, according to `PRODUCT_SPEC.md`.
+**Image ≠ verified content.** A synthetic composition may resemble Nastya but is not evidence that depicted people, teaching results, prices, testimonials, programs or videos are real. A portrait asset derived from the supplied photograph is available for prototype development; Nastya’s permission for public/commercial use and the accuracy of any accompanying claims must be confirmed before launch. Use only approved facts or clearly marked demo content, according to `PRODUCT_SPEC.md`.
 
 ## 2. Provisional visual tokens
 
@@ -63,6 +63,17 @@ The following values are **initial approximations by visual inspection**. They a
 
 ## 5. Components and details
 
+### Reference and asset paths
+
+| Purpose | Path | Used by |
+|---|---|---|
+| Full-page composition | `design/reference/landing-desktop.png` | Human and AI visual review |
+| Header crop | `design/reference/header/image.png` | Header visual review |
+| Hero crop | `design/reference/hero/desktop.png` | Hero visual review |
+| Prepared Nastya portrait | `public/images/hero/nastya-hero.png` | Website runtime via `next/image` |
+
+The Hero crop includes some content below the Hero; it is a framing reference, not approval to implement Team or Advantages during TASK-005A.
+
 - **Header:** sticky navigation bar, following the component-specific
   reference at `design/reference/header/image.png`.
   Preserve the approved desktop composition, typography, colors,
@@ -70,17 +81,20 @@ The following values are **initial approximations by visual inspection**. They a
   The header contains the temporary Math BAC brand, in-page navigation
   links (О нас, Преимущества, Программы, Отзывы, FAQ, Контакты),
   and the primary CTA (Оставить заявку → #contact).
-  The desktop implementation is TASK-004A; mobile adaptation is
-  deferred to TASK-004B.
+  Desktop TASK-004A and mobile TASK-004B have been implemented and reviewed;
+  destination anchors are verified as sections are added.
 - **Buttons:** dominant coral background with accessible contrast, generous target size, visible keyboard focus. Lilac may be used only for secondary emphasis.
 - **Cards:** rounded edges, quiet shadow, soft pastel fill. Avoid packing in unverifiable information just to match the image.
 - **Decorations:** math doodles, arrows, rounded color blobs and handwritten notes. Prefer simple CSS/SVG assets with clear positioning; decorative elements should not intercept clicks, obscure text or create horizontal overflow.
-- **Portrait:** generated figure is composition reference only; real Nastya portrait requires an approved file. Use a visibly marked placeholder until provided.
+- **Hero image asset:** `public/images/hero/nastya-hero.png` is the prepared transparent-background portrait derived from the user-supplied photograph. It is an **implementation asset**, distinct from reference artwork. Verify its actual transparency, quality and likeness in the browser. It is available for the educational prototype; **public/commercial use requires Nastya’s authorization**.
+- **Hero visual reference:** `design/reference/hero/desktop.png` governs the desktop composition (copy left, portrait right). Build the text, CTA and layout as real HTML/CSS, using `next/image` for the portrait. Do not display the entire reference PNG as a hero background or pretend the static image is interactive.
+- **Hero decorative artwork:** books, mug, handwritten mathematical notes and other picture details are not supplied as separate runtime assets. Recreate simple shapes with CSS/SVG where practical; otherwise report missing imagery instead of silently generating or inventing photorealistic objects.
+- **Video CTA:** no approved school video or destination exists. Do not render an apparently functional play control with a fake target; propose a visually coherent, clearly disabled/demo treatment or omit it pending a decision.
 - **Navigation:** use real in-page anchor IDs. Never create functional-looking links or buttons without destinations.
 
 ## 6. Responsive strategy (new design work, not present in source image)
 
-The provided concept only depicts a tall desktop-style layout. Mobile, tablet and small-desktop layouts **must be designed and reviewed separately**; do not claim pixel-perfect fidelity at unspecified viewports.
+The available Hero concept depicts a desktop-style layout. Mobile, tablet and small-desktop layouts **must be designed and reviewed separately**; do not claim pixel-perfect fidelity at unspecified viewports.
 
 - Prefer responsive grid/flex layouts over fixed absolute coordinates for core content.
 - On narrow screens: stack hero copy and portrait; preserve immediate headline/CTA visibility; stack program cards; keep form fields usable and labels accessible.
@@ -90,9 +104,9 @@ The provided concept only depicts a tall desktop-style layout. Mobile, tablet an
 
 ## 7. Image-to-code review workflow
 
-1. Agree on **one small scoped task** and allowed files (starting with the design foundation, then Header).
+1. Agree on **one small scoped task** and allowed files (next: desktop Hero TASK-005A, then mobile TASK-005B).
 2. Implement semantic and responsive structure with CSS Modules, applying the token system sparingly.
-3. Take a screenshot of the page at the agreed desktop viewport; compare visually with `design/reference/landing-desktop.png`.
+3. Take a screenshot at the agreed desktop viewport; compare with the relevant component reference (Hero: `design/reference/hero/desktop.png`) and check full-page consistency against `design/reference/landing-desktop.png`.
 4. Record **observable differences**: position, text wrap, spacing, color, size, assets and decoration.
 5. Fix the largest fidelity gaps before micro-tuning; compare mobile separately.
 6. Run Biome, typecheck, build and relevant manual interactions; developer reviews the diff before commit.
@@ -105,9 +119,9 @@ No image-to-code agent should treat the artwork as source of truth for business 
 ## 8. Open design decisions
 
 - Actual logo/brand and final language/copy.
-- Real portrait/team media and rights/approval.
+- Permission for public use of the prepared Nastya portrait; real team photos, rights and approval.
 - Manrope and its Next.js font-loading strategy are approved and implemented; final heading sizes remain subject to visual review.
-- Header sticky behavior is approved; mobile-menu design remains undecided.
+- Header sticky behavior and a mobile toggle/dropdown have been implemented and visually reviewed; further integration/behavior checks can still be done as sections appear.
 - Exact responsive mockup(s) and breakpoint selection.
 - Decorative illustration assets and SVG style.
 - Final palette/contrast verified in browser; token values are candidates pending visual iteration.
@@ -118,5 +132,5 @@ No image-to-code agent should treat the artwork as source of truth for business 
 - `DECISIONS.md` records architecture/product commitments.
 - `CODE_STYLE_GUIDE.md` controls code organization and coding conventions.
 - `AGENTS.md` controls AI scope and acceptance gate.
-- `IMPLEMENTATION_PLAN.md` controls task order; a scoped design-foundation task should be added before implementation of the visual Header.
+- `IMPLEMENTATION_PLAN.md` controls task order and acceptance; Design Foundation and Header have already been implemented, and Hero is next.
 - This file controls **visual direction**, subject to accessibility and the documents above.

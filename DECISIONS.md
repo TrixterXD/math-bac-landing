@@ -1,6 +1,6 @@
 # Decision Log — Math BAC Landing Page
 
-> Version: **0.5** · Updated: **2026-10-29**  
+> Version: **0.6** · Updated: **2026-10-29**  
 > These decisions apply to a **hypothetical educational MVP**, not a signed-off commercial project.
 
 Each entry identifies the choice, reason, alternatives, and current status. **Agreed** means agreed for the prototype, not verified with Nastya.
@@ -99,8 +99,8 @@ Each entry identifies the choice, reason, alternatives, and current status. **Ag
 - **Tradeoff:** Programs appear below trust-building sections; hero must explain the actual offer early.
 
 ## D-016 — Hero portrait and direct CTA
-- **Status:** Agreed design direction; actual photo subject to Nastya's approval.
-- **Choice:** Make Nastya's portrait the main hero visual; show online BAC preparation and immediate form CTA.
+- **Status:** Agreed design direction; a prepared portrait asset is available for the prototype, with public/commercial use subject to Nastya's authorization.
+- **Choice:** Make Nastya's portrait the main hero visual; show online BAC preparation and immediate form CTA. Use `public/images/hero/nastya-hero.png` as an independently positioned runtime asset rather than baking the entire hero into a static screenshot.
 - **Reason:** TikTok audiences may recognize her; newcomers see the person leading the school.
 - **Tradeoff:** On mobile, avoid a portrait that crowds out key messaging and the CTA.
 
@@ -242,3 +242,20 @@ Use `IMPLEMENTATION_PLAN.md` to start with the smallest foundation task. Resolve
 - **Choice:** Repository `TrixterXD/math-bac-landing` is private, on `main`, with initial foundation commit `e5d96f5`. Initial Next.js/TypeScript/Biome setup exists. Human review of major configuration and CSS files is positive; full acceptance still needs final checks.
 - **Reason:** Keep implementation status and documentation aligned. Use root-level `AGENTS.md` as active agent instructions and the four companion Markdown documents as reference.
 - **Note:** Existing task IDs in `IMPLEMENTATION_PLAN.md` remain stable even though the executor combined foundation setup steps under its label TASK-001.
+
+## D-020 — Hero visual source and image ownership
+- **Status:** Agreed for prototype preparation; public-use permission pending.
+- **Choice:** Keep the full reference at `design/reference/landing-desktop.png` and the Hero-specific desktop crop at `design/reference/hero/desktop.png`. Keep the portrait prepared from the user-supplied Nastya photo at `public/images/hero/nastya-hero.png`.
+- **Reason:** Design references communicate composition; runtime assets provide editable, responsive UI.
+- **Constraint:** The generated/cutout portrait may differ from the source photograph. Check likeness and approval before public/commercial use. Do not fabricate other teachers or school facts.
+
+## W-004 — Review desktop Hero before mobile adaptation
+- **Status:** Agreed implementation sequence for TASK-005.
+- **Choice:** Implement TASK-005A desktop Hero first, review against the dedicated reference, then TASK-005B mobile adaptation in the same feature workflow.
+- **Reason:** Isolate visual fidelity and architecture decisions before adding responsive complexity.
+- **Constraint:** Do not merge an intentionally incomplete mobile implementation as finished; preserve working Header and do not generate unrelated sections.
+
+## W-005 — Header implementation checkpoint
+- **Status:** Header desktop/mobile implementation reviewed; integration of anchors will be verified when destination sections exist.
+- **Choice:** Keep sticky shared Header, one navigation collection, and accessible mobile dropdown; avoid speculative reusable link/button wrappers.
+- **Open:** Some section IDs (notably `#reviews`) have no corresponding implemented section yet. Resolve section/backlog consistency before declaring anchor navigation complete; fabricated reviews are prohibited.

@@ -1,6 +1,6 @@
 # Code Style Guide — Math BAC Landing Page
 
-> Version: **0.3** · Updated: **2026-10-29**  
+> Version: **0.4** · Updated: **2026-10-29**  
 > Status: **Agreed working guidelines; may evolve after review**  
 > Applies to the educational prototype, not a final customer contract.
 
@@ -71,7 +71,7 @@ Do not create a separate `.types.ts` file by default: extract only when there is
 - Use CSS Modules for component-level styles.
 - Preserve semantic HTML, keyboard access, clear labels and responsive/mobile usability.
 - Do not put actual unapproved claims or fake student results into production copy.
-- Design tokens, breakpoints, formatting/linting configuration and a detailed CSS policy are **not yet decided**.
+- Use the implemented Manrope and CSS custom properties in `src/app/globals.css`; visual choices and component-specific references are documented in `DESIGN_GUIDE.md`. Breakpoints follow content needs; contrast and responsive behavior require browser verification.
 
 ## 8. AI implementation and review protocol (agreed)
 
@@ -90,7 +90,7 @@ Do not create a separate `.types.ts` file by default: extract only when there is
 - Exact form implementation signatures, notification transport and provider; contact form responsibilities and Server Action have been agreed.
 - Specific input schema, error codes, safe retry/de-duplication, anti-spam measures, data privacy rules.
 - Testing tools and complete project tree as needs emerge. Biome (including import organization) and Conventional Commits are selected.
-- Detailed design system, CSS tokens and breakpoint approach.
+- Further component-specific responsive design and contrast checks; foundational CSS tokens and Manrope are already implemented.
 
 ## 10. Change procedure
 
@@ -124,3 +124,12 @@ Every rule change should include: **old rule → new rule → reason → affecte
 - `DECISIONS.md`: decisions, alternatives and statuses.
 - `IMPLEMENTATION_PLAN.md`: task order, dependencies, review and acceptance gates.
 - `AGENTS.md`: the active AI scope, reporting and approval contract (currently holds the rules formerly named `AI_DEVELOPMENT_RULES.md`).
+
+## 15. Image assets and visual references (Hero)
+
+- `design/reference/` holds **review images** and must not become the source for rendering the website itself. The full-page reference is `design/reference/landing-desktop.png`; the Hero crop is `design/reference/hero/desktop.png`.
+- `public/images/` holds **runtime assets**. The prepared portrait for the Hero is `public/images/hero/nastya-hero.png`, rendered with Next.js `Image` where appropriate; use responsive sizing and meaningful `alt` text.
+- Keep the Hero copy, links and layout as semantic markup rather than flattening them into a background image. Do not accidentally render text from the reference as a bitmap.
+- Do not create a generic image wrapper or asset registry unless actual repeated needs appear. Avoid unapproved packages and speculative asset generation.
+- Treat generated portrait cutouts as edited imagery: verify likeness, quality, transparency and consent for public use. Do not depict fictitious team members as real staff.
+- For TASK-005A change only Hero-specific implementation and minimal page composition; keep Header behavior and global tokens intact unless a concrete issue is discussed and approved.
