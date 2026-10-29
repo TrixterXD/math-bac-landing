@@ -64,7 +64,7 @@ export default function Hero() {
             alt="Настя сидит за столом с тетрадью и ручкой"
             width={1086}
             height={1448}
-            sizes="600px"
+            sizes="(width < 568px) calc(100vw - 32px), 536px"
             preload
           />
           <Image
