@@ -11,8 +11,10 @@ The developer owns scope, product decisions, architecture, review and acceptance
 3. If essential requirements conflict, explain and ask rather than silently guess. Avoid turning every implementation detail into a blocking question.
 4. For visual implementation tasks, read `DESIGN_GUIDE.md`
    and inspect `design/reference/landing-desktop.png`.
-   Follow the approved reference without inventing
-   business claims or unapproved functionality.
+   When a component-specific reference exists, inspect it as well.
+   For Header tasks, use `design/reference/header/image.png`.
+   Follow approved design decisions without inventing business
+   claims or unapproved functionality.
 
 ## During implementation
 - Modify only the agreed scope; avoid unrelated refactoring and cosmetic churn.
