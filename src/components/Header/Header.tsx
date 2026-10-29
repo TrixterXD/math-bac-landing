@@ -1,3 +1,4 @@
+import { navigationItems } from "./Header.data";
 import styles from "./Header.module.css";
 
 export default function Header() {
@@ -9,24 +10,11 @@ export default function Header() {
         </a>
         <nav aria-label="Основная навигация">
           <ul className={styles.links}>
-            <li>
-              <a href="#about">О нас</a>
-            </li>
-            <li>
-              <a href="#advantages">Преимущества</a>
-            </li>
-            <li>
-              <a href="#programs">Программы</a>
-            </li>
-            <li>
-              <a href="#reviews">Отзывы</a>
-            </li>
-            <li>
-              <a href="#faq">FAQ</a>
-            </li>
-            <li>
-              <a href="#contact">Контакты</a>
-            </li>
+            {navigationItems.map((item) => (
+              <li key={item.href}>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
           </ul>
         </nav>
         <a className={styles.cta} href="#contact">
