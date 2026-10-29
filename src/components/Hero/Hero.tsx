@@ -67,6 +67,14 @@ export default function Hero() {
             sizes="600px"
             preload
           />
+          <Image
+            className={styles.note}
+            src="/images/hero/note.png"
+            alt=""
+            width={737}
+            height={724}
+            sizes="280px"
+          />
         </div>
       </div>
       <svg

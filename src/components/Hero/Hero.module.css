@@ -171,10 +171,28 @@
 .portrait {
   position: absolute;
   top: -5rem;
-  right: 5rem;
-  width: 37.5rem;
+  right: 7rem;
+  width: 34.5rem;
   max-width: none;
   height: auto;
+}
+
+.mug,
+.books,
+.note {
+  position: absolute;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.note {
+  top: var(--space-4);
+  right: -7rem;
+  width: 17.5rem;
+  /* The supplied note includes an unrelated book strip on its left edge. */
+  clip-path: inset(0 0 0 10%);
 }
 
 .pyramid {
