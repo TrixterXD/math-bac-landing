@@ -10,11 +10,13 @@ export default function Header() {
 
   function closeMenu() {
     setIsOpen(false);
-    if (isOpen) toggleRef.current?.focus();
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
-    if (event.key === "Escape" && isOpen) closeMenu();
+    if (event.key === "Escape" && isOpen) {
+      closeMenu();
+      toggleRef.current?.focus();
+    }
   }
 
   return (
