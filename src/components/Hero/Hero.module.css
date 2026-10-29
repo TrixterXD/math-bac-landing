@@ -170,9 +170,9 @@
 
 .portrait {
   position: absolute;
-  top: -5rem;
+  top: -2.5rem;
   right: 7rem;
-  width: 34.5rem;
+  width: 33.5rem;
   max-width: none;
   height: auto;
 }
@@ -197,7 +197,7 @@
   position: absolute;
   z-index: 1;
   top: var(--space-4);
-  left: -2rem;
+  left: -4rem;
   width: 5.625rem;
   height: 6.25rem;
   color: var(--color-secondary);
