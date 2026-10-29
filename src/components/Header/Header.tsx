@@ -1,23 +1,66 @@
+"use client";
+
+import { type KeyboardEvent, useRef, useState } from "react";
 import { navigationItems } from "./Header.data";
 import styles from "./Header.module.css";
 
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  function closeMenu() {
+    setIsOpen(false);
+    if (isOpen) toggleRef.current?.focus();
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
+    if (event.key === "Escape" && isOpen) closeMenu();
+  }
+
   return (
     <header className={styles.header} lang="ru">
       <div className={styles.inner}>
         <a className={styles.brand} href="/" aria-label="Math BAC — главная">
           Math <span>BAC</span>
         </a>
-        <nav aria-label="Основная навигация">
+        <button
+          ref={toggleRef}
+          className={styles.toggle}
+          type="button"
+          aria-expanded={isOpen}
+          aria-controls="header-navigation"
+          aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
+          onClick={() => setIsOpen(!isOpen)}
+          onKeyDown={handleKeyDown}
+        >
+          <span aria-hidden="true">{isOpen ? "×" : "☰"}</span>
+        </button>
+        <nav
+          id="header-navigation"
+          className={styles.navigation}
+          data-open={isOpen}
+          aria-label="Основная навигация"
+        >
           <ul className={styles.links}>
             {navigationItems.map((item) => (
               <li key={item.href}>
-                <a href={item.href}>{item.label}</a>
+                <a
+                  href={item.href}
+                  onClickCapture={closeMenu}
+                  onKeyDown={handleKeyDown}
+                >
+                  {item.label}
+                </a>
               </li>
             ))}
           </ul>
         </nav>
-        <a className={styles.cta} href="#contact">
+        <a
+          className={styles.cta}
+          href="#contact"
+          onClickCapture={closeMenu}
+          onKeyDown={handleKeyDown}
+        >
           Оставить заявку
           <svg
             aria-hidden="true"

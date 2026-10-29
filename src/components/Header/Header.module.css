@@ -37,6 +37,10 @@
   text-decoration: none;
 }
 
+.toggle {
+  display: none;
+}
+
 .brand {
   flex-shrink: 0;
   font-size: 2rem;
@@ -94,8 +98,87 @@
   background: var(--color-primary-soft);
 }
 
-.header a:focus-visible {
+.header a:focus-visible,
+.toggle:focus-visible {
   outline: 3px solid var(--color-text);
   outline-offset: 4px;
   border-radius: var(--radius-pill);
+}
+
+/* The desktop row needs roughly 64rem including gutters and gaps. */
+@media (width < 64rem) {
+  .header {
+    overflow: visible;
+  }
+
+  .header::before {
+    display: none;
+  }
+
+  .inner {
+    gap: var(--space-2);
+    width: calc(100% - var(--space-8));
+  }
+
+  .brand {
+    margin-right: auto;
+    font-size: 1.375rem;
+    letter-spacing: -0.04rem;
+  }
+
+  .toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-secondary-soft);
+    color: var(--color-text);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .navigation {
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    display: none;
+    max-height: calc(100dvh - 4.75rem);
+    overflow-y: auto;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
+    background: var(--color-background);
+    box-shadow: 0 8px 12px rgb(17 26 50 / 8%);
+  }
+
+  .navigation[data-open="true"] {
+    display: block;
+  }
+
+  .links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+  }
+
+  .links a {
+    width: 100%;
+    padding-inline: var(--space-4);
+  }
+
+  .header .cta {
+    gap: var(--space-2);
+    min-height: 2.75rem;
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.75rem;
+  }
+
+  .cta svg {
+    display: none;
+  }
 }
