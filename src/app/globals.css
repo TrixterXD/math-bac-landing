@@ -37,6 +37,17 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Keep future anchor targets clear of the desktop sticky header. */
+  scroll-padding-top: 5.75rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   margin: 0;
   background: var(--color-background);
