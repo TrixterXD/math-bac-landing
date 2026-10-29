@@ -1,0 +1,184 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--color-background);
+}
+
+.header::before {
+  position: absolute;
+  z-index: -1;
+  top: -2.5rem;
+  right: 5%;
+  width: 27rem;
+  height: 12rem;
+  border-radius: 50%;
+  background: linear-gradient(110deg, #ffe0c5, var(--color-primary-soft));
+  transform: rotate(-24deg);
+  content: "";
+  pointer-events: none;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  width: calc(100% - var(--space-12));
+  max-width: var(--content-width);
+  min-height: 4.75rem;
+  margin-inline: auto;
+}
+
+.header a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.toggle {
+  display: none;
+}
+
+.brand {
+  flex-shrink: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.08rem;
+  white-space: nowrap;
+}
+
+.brand span {
+  color: var(--color-primary);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.header .cta {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  min-height: 3.25rem;
+  padding: var(--space-3) var(--space-6);
+  border: 1px solid var(--color-surface);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-text);
+  box-shadow: 0 4px 12px rgb(244 92 98 / 15%);
+  font-size: 0.875rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.cta:hover {
+  background: var(--color-primary-soft);
+}
+
+.header a:focus-visible,
+.toggle:focus-visible {
+  outline: 3px solid var(--color-text);
+  outline-offset: 4px;
+  border-radius: var(--radius-pill);
+}
+
+/* The desktop row needs roughly 64rem including gutters and gaps. */
+@media (width < 64rem) {
+  .header {
+    overflow: visible;
+  }
+
+  .header::before {
+    display: none;
+  }
+
+  .inner {
+    gap: var(--space-2);
+    width: calc(100% - var(--space-8));
+  }
+
+  .brand {
+    margin-right: auto;
+    font-size: 1.375rem;
+    letter-spacing: -0.04rem;
+  }
+
+  .toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-secondary-soft);
+    color: var(--color-text);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .navigation {
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    display: none;
+    max-height: calc(100dvh - 4.75rem);
+    overflow-y: auto;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
+    background: var(--color-background);
+    box-shadow: 0 8px 12px rgb(17 26 50 / 8%);
+  }
+
+  .navigation[data-open="true"] {
+    display: block;
+  }
+
+  .links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+  }
+
+  .links a {
+    width: 100%;
+    padding-inline: var(--space-4);
+  }
+
+  .header .cta {
+    gap: var(--space-2);
+    min-height: 2.75rem;
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.75rem;
+  }
+
+  .cta svg {
+    display: none;
+  }
+}
