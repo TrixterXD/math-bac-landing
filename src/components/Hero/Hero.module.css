@@ -177,8 +177,6 @@
   height: auto;
 }
 
-.mug,
-.books,
 .note {
   position: absolute;
   max-width: none;
