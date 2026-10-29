@@ -63,7 +63,15 @@ The following values are **initial approximations by visual inspection**. They a
 
 ## 5. Components and details
 
-- **Header:** compact brand placeholder, anchor navigation, coral primary CTA. Sticky behavior **not yet agreed**; do not implement it solely because of the mockup.
+- **Header:** sticky navigation bar, following the component-specific
+  reference at `design/reference/header/image.png`.
+  Preserve the approved desktop composition, typography, colors,
+  spacing, decorative shapes, and coral CTA as closely as practical.
+  The header contains the temporary Math BAC brand, in-page navigation
+  links (О нас, Преимущества, Программы, Отзывы, FAQ, Контакты),
+  and the primary CTA (Оставить заявку → #contact).
+  The desktop implementation is TASK-004A; mobile adaptation is
+  deferred to TASK-004B.
 - **Buttons:** dominant coral background with accessible contrast, generous target size, visible keyboard focus. Lilac may be used only for secondary emphasis.
 - **Cards:** rounded edges, quiet shadow, soft pastel fill. Avoid packing in unverifiable information just to match the image.
 - **Decorations:** math doodles, arrows, rounded color blobs and handwritten notes. Prefer simple CSS/SVG assets with clear positioning; decorative elements should not intercept clicks, obscure text or create horizontal overflow.
@@ -88,6 +96,9 @@ The provided concept only depicts a tall desktop-style layout. Mobile, tablet an
 4. Record **observable differences**: position, text wrap, spacing, color, size, assets and decoration.
 5. Fix the largest fidelity gaps before micro-tuning; compare mobile separately.
 6. Run Biome, typecheck, build and relevant manual interactions; developer reviews the diff before commit.
+7. For components with dedicated references, inspect the component-specific
+image alongside the full landing reference. Prefer the component reference
+for visual details and the full image for overall composition.
 
 No image-to-code agent should treat the artwork as source of truth for business facts, functional behavior, prices, team identities or privacy statements.
 
@@ -96,7 +107,7 @@ No image-to-code agent should treat the artwork as source of truth for business 
 - Actual logo/brand and final language/copy.
 - Real portrait/team media and rights/approval.
 - Manrope and its Next.js font-loading strategy are approved and implemented; final heading sizes remain subject to visual review.
-- Whether Header is static or sticky, and mobile-menu design.
+- Header sticky behavior is approved; mobile-menu design remains undecided.
 - Exact responsive mockup(s) and breakpoint selection.
 - Decorative illustration assets and SVG style.
 - Final palette/contrast verified in browser; token values are candidates pending visual iteration.
