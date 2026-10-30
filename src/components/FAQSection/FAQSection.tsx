@@ -4,6 +4,8 @@ import styles from "./FAQSection.module.css";
 import { faqItems } from "./faq.data";
 
 export default function FAQSection() {
+  const columnSize = Math.ceil(faqItems.length / 2);
+
   return (
     <section
       id="faq"
@@ -24,7 +26,7 @@ export default function FAQSection() {
             {[0, 1].map((column) => (
               <div key={column} className={styles.column}>
                 {faqItems
-                  .filter((_, index) => index % 2 === column)
+                  .slice(column * columnSize, (column + 1) * columnSize)
                   .map((item) => (
                     <FAQItem key={item.id} item={item} />
                   ))}
