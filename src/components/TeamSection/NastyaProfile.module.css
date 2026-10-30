@@ -1,0 +1,75 @@
+.dialog {
+  width: min(calc(100% - var(--space-8)), 42rem);
+  max-height: calc(100dvh - var(--space-8));
+  margin: auto;
+  padding: var(--space-6);
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+.dialog::backdrop {
+  background: rgb(17 26 50 / 45%);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.header h2 {
+  font-size: 1.75rem;
+}
+
+.close {
+  flex-shrink: 0;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--radius-pill);
+  background: var(--color-secondary-soft);
+  color: var(--color-text);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.close:focus-visible {
+  outline: 3px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-6);
+}
+
+.demoHeading {
+  font-size: 1.125rem;
+}
+
+.notice {
+  margin-block: var(--space-4);
+  color: var(--color-text-muted);
+}
+
+@media (width < 40rem) {
+  .dialog {
+    padding: var(--space-4);
+  }
+
+  .content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .portrait {
+    width: 12rem;
+    margin-inline: auto;
+  }
+}
