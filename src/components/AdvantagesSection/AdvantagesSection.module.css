@@ -1,0 +1,86 @@
+.section {
+  background: var(--color-background);
+}
+
+.inner {
+  width: calc(100% - var(--space-12));
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding-block: var(--space-12);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.artwork {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-2);
+  width: min(100%, 24rem);
+  pointer-events: none;
+  user-select: none;
+}
+
+.arrow {
+  flex-shrink: 0;
+  width: 3.5rem;
+}
+
+.note {
+  width: calc(100% - 4rem);
+  height: 9rem;
+  /* Crop the PNG's transparent vertical margins, not its handwritten text. */
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.06rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.demo {
+  margin-top: var(--space-4);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+@media (width < 64rem) {
+  .inner {
+    width: calc(100% - var(--space-8));
+    max-width: 42rem;
+    padding-block: var(--space-8);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .artwork {
+    align-self: flex-end;
+  }
+
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+}
