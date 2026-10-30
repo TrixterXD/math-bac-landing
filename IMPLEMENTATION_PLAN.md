@@ -1,6 +1,6 @@
 # Implementation Plan — Math BAC Landing Page
 
-> Version: **0.3** · Date: **2026-10-29** · Status: **Foundation and Header integrated; Hero preparation underway**
+> Version: **0.4** · Date: **2026-10-30** · Status: **Hero implemented in PR #3; final integration review pending**
 > Scope: **independent educational MVP**; Nastya has not approved commercial requirements. No code is authorized merely by this plan.
 
 ## 1. Goal and execution contract
@@ -30,7 +30,7 @@ Build a responsive one-page website for an online mathematics BAC preparation sc
 
 ## 4. Task backlog
 
-Each task includes an acceptance gate. **Original task IDs remain stable**; the executor combined initial setup under TASK-001. Design Foundation and responsive Header have been implemented and reviewed. TASK-005 is next; further feature work still requires explicit developer authorization.
+Each task includes an acceptance gate. **Original task IDs remain stable**; the executor combined initial setup under TASK-001. Design Foundation and responsive Header have been implemented and reviewed. Hero changes are committed on `feature/hero-section` in PR #3; final acceptance and merge remain separate developer decisions. Further feature work requires explicit authorization.
 
 ### Phase A — Foundation
 
@@ -66,14 +66,17 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 - Accept: keyboard navigation works, links target correct anchors after target sections are added; no fabricated social URLs.
 
 **TASK-005 — Hero section**
-- **Status:** Reference and prepared portrait paths selected; implementation not started.
-- Depends on: TASK-003; coordinate anchor with TASK-004.
-- References: `design/reference/landing-desktop.png` (overall) and `design/reference/hero/desktop.png` (desktop crop).
-- Runtime portrait: `public/images/hero/nastya-hero.png` (prepared image based on the supplied Nastya photograph; public/commercial-use approval pending).
-- **TASK-005A (desktop):** implement the Hero as semantic HTML/CSS Modules and a responsive-positionable `next/image` portrait; headline, supporting text, illustrative benefit items and contact CTA. Compare at an agreed desktop width (starting at 1440px). Recreate simple decorations where practical; identify missing standalone imagery. No other landing sections.
-- **TASK-005B (mobile):** after review of 005A, design/adapt Hero for narrow viewports; preserve prominent copy, portrait and CTA without overflow.
-- **Video CTA:** no verified video or URL exists. Do not add a deceptive functional control. Defer or mark clearly as a nonfunctional mock only if specifically approved.
-- **Accept:** desktop visual differences documented, sensible semantics, contrast and keyboard behavior, no unsupported school claims, build/lint/typecheck run, mobile checked after 005B; CTA resolves to the actual form once the Contact section exists. Do not merge as a completed responsive section until both phases are accepted.
+- **Status:** Implemented on `feature/hero-section` in open PR #3; developer approved the visible mobile Variant C and decorative composition across manually inspected sizes. Final PR review, any outstanding responsive findings, and production build/merge are not yet confirmed.
+- References: `design/reference/landing-desktop.png`, `design/reference/hero/desktop.png`, `design/reference/landing-mobile.png`, `design/reference/hero/mobile-concept.png`.
+- Runtime portrait: `public/images/hero/nastya-hero.png` (public/commercial-use approval pending).
+- **TASK-005A:** Desktop semantic Hero with portrait, supporting copy, benefits and CTA — implemented.
+- **TASK-005B:** Initial mobile adaptation — implemented.
+- **TASK-005C:** Desktop responsive audit — report at `design/qa/TASK-005C-desktop-responsive-audit.md`; reported clipping/height concerns remain to be dispositioned, not silently marked fixed.
+- **TASK-005D:** Mobile Variant C — implemented: heading/description → portrait → compact benefits → CTA → disclaimer; introductory pill hidden on mobile. Mobile visual approved.
+- **TASK-005E:** Three decorative PNGs added and integrated on desktop; desktop visual approved. Agent initially hid them on small screens without verifying a real problem.
+- **TASK-005F:** Mobile decorative composition implemented and committed as `506bccc`: math note near heading, pyramid and lesson note beside portrait. Developer visually inspected responsive sizes and approved; agent reported lint, typecheck and diff checks passed. No automated browser QA or production build claimed for this task.
+- **Video CTA:** Deferred pending a real approved video and destination.
+- **Remaining acceptance gate:** Review PR #3 as a whole, resolve or explicitly defer outstanding audit findings, confirm required build/checks and any manual interaction/anchor caveats, then merge only on developer approval. `#contact` target is dependent on the future Contact section.
 
 **TASK-006 — Team section**
 - Depends on: TASK-003.
@@ -186,6 +189,6 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 
 ## 7. Current handoff
 
-Repository: `https://github.com/TrixterXD/math-bac-landing` (private), stable branch `main`. Design Foundation and Header were developed and reviewed in prior PRs. The next scoped change is TASK-005A, **desktop Hero only**.
+Repository: `https://github.com/TrixterXD/math-bac-landing` (private), stable branch `main`. Design Foundation and Header were developed and reviewed in prior PRs. PR #3 (`feature/hero-section`) currently contains the Hero including Variant C and desktop/mobile decorations. The next product section in the backlog is TASK-006 (Nastya and team), but it is not authorized until the Hero PR and its acceptance gate are handled.
 
-Before invoking an agent, confirm the files `design/reference/hero/desktop.png` and `public/images/hero/nastya-hero.png` are in the target branch; use the reference only for design guidance and the portrait as the runtime image. Review implementation before any commit/merge. Unverified claims and public-use permission remain open.
+For further Hero work, inspect the current source and both Hero references; use the reference PNGs only for design guidance and the portrait/decorations as runtime assets. Keep long-running automated browser QA separate from small implementation tasks unless explicitly approved. Unverified business claims and public-use permission remain open.

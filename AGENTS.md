@@ -1,6 +1,6 @@
 # AI Development Rules — Math BAC Landing Page
 
-> Version: **0.1** · Status: agreed working process · 2026-10-28
+> Version: **0.2** · Status: agreed working process · 2026-10-30
 
 ## Role
 The developer owns scope, product decisions, architecture, review and acceptance. AI implements one approved small task at a time and may challenge decisions with reasons; it cannot silently change them.
@@ -23,6 +23,11 @@ The developer owns scope, product decisions, architecture, review and acceptance
 - Keep mock content clearly identified; do not invent real student outcomes or credentials.
 - Use the established naming, CSS Modules, local-state and Server Component defaults.
 - Write the smallest coherent, readable implementation; do not build the rest of the project.
+
+## QA execution boundaries
+- For small visual changes, run targeted static checks and hand over for developer-led responsive inspection; do not create or run lengthy browser QA automation without separate developer authorization.
+- Production build and broader responsive/accessibility QA remain part of the relevant acceptance gate; never report them as passed if they were not run.
+- If a reference shows a required element, do not silently hide it based on a predicted layout issue. Attempt the agreed layout or report the concrete blocker for developer review.
 
 ## Completion report (required)
 1. Files added/changed and the reason for each.
