@@ -56,7 +56,7 @@ export default function Hero() {
             alt=""
             width={1448}
             height={1086}
-            sizes="144px"
+            sizes="(width < 1280px) min(30vw - 10px, 144px), 144px"
           />
           <Image
             className={styles.portrait}
@@ -68,22 +68,22 @@ export default function Hero() {
             preload
           />
           <Image
-            className={styles.mathNote}
-            src="/images/hero/math-note.png"
-            alt=""
-            width={1448}
-            height={1086}
-            sizes="280px"
-          />
-          <Image
             className={styles.lessonNote}
             src="/images/hero/lesson-note.png"
             alt=""
             width={1448}
             height={1086}
-            sizes="(width < 1280px) 128px, 192px"
+            sizes="(width < 1280px) min(27vw - 9px, 128px), 192px"
           />
         </div>
+        <Image
+          className={styles.mathNote}
+          src="/images/hero/math-note.png"
+          alt=""
+          width={1448}
+          height={1086}
+          sizes="(width < 1280px) min(30vw - 10px, 202px), 280px"
+        />
       </div>
       <svg
         className={styles.boundary}

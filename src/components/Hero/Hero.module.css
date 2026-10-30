@@ -249,7 +249,9 @@
   }
 
   .heading {
+    grid-area: 1 / 1;
     width: auto;
+    padding-right: 32%;
     font-size: clamp(2rem, 8.5vw, 3rem);
     letter-spacing: -0.06rem;
   }
@@ -305,25 +307,26 @@
     height: 100%;
   }
 
+  /* Share the heading row, reserving its right side without fixed text offsets. */
   .mathNote {
-    display: none;
+    position: relative;
+    grid-area: 1 / 1;
+    align-self: start;
+    justify-self: end;
+    top: auto;
+    right: auto;
+    width: 30%;
   }
 
   .lessonNote {
-    top: var(--space-6);
+    top: var(--space-8);
     right: 0;
-    width: 8rem;
+    width: min(27%, 8rem);
   }
 
   .pyramid {
-    top: var(--space-4);
+    top: var(--space-8);
     left: 0;
-  }
-}
-
-@media (width < 37.5rem) {
-  .lessonNote,
-  .pyramid {
-    display: none;
+    width: min(30%, 9rem);
   }
 }
