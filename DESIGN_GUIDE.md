@@ -1,6 +1,6 @@
 # Design Guide — Math BAC Landing Page
 
-> Version: **0.3** · 2026-10-30 · Status: **visual reference approved; tokens are provisional**
+> Version: **0.4** · 2026-10-30 · Status: **visual reference approved; tokens are provisional**
 > Full-page reference: `design/reference/landing-desktop.png`; Header reference: `design/reference/header/image.png`; Hero desktop reference: `design/reference/hero/desktop.png`; Hero mobile reference: `design/reference/hero/mobile-concept.png`; full mobile reference: `design/reference/landing-mobile.png`. These are AI-generated **static concepts**, not annotated Figma designs or responsive specifications. Reference dimensions may change when the files are replaced.
 
 ## 1. Design objective
@@ -45,7 +45,7 @@ The following values are **initial approximations by visual inspection**. They a
 - Desktop: central max-width content region approximately 1120–1200 CSS px; comfortable horizontal gutters. **The 941px reference image is a downscaled composition and is not a literal CSS viewport measurement.**
 - Section order remains: Hero → Nastya & Team → Advantages → Programs → FAQ → Contact. Header and Footer are shared in `RootLayout` (A-018).
 - Hero: two-column structure, strong left-aligned message and CTA, dominant teacher portrait on the right.
-- Teams/advantages: varied compositions, not repetitive identical grids everywhere.
+- Team: desktop two-column composition (copy on left; portrait collage on right), Nastya larger than the three secondary teachers; visually approved after developer-adjusted decoration positions on 2026-10-30. Mobile: compact portrait grid 2×2 with Nastya more prominent (implementation pending). Advantages: distinct visual treatment; avoid repetitive identical grids.
 - Programs: two visually distinct cards (coral wash and lilac wash).
 - FAQ: simple accordion treatment; native semantic `details` remains a valid first option.
 - Contact: friendly headline next to a short, accessible form.
@@ -74,6 +74,7 @@ The following values are **initial approximations by visual inspection**. They a
 | Mobile Hero concept (Variant C) | `design/reference/hero/mobile-concept.png` | Hero mobile visual review |
 | Full mobile composition | `design/reference/landing-mobile.png` | Overall mobile visual direction |
 | Hero math/lesson/pyramid decorations | `public/images/hero/math-note.png`, `lesson-note.png`, `math-pyramid.png` | Independent runtime images |
+| Team portrait collage and accents | `public/images/team/` (verify actual names in repo) | Team section runtime assets, 4 separate portraits, decorative note/crown/arrow/burst |
 
 The Hero crop includes some content below the Hero; it is a framing reference, not approval to implement Team or Advantages during TASK-005A.
 
@@ -94,20 +95,23 @@ The Hero crop includes some content below the Hero; it is a framing reference, n
 - **Hero decorative artwork:** three standalone PNG assets now exist in `public/images/hero/`: `math-note.png`, `lesson-note.png`, `math-pyramid.png`. Keep them decorative with empty alt text; position them independently without interfering with copy, portrait or CTA. Books and mug remain deliberately omitted. Do not generate additional artwork without approval.
 - **Video CTA:** no approved school video or destination exists. Do not render an apparently functional play control with a fake target; propose a visually coherent, clearly disabled/demo treatment or omit it pending a decision.
 - **Navigation:** use real in-page anchor IDs. Never create functional-looking links or buttons without destinations.
+- **Team desktop (reviewed):** dominant Nastya portrait card, three smaller independent portrait cards, real heading/copy to the left; light card tilts, white frames and shadows are already baked into supplied PNGs and must not be doubled without a reason. Selected crown, coral arrow, coral burst and handwritten team-note decorations support the collage. Developer adjusted crown/arrow/burst positions after initial implementation and accepted the revised screenshot. The separate handwritten «Больше, чем просто уроки» note is deliberately **omitted**; do not treat it as a missing requirement.
+- **Team interaction (not yet implemented):** Nastya alone gets a persistent lilac «О Насте ↗» affordance visible on touch screens, plus subtle hover lift/shadow and pointer on desktop. Entire card is accessible by keyboard and opens a modal with labelled demo biography. Other portraits are static and must not suggest clickability. No separate «Познакомиться с командой» CTA.
+- **Team disclaimer:** school claims, teacher identities and fictional images must remain clearly marked prototype material; prepared real-photo Nastya asset requires her permission for public/commercial publication.
 
 ## 6. Responsive strategy (new design work, not present in source image)
 
 Desktop and mobile Hero now have distinct approved visual references. The approved mobile concept is **Variant C**: heading and description → portrait → three compact icon benefits → CTA → demo disclaimer; hide the introductory pill on mobile. Place the math note near the heading and pyramid/lesson note beside the portrait. Do not hide required artwork merely on an untested assumption; any clipping or readability-driven exception needs evidence and developer review. Tablet/small-desktop concerns still need their own verification; do not claim pixel-perfect fidelity at unspecified viewports.
 
 - Prefer responsive grid/flex layouts over fixed absolute coordinates for core content.
-- On narrow screens: preserve the approved Hero Variant C hierarchy, portrait, benefits and accessible CTA; the CTA need not fit entirely above the fold. Stack program cards and keep form fields usable and labels accessible.
+- On narrow screens: preserve the approved Hero Variant C hierarchy, portrait, benefits and accessible CTA; the CTA need not fit entirely above the fold. For Team, use two columns/two rows of portraits with Nastya noticeably dominant and preserve readable text/accessible interactive badge; composition is approved in principle but not yet tested or coded. Stack program cards and keep form fields usable and labels accessible.
 - Choose actual breakpoints only when the content requires a layout change; avoid hardcoding arbitrary media queries before testing.
 - Check 360–390px mobile, ~768px tablet and an agreed desktop width (suggest 1440px) as starting review widths.
 - Honor reduced-motion preference if adding motion later.
 
 ## 7. Image-to-code review workflow
 
-1. Agree on **one small scoped task** and allowed files (next: desktop Hero TASK-005A, then mobile TASK-005B).
+1. Agree on **one small scoped task** and allowed files (currently Team mobile TASK-006.2, then interaction TASK-006.3).
 2. Implement semantic and responsive structure with CSS Modules, applying the token system sparingly.
 3. Take a screenshot at the agreed desktop viewport; compare with the relevant component reference (Hero: `design/reference/hero/desktop.png`) and check full-page consistency against `design/reference/landing-desktop.png`.
 4. Record **observable differences**: position, text wrap, spacing, color, size, assets and decoration.
@@ -125,7 +129,7 @@ No image-to-code agent should treat the artwork as source of truth for business 
 - Permission for public use of the prepared Nastya portrait; real team photos, rights and approval.
 - Manrope and its Next.js font-loading strategy are approved and implemented; final heading sizes remain subject to visual review.
 - Header sticky behavior and a mobile toggle/dropdown have been implemented and visually reviewed; further integration/behavior checks can still be done as sections appear.
-- Exact responsive mockup(s) and breakpoint selection.
+- Exact Team mobile portrait sizing, decoration visibility and breakpoint selection; 2×2 layout direction is agreed but pending browser checks.
 - Decorative illustration assets and SVG style.
 - Final palette/contrast verified in browser; token values are candidates pending visual iteration.
 
@@ -135,5 +139,5 @@ No image-to-code agent should treat the artwork as source of truth for business 
 - `DECISIONS.md` records architecture/product commitments.
 - `CODE_STYLE_GUIDE.md` controls code organization and coding conventions.
 - `AGENTS.md` controls AI scope and acceptance gate.
-- `IMPLEMENTATION_PLAN.md` controls task order and acceptance; Design Foundation and Header are implemented; Hero is implemented in open PR #3, with final integration acceptance pending.
+- `IMPLEMENTATION_PLAN.md` controls task order and acceptance; Design Foundation/Header and Hero are integrated (Hero PR #3 merged per developer). Team desktop is visually accepted on `feature/team-section`; Team mobile/modal/QA remain pending.
 - This file controls **visual direction**, subject to accessibility and the documents above.

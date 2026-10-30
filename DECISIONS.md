@@ -1,6 +1,6 @@
 # Decision Log — Math BAC Landing Page
 
-> Version: **0.7** · Updated: **2026-10-30**  
+> Version: **0.8** · Updated: **2026-10-30**  
 > These decisions apply to a **hypothetical educational MVP**, not a signed-off commercial project.
 
 Each entry identifies the choice, reason, alternatives, and current status. **Agreed** means agreed for the prototype, not verified with Nastya.
@@ -272,3 +272,34 @@ Use `IMPLEMENTATION_PLAN.md` to start with the smallest foundation task. Resolve
 - **Status:** Agreed workflow refinement, 2026-10-30.
 - **Choice:** Small AI implementation tasks use targeted lint/typecheck/diff checks as applicable; production build where acceptance requires it. Do not invent long-running browser automation or QA scripts without explicit authorization. Use manual visual review for design iterations; schedule comprehensive responsive QA as a distinct scoped task when needed.
 - **Reason:** A previous ad hoc browser QA attempt ran excessively long and blocked timely review. This does not waive final acceptance checks or accessibility requirements.
+
+
+## D-022 — Team card interaction and honest CTA
+- **Status:** Agreed for prototype; implementation pending (TASK-006.3).
+- **Choice:** Only Nastya's portrait/card opens additional information in a modal, initially using clearly marked placeholder biography text. The three other portrait cards remain static. Remove the reference's «Познакомиться с командой» CTA instead of linking it misleadingly to a Nastya-only profile or contact form.
+- **Reason:** Make the real interaction discoverable without implying full-team profiles that do not exist.
+- **Visual cue:** Persistent lilac «О Насте ↗» badge on Nastya's card, including touch viewports; desktop hover may subtly lift/add shadow and show pointer. No interactive cues on static teacher portraits; honor reduced-motion preference.
+- **Constraints:** Semantic button/card activation, focus visibility, modal close/Escape/focus handling and readable accessible dialog content. Fictional staff and Lorem Ipsum remain explicitly demonstrative.
+
+## A-019 — Reusable TeacherCard and focused NastyaProfile boundary
+- **Status:** Agreed; static `TeacherCard` reportedly implemented in TASK-006.1, interactive boundary pending.
+- **Choice:** Share a presentational `TeacherCard` for all four portraits. `NastyaProfile` owns the interactive Nastya card and profile dialog behavior as a focused Client Component; `TeamSection` remains a Server Component composing all cards and decorations. A card with an action uses actual button semantics, while no action means static markup; do not make static cards focusable or button-like.
+- **Reason:** Reuse the consistent visual pattern without sending client state through the entire section.
+- **Implementation note:** Native `<dialog>` with imperative `showModal()`/`close()` through a ref is a candidate; no mandatory `useState<boolean>`, extracted dialog file, or extra dependency. Decide after inspecting actual code; preserve correct Server/Client boundaries.
+
+## A-020 — Team data describes people, not UI interactivity
+- **Status:** Agreed; typed `team.data.ts` reportedly implemented in TASK-006.1.
+- **Choice:** Store demo names, image metadata, roles/copy as appropriate in typed data separate from markup; do **not** add `isClickable` to teacher data. Whether a portrait is interactive is determined by its component composition.
+- **Reason:** Keep static content distinct from UI behavior; avoid leaking a one-off click rule into the data model.
+
+## D-023 — Team mobile portrait layout and decorative restraint
+- **Status:** Agreed design direction; responsive implementation pending (TASK-006.2).
+- **Choice:** Mobile portraits form a compact 2×2 composition (two cards per row), with Nastya visually more prominent. Preserve spacious, readable Team copy; actual dimensions and breakpoints follow visual review. Retain selected crown, arrow, burst and team-note decorations where legible, but omit handwritten «Больше, чем просто уроки» as unnecessary clutter.
+- **Reason:** Preserve founder hierarchy without a tall stack of four full-width portraits. Developer visually approved the refined desktop composition on 2026-10-30.
+- **Caveat:** 2×2 arrangement is a design decision, not proof of responsive accessibility; test narrow viewports and content overflow.
+
+## W-007 — Team desktop implementation checkpoint
+- **Status:** Static desktop implemented and developer visually accepted; technical review still pending.
+- **Choice:** Work proceeds on `feature/team-section` in small increments. TASK-006.1 reportedly created `TeamSection`, `TeacherCard`, `team.data.ts`, CSS Module and added Team after Hero in `page.tsx`; its source is authoritative for exact details, not this report. AI reported lint/typecheck/diff checks passing, no commit/push, and no production build/browser QA. Developer adjusted decorative positions and approved the screenshot.
+- **Reason:** Record the actual handoff and distinguish a visually approved layout from completed task acceptance.
+- **Next:** TASK-006.2 mobile, TASK-006.3 dialog, TASK-006.4 verification and authorized commit/merge.

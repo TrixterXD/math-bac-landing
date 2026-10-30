@@ -1,6 +1,6 @@
 # Implementation Plan — Math BAC Landing Page
 
-> Version: **0.4** · Date: **2026-10-30** · Status: **Hero implemented in PR #3; final integration review pending**
+> Version: **0.5** · Date: **2026-10-30** · Status: **Hero merged into `main`; Team desktop implemented on `feature/team-section`, visual review approved; responsive/interaction acceptance pending**
 > Scope: **independent educational MVP**; Nastya has not approved commercial requirements. No code is authorized merely by this plan.
 
 ## 1. Goal and execution contract
@@ -30,7 +30,7 @@ Build a responsive one-page website for an online mathematics BAC preparation sc
 
 ## 4. Task backlog
 
-Each task includes an acceptance gate. **Original task IDs remain stable**; the executor combined initial setup under TASK-001. Design Foundation and responsive Header have been implemented and reviewed. Hero changes are committed on `feature/hero-section` in PR #3; final acceptance and merge remain separate developer decisions. Further feature work requires explicit authorization.
+Each task includes an acceptance gate. **Original task IDs remain stable**; the executor combined initial setup under TASK-001. Design Foundation and responsive Header have been implemented and reviewed. Hero PR #3 has been merged into `main` by the developer. TASK-006 desktop implementation is in progress on `feature/team-section`; remaining mobile/interactivity work requires explicit authorization. Do not mistake a visual review for completed technical acceptance.
 
 ### Phase A — Foundation
 
@@ -66,7 +66,7 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 - Accept: keyboard navigation works, links target correct anchors after target sections are added; no fabricated social URLs.
 
 **TASK-005 — Hero section**
-- **Status:** Implemented on `feature/hero-section` in open PR #3; developer approved the visible mobile Variant C and decorative composition across manually inspected sizes. Final PR review, any outstanding responsive findings, and production build/merge are not yet confirmed.
+- **Status:** Developer reports PR #3 merged and changes pulled into `main`. Hero desktop and mobile Variant C were visually approved. Historical audit findings and the scope of final build/QA are not independently reverified in this documentation update.
 - References: `design/reference/landing-desktop.png`, `design/reference/hero/desktop.png`, `design/reference/landing-mobile.png`, `design/reference/hero/mobile-concept.png`.
 - Runtime portrait: `public/images/hero/nastya-hero.png` (public/commercial-use approval pending).
 - **TASK-005A:** Desktop semantic Hero with portrait, supporting copy, benefits and CTA — implemented.
@@ -76,12 +76,17 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 - **TASK-005E:** Three decorative PNGs added and integrated on desktop; desktop visual approved. Agent initially hid them on small screens without verifying a real problem.
 - **TASK-005F:** Mobile decorative composition implemented and committed as `506bccc`: math note near heading, pyramid and lesson note beside portrait. Developer visually inspected responsive sizes and approved; agent reported lint, typecheck and diff checks passed. No automated browser QA or production build claimed for this task.
 - **Video CTA:** Deferred pending a real approved video and destination.
-- **Remaining acceptance gate:** Review PR #3 as a whole, resolve or explicitly defer outstanding audit findings, confirm required build/checks and any manual interaction/anchor caveats, then merge only on developer approval. `#contact` target is dependent on the future Contact section.
+- **Remaining integration notes:** PR #3 is merged according to the developer; any unresolved audit, production build, and anchor checks should be verified separately and not presumed passed. `#contact` target depends on the future Contact section.
 
-**TASK-006 — Team section**
-- Depends on: TASK-003.
-- Scope: own component + typed demo team data; no fabricated real bios or unauthorized photos. A real portrait of Nastya may be reused only with permission; other teacher portraits remain pending.
-- Accept: consistent cards and responsive rendering; copy marked as demonstrative.
+**TASK-006 — Team section (`feature/team-section`)**
+- **Status:** TASK-006.1 desktop static composition implemented by AI and visually accepted by developer after minor decoration adjustments; not yet committed/pushed as reported. Developer-provided report: `npm run lint`, `npm run typecheck`, `git diff --check` passed; production build and browser interaction QA were **not run**. Source diff and precise final code still require developer inspection.
+- Depends on: TASK-003; integrated Hero from `main`.
+- Reference: `design/reference/landing-desktop.png`; desktop screenshot review on 2026-10-30. Runtime artwork: `public/images/team/` and related decorations, exact filenames verified against repository at implementation time.
+- **TASK-006.1 — Static desktop:** `src/components/TeamSection/TeamSection.tsx` (Server Component), reusable `TeacherCard.tsx`, typed `team.data.ts`, `TeamSection.module.css`, and `src/app/page.tsx` integration after Hero. Four portraits: Nastya dominant, three fictional demo teachers. `id="about"` matches Header. No team CTA. Decorative alt empty; no click handlers in this increment. Final desktop screenshot accepted visually. Handwritten «Больше, чем просто уроки» omitted by explicit design decision.
+- **TASK-006.2 — Mobile composition (next):** design and implement a compact two-column, two-row (2×2) portrait arrangement with Nastya visually larger/emphasized. Preserve readable heading and copy, no horizontal scroll, usable widths around 360–390px and tablet; exact breakpoints/relative sizes to be determined by actual screenshots. This task does not add the dialog.
+- **TASK-006.3 — Nastya interaction:** Only Nastya's `TeacherCard` is interactive. `NastyaProfile` is a focused Client Component that owns card/dialog interaction; `TeamSection` stays server-rendered. Persistent lilac «О Насте ↗» label visible on mobile and desktop; restrained lift/shadow/pointer on desktop hover; honor reduced motion. Open a modal with explicitly labeled placeholder description (Lorem Ipsum) and accessible keyboard/focus/Escape/close behavior. Consider native `<dialog>` with `showModal()` and a ref; a separate React boolean state or `TeacherProfileDialog` file is not required until justified. Other three cards remain entirely static. Do not add a separate «Познакомиться с командой» CTA.
+- **TASK-006.4 — QA/acceptance:** inspect desktop/mobile and tablet screenshots, actual code diff, semantics, button/card focus, dialog dismissal and focus restoration, motion preference, TypeScript/lint/build, no unintended Hero/Header changes, and missing/placeholder business facts. Commit/push only after developer approval.
+- **Product guardrail:** Nastya image is user-provided/edited for prototype; public permission remains pending. Three remaining portrait subjects are fictional and must never imply verified employees. Text and composition are demonstrative.
 
 **TASK-007 — Advantages section**
 - Depends on: TASK-003.
@@ -189,6 +194,6 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 
 ## 7. Current handoff
 
-Repository: `https://github.com/TrixterXD/math-bac-landing` (private), stable branch `main`. Design Foundation and Header were developed and reviewed in prior PRs. PR #3 (`feature/hero-section`) currently contains the Hero including Variant C and desktop/mobile decorations. The next product section in the backlog is TASK-006 (Nastya and team), but it is not authorized until the Hero PR and its acceptance gate are handled.
+Repository: `https://github.com/TrixterXD/math-bac-landing` (private). Developer reports Hero PR #3 merged into stable `main` and local `main` updated. Current working branch: `feature/team-section`.
 
-For further Hero work, inspect the current source and both Hero references; use the reference PNGs only for design guidance and the portrait/decorations as runtime assets. Keep long-running automated browser QA separate from small implementation tasks unless explicitly approved. Unverified business claims and public-use permission remain open.
+TASK-006.1 desktop Team is implemented and visually reviewed, with decorations adjusted; the «Больше, чем просто уроки» note was deliberately omitted. Next authorized implementation target to scope: TASK-006.2 mobile 2×2 composition, **without** Nastya modal, which belongs to TASK-006.3. Use the repository's actual filenames and inspect the code/diff before assuming implementation details. Do not ask the agent to repeat finished desktop work. Long browser QA remains separate; no unverified claims or public-use permissions are implied.
