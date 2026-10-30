@@ -1,7 +1,7 @@
 # Design Guide — Math BAC Landing Page
 
-> Version: **0.2** · 2026-10-29 · Status: **visual reference approved; tokens are provisional**
-> Full-page reference: `design/reference/landing-desktop.png`; Header reference: `design/reference/header/image.png`; Hero desktop reference: `design/reference/hero/desktop.png`. These are AI-generated **static concepts**, not annotated Figma designs or responsive specifications. Reference dimensions may change when the files are replaced.
+> Version: **0.3** · 2026-10-30 · Status: **visual reference approved; tokens are provisional**
+> Full-page reference: `design/reference/landing-desktop.png`; Header reference: `design/reference/header/image.png`; Hero desktop reference: `design/reference/hero/desktop.png`; Hero mobile reference: `design/reference/hero/mobile-concept.png`; full mobile reference: `design/reference/landing-mobile.png`. These are AI-generated **static concepts**, not annotated Figma designs or responsive specifications. Reference dimensions may change when the files are replaced.
 
 ## 1. Design objective
 
@@ -71,6 +71,9 @@ The following values are **initial approximations by visual inspection**. They a
 | Header crop | `design/reference/header/image.png` | Header visual review |
 | Hero crop | `design/reference/hero/desktop.png` | Hero visual review |
 | Prepared Nastya portrait | `public/images/hero/nastya-hero.png` | Website runtime via `next/image` |
+| Mobile Hero concept (Variant C) | `design/reference/hero/mobile-concept.png` | Hero mobile visual review |
+| Full mobile composition | `design/reference/landing-mobile.png` | Overall mobile visual direction |
+| Hero math/lesson/pyramid decorations | `public/images/hero/math-note.png`, `lesson-note.png`, `math-pyramid.png` | Independent runtime images |
 
 The Hero crop includes some content below the Hero; it is a framing reference, not approval to implement Team or Advantages during TASK-005A.
 
@@ -88,16 +91,16 @@ The Hero crop includes some content below the Hero; it is a framing reference, n
 - **Decorations:** math doodles, arrows, rounded color blobs and handwritten notes. Prefer simple CSS/SVG assets with clear positioning; decorative elements should not intercept clicks, obscure text or create horizontal overflow.
 - **Hero image asset:** `public/images/hero/nastya-hero.png` is the prepared transparent-background portrait derived from the user-supplied photograph. It is an **implementation asset**, distinct from reference artwork. Verify its actual transparency, quality and likeness in the browser. It is available for the educational prototype; **public/commercial use requires Nastya’s authorization**.
 - **Hero visual reference:** `design/reference/hero/desktop.png` governs the desktop composition (copy left, portrait right). Build the text, CTA and layout as real HTML/CSS, using `next/image` for the portrait. Do not display the entire reference PNG as a hero background or pretend the static image is interactive.
-- **Hero decorative artwork:** books, mug, handwritten mathematical notes and other picture details are not supplied as separate runtime assets. Recreate simple shapes with CSS/SVG where practical; otherwise report missing imagery instead of silently generating or inventing photorealistic objects.
+- **Hero decorative artwork:** three standalone PNG assets now exist in `public/images/hero/`: `math-note.png`, `lesson-note.png`, `math-pyramid.png`. Keep them decorative with empty alt text; position them independently without interfering with copy, portrait or CTA. Books and mug remain deliberately omitted. Do not generate additional artwork without approval.
 - **Video CTA:** no approved school video or destination exists. Do not render an apparently functional play control with a fake target; propose a visually coherent, clearly disabled/demo treatment or omit it pending a decision.
 - **Navigation:** use real in-page anchor IDs. Never create functional-looking links or buttons without destinations.
 
 ## 6. Responsive strategy (new design work, not present in source image)
 
-The available Hero concept depicts a desktop-style layout. Mobile, tablet and small-desktop layouts **must be designed and reviewed separately**; do not claim pixel-perfect fidelity at unspecified viewports.
+Desktop and mobile Hero now have distinct approved visual references. The approved mobile concept is **Variant C**: heading and description → portrait → three compact icon benefits → CTA → demo disclaimer; hide the introductory pill on mobile. Place the math note near the heading and pyramid/lesson note beside the portrait. Do not hide required artwork merely on an untested assumption; any clipping or readability-driven exception needs evidence and developer review. Tablet/small-desktop concerns still need their own verification; do not claim pixel-perfect fidelity at unspecified viewports.
 
 - Prefer responsive grid/flex layouts over fixed absolute coordinates for core content.
-- On narrow screens: stack hero copy and portrait; preserve immediate headline/CTA visibility; stack program cards; keep form fields usable and labels accessible.
+- On narrow screens: preserve the approved Hero Variant C hierarchy, portrait, benefits and accessible CTA; the CTA need not fit entirely above the fold. Stack program cards and keep form fields usable and labels accessible.
 - Choose actual breakpoints only when the content requires a layout change; avoid hardcoding arbitrary media queries before testing.
 - Check 360–390px mobile, ~768px tablet and an agreed desktop width (suggest 1440px) as starting review widths.
 - Honor reduced-motion preference if adding motion later.
@@ -132,5 +135,5 @@ No image-to-code agent should treat the artwork as source of truth for business 
 - `DECISIONS.md` records architecture/product commitments.
 - `CODE_STYLE_GUIDE.md` controls code organization and coding conventions.
 - `AGENTS.md` controls AI scope and acceptance gate.
-- `IMPLEMENTATION_PLAN.md` controls task order and acceptance; Design Foundation and Header have already been implemented, and Hero is next.
+- `IMPLEMENTATION_PLAN.md` controls task order and acceptance; Design Foundation and Header are implemented; Hero is implemented in open PR #3, with final integration acceptance pending.
 - This file controls **visual direction**, subject to accessibility and the documents above.
