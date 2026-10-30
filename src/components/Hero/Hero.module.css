@@ -177,7 +177,9 @@
   height: auto;
 }
 
-.note {
+.mathNote,
+.lessonNote,
+.pyramid {
   position: absolute;
   max-width: none;
   height: auto;
@@ -185,23 +187,22 @@
   user-select: none;
 }
 
-.note {
+.mathNote {
   top: var(--space-4);
   right: -7rem;
   width: 17.5rem;
-  /* The supplied note includes an unrelated book strip on its left edge. */
-  clip-path: inset(0 0 0 10%);
+}
+
+.lessonNote {
+  top: 15rem;
+  right: -5rem;
+  width: 12rem;
 }
 
 .pyramid {
-  position: absolute;
-  z-index: 1;
-  top: var(--space-4);
-  left: -4rem;
-  width: 5.625rem;
-  height: 6.25rem;
-  color: var(--color-secondary);
-  pointer-events: none;
+  top: 0;
+  left: -8rem;
+  width: 9rem;
 }
 
 .boundary {
@@ -304,7 +305,24 @@
     height: 100%;
   }
 
-  .note,
+  .mathNote {
+    display: none;
+  }
+
+  .lessonNote {
+    top: var(--space-6);
+    right: 0;
+    width: 8rem;
+  }
+
+  .pyramid {
+    top: var(--space-4);
+    left: 0;
+  }
+}
+
+@media (width < 37.5rem) {
+  .lessonNote,
   .pyramid {
     display: none;
   }

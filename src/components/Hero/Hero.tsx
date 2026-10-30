@@ -50,18 +50,14 @@ export default function Hero() {
         </div>
         <div className={styles.visual}>
           <div className={styles.blob} aria-hidden="true" />
-          <svg
+          <Image
             className={styles.pyramid}
-            aria-hidden="true"
-            viewBox="0 0 90 100"
-            fill="none"
-          >
-            <path
-              d="M44 4 4 78l45 15 35-17L44 4Zm0 0 5 89M4 78l40-13 40 11M44 4v61"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-          </svg>
+            src="/images/hero/math-pyramid.png"
+            alt=""
+            width={1448}
+            height={1086}
+            sizes="144px"
+          />
           <Image
             className={styles.portrait}
             src="/images/hero/nastya-hero.png"
@@ -72,12 +68,20 @@ export default function Hero() {
             preload
           />
           <Image
-            className={styles.note}
-            src="/images/hero/note.png"
+            className={styles.mathNote}
+            src="/images/hero/math-note.png"
             alt=""
-            width={737}
-            height={724}
+            width={1448}
+            height={1086}
             sizes="280px"
+          />
+          <Image
+            className={styles.lessonNote}
+            src="/images/hero/lesson-note.png"
+            alt=""
+            width={1448}
+            height={1086}
+            sizes="(width < 1280px) 128px, 192px"
           />
         </div>
       </div>
