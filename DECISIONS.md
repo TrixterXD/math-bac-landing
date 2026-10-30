@@ -1,6 +1,6 @@
 # Decision Log — Math BAC Landing Page
 
-> Version: **0.6** · Updated: **2026-10-29**  
+> Version: **0.7** · Updated: **2026-10-30**  
 > These decisions apply to a **hypothetical educational MVP**, not a signed-off commercial project.
 
 Each entry identifies the choice, reason, alternatives, and current status. **Agreed** means agreed for the prototype, not verified with Nastya.
@@ -259,3 +259,16 @@ Use `IMPLEMENTATION_PLAN.md` to start with the smallest foundation task. Resolve
 - **Status:** Header desktop/mobile implementation reviewed; integration of anchors will be verified when destination sections exist.
 - **Choice:** Keep sticky shared Header, one navigation collection, and accessible mobile dropdown; avoid speculative reusable link/button wrappers.
 - **Open:** Some section IDs (notably `#reviews`) have no corresponding implemented section yet. Resolve section/backlog consistency before declaring anchor navigation complete; fabricated reviews are prohibited.
+
+## D-021 — Mobile Hero Variant C and standalone decorations
+- **Status:** Agreed and implemented in open PR #3; final merge review pending.
+- **Choice:** On mobile, show headline/description, Nastya portrait, three compact benefits, CTA and prototype disclaimer in that order; hide the introductory pill. Use `design/reference/hero/mobile-concept.png` as the specific mobile reference and `design/reference/landing-mobile.png` as the whole-page reference.
+- **Decorations:** Reuse `math-note.png` near the heading, `math-pyramid.png` left of the portrait, and `lesson-note.png` right of the portrait. The updated desktop composition with these assets was also visually approved.
+- **Reason:** Move the recognizable teacher portrait earlier on mobile while retaining the offer and contact path; decorative assets express the approved Warm & Playful direction.
+- **Tradeoff:** Decorative positioning is responsive and may need adjustment if text, fonts or viewport constraints change. Visual references are not pixel-accurate specifications.
+- **Verification:** Developer reported manual inspection of relevant widths; automated browser QA and production build for the final increment were not reported.
+
+## W-006 — Separate implementation from prolonged browser QA
+- **Status:** Agreed workflow refinement, 2026-10-30.
+- **Choice:** Small AI implementation tasks use targeted lint/typecheck/diff checks as applicable; production build where acceptance requires it. Do not invent long-running browser automation or QA scripts without explicit authorization. Use manual visual review for design iterations; schedule comprehensive responsive QA as a distinct scoped task when needed.
+- **Reason:** A previous ad hoc browser QA attempt ran excessively long and blocked timely review. This does not waive final acceptance checks or accessibility requirements.
