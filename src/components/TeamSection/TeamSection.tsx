@@ -1,4 +1,5 @@
 import Image from "next/image";
+import NastyaProfile from "./NastyaProfile";
 import TeacherCard from "./TeacherCard";
 import styles from "./TeamSection.module.css";
 import { teachers } from "./team.data";
@@ -30,7 +31,11 @@ export default function TeamSection() {
           <ul className={styles.teachers} aria-label="Преподаватели — демо">
             {teachers.map((teacher) => (
               <li key={teacher.id}>
-                <TeacherCard teacher={teacher} />
+                {teacher.id === "nastya" ? (
+                  <NastyaProfile teacher={teacher} />
+                ) : (
+                  <TeacherCard teacher={teacher} />
+                )}
               </li>
             ))}
           </ul>
