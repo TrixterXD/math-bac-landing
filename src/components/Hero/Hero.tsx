@@ -33,7 +33,11 @@ export default function Hero() {
                     />
                   </svg>
                 </span>
-                <span>{benefit.text}</span>
+                <span>
+                  {benefit.text}
+                  <span className={styles.benefitDetail}>{benefit.detail}</span>
+                  {benefit.ending}
+                </span>
               </li>
             ))}
           </ul>
@@ -64,7 +68,7 @@ export default function Hero() {
             alt="Настя сидит за столом с тетрадью и ручкой"
             width={1086}
             height={1448}
-            sizes="(width < 568px) calc(100vw - 32px), 536px"
+            sizes="(width < 1280px) min(100vw - 32px, 360px), 536px"
             preload
           />
           <Image
