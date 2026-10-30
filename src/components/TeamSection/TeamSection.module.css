@@ -117,3 +117,90 @@
   right: -4rem;
   width: 4rem;
 }
+
+@media (width < 80rem) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    width: calc(100% - var(--space-8));
+    max-width: 42rem;
+    padding-block: var(--space-8);
+  }
+
+  /* Share the grid so the disclaimer can follow the portrait composition. */
+  .copy {
+    display: contents;
+  }
+
+  .heading {
+    grid-row: 1;
+    font-size: clamp(2rem, 7vw, 3rem);
+    letter-spacing: -0.06rem;
+  }
+
+  .description {
+    grid-row: 2;
+    max-width: none;
+    margin-top: var(--space-4);
+    font-size: 1rem;
+  }
+
+  .demo {
+    grid-row: 4;
+    max-width: none;
+    margin-top: var(--space-6);
+  }
+
+  .visual {
+    grid-row: 3;
+    width: 100%;
+    max-width: 32rem;
+    min-height: 0;
+    margin: var(--space-4) auto 0;
+    padding-top: 8rem;
+  }
+
+  .teachers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    justify-items: center;
+    gap: var(--space-3);
+    height: auto;
+  }
+
+  .teachers li:nth-child(n) {
+    position: static;
+    width: 82%;
+    min-width: 0;
+    transform: none;
+  }
+
+  .teachers li:first-child {
+    width: 100%;
+  }
+
+  .crown {
+    top: 5.5rem;
+    left: var(--space-4);
+    width: 4rem;
+  }
+
+  .note {
+    top: 0;
+    right: 0;
+    width: min(55%, 12rem);
+  }
+
+  .arrow {
+    top: 6rem;
+    left: 35%;
+    width: 3rem;
+  }
+
+  .spark {
+    top: 21rem;
+    right: -15;
+    bottom: var(--space-2);
+    width: 3.5rem;
+  }
+}
