@@ -1,6 +1,6 @@
 # Design Guide — Math BAC Landing Page
 
-> Version: **0.4** · 2026-10-30 · Status: **visual reference approved; tokens are provisional**
+> Version: **0.5** · 2026-10-31 · Status: **visual reference approved; tokens are provisional**
 > Full-page reference: `design/reference/landing-desktop.png`; Header reference: `design/reference/header/image.png`; Hero desktop reference: `design/reference/hero/desktop.png`; Hero mobile reference: `design/reference/hero/mobile-concept.png`; full mobile reference: `design/reference/landing-mobile.png`. These are AI-generated **static concepts**, not annotated Figma designs or responsive specifications. Reference dimensions may change when the files are replaced.
 
 ## 1. Design objective
@@ -43,12 +43,12 @@ The following values are **initial approximations by visual inspection**. They a
 ## 4. Layout and rhythm
 
 - Desktop: central max-width content region approximately 1120–1200 CSS px; comfortable horizontal gutters. **The 941px reference image is a downscaled composition and is not a literal CSS viewport measurement.**
-- Section order remains: Hero → Nastya & Team → Advantages → Programs → FAQ → Contact. Header and Footer are shared in `RootLayout` (A-018).
+- Current demo section order: Hero → Nastya & Team → Advantages → FAQ → Contact. Programs is explicitly deferred pending discussion with Nastya. Header and Footer are shared in `RootLayout` (A-018).
 - Hero: two-column structure, strong left-aligned message and CTA, dominant teacher portrait on the right.
 - Team: desktop two-column composition (copy on left; portrait collage on right), Nastya larger than the three secondary teachers; visually approved after developer-adjusted decoration positions on 2026-10-30. Mobile: compact portrait grid 2×2 with Nastya more prominent (implementation pending). Advantages: distinct visual treatment; avoid repetitive identical grids.
-- Programs: two visually distinct cards (coral wash and lilac wash).
-- FAQ: simple accordion treatment; native semantic `details` remains a valid first option.
-- Contact: friendly headline next to a short, accessible form.
+- Programs: reference retained, but implementation deferred until real offer is clarified.
+- FAQ: six native `<details name="faq">` entries; two independent desktop stacks with consecutive halves of the data, one sequential mobile column, decorative questions note. No client-state accordion is required.
+- Contact: provisional reference shows a friendly left headline with coral emphasis, a compact white form card, pastel decorations/arrow and a handwritten note; on mobile stack headline → description → form. Verify in browser before final approval.
 - Start with a restrained spacing scale such as `4, 8, 12, 16, 24, 32, 48, 64, 80` CSS px; refine during visual comparison.
 - Card radii: approximately 16–24px; button radii: rounded/pill; soft shadows, not strong floating effects.
 
@@ -139,5 +139,15 @@ No image-to-code agent should treat the artwork as source of truth for business 
 - `DECISIONS.md` records architecture/product commitments.
 - `CODE_STYLE_GUIDE.md` controls code organization and coding conventions.
 - `AGENTS.md` controls AI scope and acceptance gate.
-- `IMPLEMENTATION_PLAN.md` controls task order and acceptance; Design Foundation/Header and Hero are integrated (Hero PR #3 merged per developer). Team desktop is visually accepted on `feature/team-section`; Team mobile/modal/QA remain pending.
+- `IMPLEMENTATION_PLAN.md` controls task order and acceptance; Design Foundation/Header and Hero are integrated (Hero PR #3 merged per developer). Team desktop is visually accepted on `feature/team-section`; Team mobile/modal were subsequently reported implemented and visually accepted; final status should follow repository checks.
 - This file controls **visual direction**, subject to accessibility and the documents above.
+
+
+## 10. Contact section visual checkpoint — TASK-010.1
+
+- **Reference status:** User-supplied Contact crop (2026-10-31) is a **provisional visual target**, not a final signed-off specification. Save it under an agreed `design/reference/contact/` path before expecting the coding agent to inspect it; no such repository path is verified by this document.
+- **Desktop hierarchy:** left headline with coral emphasis and explanatory copy; white rounded form card with name, phone/country and optional comment; prominent coral submission CTA; pastel background and restrained arrows/handwriting decorations.
+- **Mobile hierarchy:** headline and short description first, then the complete usable form; decorative elements may reposition or disappear only if needed for usability and agreed during review.
+- **Functional boundary:** TASK-010.1 is presentation only. Controls must not claim a real submission; no client validation, Server Action, provider or mock success state yet.
+- **Review:** Compare actual 360px, 390px, 768px and 1440px screenshots; inspect contrast, label associations, focus, tap targets, overflow and visual consistency with preceding sections.
+- **Final content:** school-specific messaging and legal/privacy statements remain unapproved.
