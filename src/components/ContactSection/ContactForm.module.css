@@ -165,13 +165,20 @@
 
 .challenge {
   min-width: 0;
-  margin-bottom: var(--space-4);
 }
 
 .challengeWidget {
-  width: 150px;
-  min-height: 140px;
+  width: fit-content;
   margin-inline: auto;
+}
+
+.challengeStatus {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.challengeStatus:not(:empty) {
+  margin-block: var(--space-3);
 }
 
 .challengeRetry {

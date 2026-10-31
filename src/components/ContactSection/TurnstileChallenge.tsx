@@ -9,6 +9,10 @@ type Turnstile = {
     options: {
       sitekey: string;
       size: "compact";
+      appearance: "interaction-only";
+      execution: "render";
+      "before-interactive-callback": () => void;
+      "after-interactive-callback": () => void;
       theme: "light";
       language: "ru";
       retry: "never";
@@ -33,12 +37,15 @@ declare global {
 export default function TurnstileChallenge({
   onToken,
   onRetry,
+  requested,
 }: {
   onToken: (token: string) => void;
   onRetry: () => void;
+  requested: boolean;
 }) {
   const container = useRef<HTMLDivElement>(null);
-  const [message, setMessage] = useState("Загружаем проверку безопасности…");
+  const [message, setMessage] = useState("");
+  const [waiting, setWaiting] = useState(true);
   const [canRetry, setCanRetry] = useState(false);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
@@ -48,13 +55,20 @@ export default function TurnstileChallenge({
     let script: HTMLScriptElement | undefined;
     onToken("");
     setCanRetry(false);
-    setMessage("Загружаем проверку безопасности…");
+    setMessage("");
+    setWaiting(true);
     if (!siteKey) {
+      setWaiting(false);
       setMessage("Проверка безопасности не настроена. Отправка недоступна.");
       return;
     }
+    const delay = window.setTimeout(() => {
+      if (active) setMessage("Проверка безопасности ещё выполняется…");
+    }, 3000);
     const fail = (text: string) => {
       if (!active) return;
+      window.clearTimeout(delay);
+      setWaiting(false);
       onToken("");
       setMessage(text);
       setCanRetry(true);
@@ -73,6 +87,20 @@ export default function TurnstileChallenge({
         widgetId = window.turnstile.render(container.current, {
           sitekey: siteKey,
           size: "compact",
+          appearance: "interaction-only",
+          execution: "render",
+          "before-interactive-callback": () => {
+            if (!active) return;
+            window.clearTimeout(delay);
+            setWaiting(false);
+            onToken("");
+            setMessage("Пройдите проверку безопасности перед отправкой.");
+          },
+          "after-interactive-callback": () => {
+            if (!active) return;
+            setWaiting(true);
+            setMessage("Проверка безопасности ещё выполняется…");
+          },
           theme: "light",
           language: "ru",
           retry: "never",
@@ -81,8 +109,10 @@ export default function TurnstileChallenge({
           "response-field": false,
           callback: (token) => {
             if (!active) return;
+            window.clearTimeout(delay);
+            setWaiting(false);
             onToken(token);
-            setMessage("Проверка безопасности пройдена.");
+            setMessage("");
             setCanRetry(false);
           },
           "error-callback": () => {
@@ -96,7 +126,6 @@ export default function TurnstileChallenge({
           "timeout-callback": () =>
             fail("Время проверки истекло. Повторите проверку безопасности."),
         });
-        setMessage("Пройдите проверку безопасности перед отправкой.");
       } catch {
         fail("Не удалось загрузить проверку. Попробуйте повторить её.");
       }
@@ -119,6 +148,7 @@ export default function TurnstileChallenge({
     return () => {
       active = false;
       window.clearTimeout(timer);
+      window.clearTimeout(delay);
       if (widgetId !== undefined) window.turnstile?.remove(widgetId);
       script?.remove();
     };
@@ -127,8 +157,15 @@ export default function TurnstileChallenge({
   return (
     <div className={styles.challenge}>
       <div className={styles.challengeWidget} ref={container} />
-      <p className={styles.preview} aria-live="polite">
-        {message}
+      <p
+        className={styles.challengeStatus}
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {message ||
+          (waiting && requested
+            ? "Проверка безопасности ещё выполняется…"
+            : "")}
       </p>
       {canRetry && (
         <button

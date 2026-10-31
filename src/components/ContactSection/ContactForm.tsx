@@ -40,6 +40,7 @@ export default function ContactForm() {
 
   const [turnstileToken, setTurnstileToken] = useState("");
   const [challengeVersion, setChallengeVersion] = useState(0);
+  const [verificationRequested, setVerificationRequested] = useState(false);
 
   const [errors, setErrors] = useState<ContactFieldErrors | null>(null);
 
@@ -74,11 +75,8 @@ export default function ContactForm() {
     }
 
     if (!turnstileToken) {
-      setSubmission({
-        status: "error",
-        message:
-          "Пройдите проверку безопасности перед отправкой. Данные сохранены.",
-      });
+      setSubmission({ status: "idle" });
+      setVerificationRequested(true);
       return;
     }
 
@@ -265,6 +263,7 @@ export default function ContactForm() {
             </label>
             <TurnstileChallenge
               key={challengeVersion}
+              requested={verificationRequested}
               onToken={setTurnstileToken}
               onRetry={() => {
                 setTurnstileToken("");
