@@ -1,43 +1,52 @@
 import Image from "next/image";
+import type { Messages } from "@/i18n/messages.types";
 import NastyaProfile from "./NastyaProfile";
 import TeacherCard from "./TeacherCard";
 import styles from "./TeamSection.module.css";
 import { teachers } from "./team.data";
 
-export default function TeamSection() {
+export default function TeamSection({
+  messages,
+}: {
+  messages: Messages["team"];
+}) {
   return (
     <section
       id="about"
       className={styles.section}
       aria-labelledby="team-heading"
-      lang="ru"
     >
       <div className={styles.inner}>
         <div className={styles.copy}>
           <h2 id="team-heading" className={styles.heading}>
-            Настя <span>и команда</span>
+            {messages.heading} <span>{messages.headingEmphasis}</span>
           </h2>
-          <p className={styles.description}>
-            Мы верим, что каждый ученик может сдать BAC на высокий балл — нужно
-            только правильно выстроенное сопровождение, понятные объяснения и
-            поддержка.
-          </p>
-          <p className={styles.demo}>
-            Учебный прототип: текст и портреты команды — демонстрационные, не
-            подтверждённый состав школы.
-          </p>
+          <p className={styles.description}>{messages.description}</p>
+          <p className={styles.demo}>{messages.demo}</p>
         </div>
         <div className={styles.visual}>
-          <ul className={styles.teachers} aria-label="Преподаватели — демо">
-            {teachers.map((teacher) => (
-              <li key={teacher.id}>
-                {teacher.id === "nastya" ? (
-                  <NastyaProfile teacher={teacher} />
-                ) : (
-                  <TeacherCard teacher={teacher} />
-                )}
-              </li>
-            ))}
+          <ul className={styles.teachers} aria-label={messages.listLabel}>
+            {teachers.map((teacher) => {
+              const localizedTeacher = {
+                ...teacher,
+                alt: messages.portraits[teacher.id],
+              };
+              return (
+                <li key={teacher.id}>
+                  {teacher.id === "nastya" ? (
+                    <NastyaProfile
+                      teacher={localizedTeacher}
+                      messages={messages.profile}
+                    />
+                  ) : (
+                    <TeacherCard
+                      teacher={localizedTeacher}
+                      messages={messages.profile}
+                    />
+                  )}
+                </li>
+              );
+            })}
           </ul>
           <Image
             className={styles.crown}

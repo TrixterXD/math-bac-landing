@@ -19,7 +19,7 @@ export default async function Home({
   return (
     <main>
       <Hero messages={messages.hero} />
-      <TeamSection />
+      <TeamSection messages={messages.team} />
       <AdvantagesSection />
       <FAQSection />
       <ContactSection />

@@ -1,5 +1,7 @@
+import type { Messages } from "../../i18n/messages.types";
+
 export type Teacher = {
-  id: string;
+  id: keyof Messages["team"]["portraits"];
   image: string;
   alt: string;
   width: number;

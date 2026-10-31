@@ -1,13 +1,19 @@
 import Image from "next/image";
+import type { Messages } from "@/i18n/messages.types";
 import styles from "./TeacherCard.module.css";
 import type { Teacher } from "./team.data";
 
 type TeacherCardProps = {
   teacher: Teacher;
+  messages: Messages["team"]["profile"];
   onOpen?: () => void;
 };
 
-export default function TeacherCard({ teacher, onOpen }: TeacherCardProps) {
+export default function TeacherCard({
+  teacher,
+  messages,
+  onOpen,
+}: TeacherCardProps) {
   const portrait = (
     <Image
       src={teacher.image}
@@ -24,7 +30,7 @@ export default function TeacherCard({ teacher, onOpen }: TeacherCardProps) {
     <button
       type="button"
       className={styles.card}
-      aria-label="О Насте"
+      aria-label={messages.title}
       aria-haspopup="dialog"
       onClick={(event) => {
         // Focus explicitly so mouse/touch activation also has a return target.
@@ -34,7 +40,7 @@ export default function TeacherCard({ teacher, onOpen }: TeacherCardProps) {
     >
       {portrait}
       <span className={styles.badge} aria-hidden="true">
-        О Насте ↗
+        {messages.badge}
       </span>
     </button>
   );
