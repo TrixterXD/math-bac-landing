@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./ContactForm.module.css";
+import { countries } from "./countries.data";
 
 type ContactFormData = {
   name: string;
@@ -43,9 +44,21 @@ export default function ContactForm() {
             Телефон <span>(обязательно)</span>
           </label>
           <div className={styles.phone}>
-            <span className={styles.country} id="contact-country">
-              {formData.country} +373
-            </span>
+            <select
+              className={styles.country}
+              id="contact-country"
+              aria-label="Страна и телефонный код"
+              value={formData.country}
+              onChange={(event) =>
+                updateField("country", event.currentTarget.value)
+              }
+            >
+              {countries.map((country) => (
+                <option key={country.code} value={country.code}>
+                  {country.callingCode} — {country.name}
+                </option>
+              ))}
+            </select>
             <input
               id="contact-phone"
               type="tel"
@@ -54,7 +67,6 @@ export default function ContactForm() {
               onChange={(event) =>
                 updateField("phone", event.currentTarget.value)
               }
-              aria-describedby="contact-country"
               required
               placeholder="69 123 456"
             />
