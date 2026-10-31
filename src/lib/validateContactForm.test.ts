@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { getCountryCallingCode, isSupportedCountry } from "libphonenumber-js";
+import { parsePhoneNumberFromString } from "libphonenumber-js/max";
 import { countries } from "../components/ContactSection/countries.data";
 import {
   type ContactFormInput,
@@ -44,6 +45,60 @@ test("valid national numbers normalize to E.164 without mutating the draft", () 
       data: { name: "Анна", country, phone: normalized, comment: "" },
     });
     assert.equal(input.phone, phone);
+  }
+});
+
+test("Unicode names allow letter segments and single supported separators", () => {
+  for (const name of [
+    "Анастасия",
+    "Ion",
+    "Ana-Maria",
+    "Мария Попеску",
+    "O'Connor",
+    "Ștefan",
+    "Иван-Кузьмич",
+    "O’Connor",
+    "S\u0326tefan",
+    "Jose\u0301",
+    "李明",
+    "محمد",
+    "अनन्या",
+  ]) {
+    const input = Object.freeze({ ...draft, name });
+    const result = validateContactForm(input);
+    assert.equal(result.valid, true, name);
+    if (result.valid) assert.equal(result.data.name, name);
+    assert.equal(input.name, name);
+  }
+});
+
+test("names reject digits, symbols, orphan marks and malformed separators", () => {
+  for (const name of [
+    "123456",
+    "Ion123",
+    "!!!",
+    "-Иван",
+    "Анна😊",
+    "Анна-",
+    "'Ion",
+    "Ion’",
+    "--",
+    "Анна--Мария",
+    "Анна  Мария",
+    "O''Connor",
+    "Анна -Мария",
+    "Анна- Мария",
+    "Анна\tМария",
+    "Анна\nМария",
+    "\u0301Анна",
+    "Анна-\u0301Мария",
+    "Ion_Popescu",
+    "Ion. Popescu",
+    "Ion١",
+  ]) {
+    const result = validateContactForm({ ...draft, name });
+    assert.equal(result.valid, false, name);
+    if (!result.valid) assert.equal(result.errors.name, "invalid", name);
   }
 });
 
@@ -121,7 +176,45 @@ test("country synchronization only identifies valid supported international numb
   }
 });
 
-test("leading + uses the international prefix, retaining the selected country", () => {
+test("valid unsupported or unidentified international numbers are rejected without guessing", () => {
+  const cases: [string, string | undefined][] = [
+    ["+12133734253", "US"],
+    ["+61412345678", "AU"],
+    ["+80012345678", undefined],
+  ];
+  for (const [phone, detected] of cases) {
+    const parsed = parsePhoneNumberFromString(phone);
+    assert.equal(parsed?.isValid(), true);
+    assert.equal(parsed?.country, detected);
+    const input = Object.freeze({ ...draft, phone });
+    const result = validateContactForm(input);
+    assert.equal(result.valid, false);
+    if (!result.valid) assert.equal(result.errors.phone, "invalid");
+    assert.equal(getSupportedInternationalCountry(phone), undefined);
+    assert.equal(input.phone, phone);
+    assert.equal(input.country, "MD");
+  }
+});
+
+test("supported international numbers pass despite a selector mismatch and identify the sync target", () => {
+  for (const [phone, country] of [
+    ["+37369123456", "MD"],
+    ["+40721234567", "RO"],
+    ["+4930901820", "DE"],
+    ["+442079460018", "GB"],
+  ]) {
+    assert.equal(validateContactForm({ ...draft, phone }).valid, true);
+    assert.equal(getSupportedInternationalCountry(phone), country);
+    const synced = validateContactForm({ ...draft, country, phone });
+    assert.equal(synced.valid, true);
+    if (synced.valid) {
+      assert.equal(synced.data.country, country);
+      assert.equal(synced.data.phone, phone);
+    }
+  }
+});
+
+test("leading + uses the international prefix, retaining the selected country until UI synchronization", () => {
   assert.deepEqual(
     validateContactForm({ ...draft, country: "MD", phone: "+44 20 7946 0018" }),
     {

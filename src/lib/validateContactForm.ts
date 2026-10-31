@@ -30,7 +30,7 @@ export type ContactValidationResult =
   | { valid: false; errors: ContactFieldErrors };
 
 type PhoneValidationResult =
-  | { valid: true; phone: E164Number; country?: CountryCode }
+  | { valid: true; phone: E164Number; country: CountryCode }
   | { valid: false; error: FieldError };
 
 export function validatePhoneNumber(
@@ -43,12 +43,19 @@ export function validatePhoneNumber(
     return { valid: false, error: "invalid" };
   }
 
-  // A leading + overrides defaultCountry per the library; no mismatch restriction is imposed.
+  // A leading + overrides defaultCountry; supported mismatches are synchronized by the UI.
   const phone = parsePhoneNumberFromString(value.trim(), {
     defaultCountry: country,
     extract: false,
   });
   if (!phone?.isValid()) return { valid: false, error: "invalid" };
+  // Unknown/ambiguous countries and non-geographic numbers cannot select an approved country.
+  if (
+    !phone.country ||
+    !countries.some((item) => item.code === phone.country)
+  ) {
+    return { valid: false, error: "invalid" };
+  }
   return { valid: true, phone: phone.number, country: phone.country };
 }
 
@@ -57,8 +64,7 @@ export function getSupportedInternationalCountry(
 ): CountryCode | undefined {
   if (!value.trim().startsWith("+")) return undefined;
   const result = validatePhoneNumber(value);
-  if (!result.valid) return undefined;
-  return countries.find((item) => item.code === result.country)?.code;
+  return result.valid ? result.country : undefined;
 }
 
 export function validateContactForm(
@@ -72,6 +78,10 @@ export function validateContactForm(
   if (typeof input.name !== "string") errors.name = "invalid";
   else if (!name) errors.name = "required";
   else if (name.length > 100) errors.name = "too_long";
+  // Each segment starts with a letter; marks attach to letters, never to separators.
+  else if (!/^(?:\p{L}\p{M}*)+(?:[ '\u2019-](?:\p{L}\p{M}*)+)*$/u.test(name)) {
+    errors.name = "invalid";
+  }
 
   if (!country || !isSupportedCountry(country)) errors.country = "invalid";
 
