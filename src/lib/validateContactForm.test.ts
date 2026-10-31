@@ -4,6 +4,7 @@ import { getCountryCallingCode, isSupportedCountry } from "libphonenumber-js";
 import { countries } from "../components/ContactSection/countries.data";
 import {
   type ContactFormInput,
+  getSupportedInternationalCountry,
   validateContactForm,
 } from "./validateContactForm";
 
@@ -96,6 +97,28 @@ test("limits are inclusive and independent field errors are returned together", 
       errors: { name: "required", comment: "too_long", phone: "required" },
     },
   );
+});
+
+test("country synchronization only identifies valid supported international numbers", () => {
+  for (const [phone, country] of [
+    ["+37369123456", "MD"],
+    ["+40721234567", "RO"],
+    ["+4930901820", "DE"],
+    [" +44 20 7946 0018 ", "GB"],
+  ]) {
+    assert.equal(getSupportedInternationalCountry(phone), country);
+  }
+  for (const phone of [
+    "",
+    "+",
+    "+4",
+    "+44 20",
+    "069123456",
+    "+1 213 373 4253",
+    "+800 12345678",
+  ]) {
+    assert.equal(getSupportedInternationalCountry(phone), undefined);
+  }
 });
 
 test("leading + uses the international prefix, retaining the selected country", () => {

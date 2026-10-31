@@ -12,7 +12,7 @@ export type ContactFormInput = {
   comment: unknown;
 };
 
-type FieldError = "required" | "too_long" | "invalid";
+export type FieldError = "required" | "too_long" | "invalid";
 export type ContactFieldErrors = Partial<
   Record<keyof ContactFormInput, FieldError>
 >;
@@ -30,16 +30,18 @@ export type ContactValidationResult =
   | { valid: false; errors: ContactFieldErrors };
 
 type PhoneValidationResult =
-  | { valid: true; phone: E164Number }
+  | { valid: true; phone: E164Number; country?: CountryCode }
   | { valid: false; error: FieldError };
 
 export function validatePhoneNumber(
   value: unknown,
-  country: CountryCode,
+  country?: CountryCode,
 ): PhoneValidationResult {
   if (typeof value !== "string") return { valid: false, error: "invalid" };
   if (!value.trim()) return { valid: false, error: "required" };
-  if (!isSupportedCountry(country)) return { valid: false, error: "invalid" };
+  if (country && !isSupportedCountry(country)) {
+    return { valid: false, error: "invalid" };
+  }
 
   // A leading + overrides defaultCountry per the library; no mismatch restriction is imposed.
   const phone = parsePhoneNumberFromString(value.trim(), {
@@ -47,7 +49,16 @@ export function validatePhoneNumber(
     extract: false,
   });
   if (!phone?.isValid()) return { valid: false, error: "invalid" };
-  return { valid: true, phone: phone.number };
+  return { valid: true, phone: phone.number, country: phone.country };
+}
+
+export function getSupportedInternationalCountry(
+  value: string,
+): CountryCode | undefined {
+  if (!value.trim().startsWith("+")) return undefined;
+  const result = validatePhoneNumber(value);
+  if (!result.valid) return undefined;
+  return countries.find((item) => item.code === result.country)?.code;
 }
 
 export function validateContactForm(

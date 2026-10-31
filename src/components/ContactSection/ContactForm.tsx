@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import {
+  type ContactFieldErrors,
+  getSupportedInternationalCountry,
+  validateContactForm,
+} from "@/lib/validateContactForm";
 import styles from "./ContactForm.module.css";
+import { contactErrorMessages } from "./contactErrors.data";
 import { countries } from "./countries.data";
 
 type ContactFormData = {
@@ -19,12 +25,45 @@ export default function ContactForm() {
     comment: "",
   });
 
-  function updateField(field: keyof ContactFormData, value: string) {
-    setFormData((previous) => ({ ...previous, [field]: value }));
+  const [errors, setErrors] = useState<ContactFieldErrors | null>(null);
+
+  function validateDraft(draft: ContactFormData) {
+    const result = validateContactForm(draft);
+    setErrors(result.valid ? {} : result.errors);
   }
 
+  function updateField(field: keyof ContactFormData, value: string) {
+    const next = { ...formData, [field]: value };
+    setFormData(next);
+    if (errors !== null) validateDraft(next);
+  }
+
+  function synchronizeCountry() {
+    const country = getSupportedInternationalCountry(formData.phone);
+    const next = country ? { ...formData, country } : formData;
+    if (next.country !== formData.country) setFormData(next);
+    return next;
+  }
+
+  function renderError(field: keyof ContactFormData) {
+    const error = errors?.[field];
+    return error ? (
+      <span className={styles.error} id={`contact-${field}-error`}>
+        {contactErrorMessages[field][error]}
+      </span>
+    ) : null;
+  }
+
+  const errorCount = Object.keys(errors ?? {}).length;
+
   return (
-    <form noValidate onSubmit={(event) => event.preventDefault()}>
+    <form
+      noValidate
+      onSubmit={(event) => {
+        event.preventDefault();
+        validateDraft(synchronizeCountry());
+      }}
+    >
       <fieldset className={styles.card} aria-describedby="contact-preview">
         <legend className={styles.legend}>Заявка на подготовку</legend>
         <label className={styles.field} htmlFor="contact-name">
@@ -35,9 +74,12 @@ export default function ContactForm() {
             autoComplete="name"
             value={formData.name}
             onChange={(event) => updateField("name", event.currentTarget.value)}
+            aria-invalid={errors?.name ? true : undefined}
+            aria-describedby={errors?.name ? "contact-name-error" : undefined}
             required
             placeholder="Как к вам обращаться?"
           />
+          {renderError("name")}
         </label>
         <div className={styles.field}>
           <label htmlFor="contact-phone">
@@ -49,6 +91,10 @@ export default function ContactForm() {
               id="contact-country"
               aria-label="Страна и телефонный код"
               value={formData.country}
+              aria-invalid={errors?.country ? true : undefined}
+              aria-describedby={
+                errors?.country ? "contact-country-error" : undefined
+              }
               onChange={(event) =>
                 updateField("country", event.currentTarget.value)
               }
@@ -67,10 +113,20 @@ export default function ContactForm() {
               onChange={(event) =>
                 updateField("phone", event.currentTarget.value)
               }
+              onBlur={() => {
+                const next = synchronizeCountry();
+                if (errors !== null) validateDraft(next);
+              }}
+              aria-invalid={errors?.phone ? true : undefined}
+              aria-describedby={
+                errors?.phone ? "contact-phone-error" : undefined
+              }
               required
               placeholder="69 123 456"
             />
           </div>
+          {renderError("country")}
+          {renderError("phone")}
         </div>
         <label className={styles.field} htmlFor="contact-comment">
           Комментарий <span>(необязательно)</span>
@@ -81,9 +137,21 @@ export default function ContactForm() {
             onChange={(event) =>
               updateField("comment", event.currentTarget.value)
             }
+            aria-invalid={errors?.comment ? true : undefined}
+            aria-describedby={
+              errors?.comment ? "contact-comment-error" : undefined
+            }
             placeholder="Класс, трудности с математикой или цель подготовки"
           />
+          {renderError("comment")}
         </label>
+        <p
+          className={styles.errorSummary}
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {errorCount > 0 ? `Проверьте отмеченные поля: ${errorCount}.` : ""}
+        </p>
         <button
           className={styles.button}
           type="submit"

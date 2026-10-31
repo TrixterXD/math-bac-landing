@@ -93,6 +93,24 @@
   outline-offset: 3px;
 }
 
+.field [aria-invalid="true"] {
+  border-color: #a52632;
+}
+
+.field .error {
+  color: #a52632;
+  font-size: 0.8125rem;
+}
+
+.errorSummary {
+  color: #a52632;
+  font-size: 0.875rem;
+}
+
+.errorSummary:not(:empty) {
+  margin-bottom: var(--space-4);
+}
+
 .preview {
   margin-top: var(--space-3);
   color: var(--color-text-muted);
