@@ -32,7 +32,7 @@ Do not create a separate `.types.ts` file by default: extract only when there is
 
 - Organize primarily by technical role: `src/app`, `src/components`, `src/data`, `src/types`, `src/lib` **as needed**.
 - Major landing sections live as separate components. Components with substantial local assets/styles may have their own directory.
-- `app/page.tsx` can compose the sections directly. A dedicated `LandingPage` wrapper is optional and requires a reason.
+- `app/[locale]/page.tsx` composes the sections directly. A dedicated `LandingPage` wrapper is optional and requires a reason.
 - Mock collections reside separately from their display JSX.
 - Example data flow: `programs.data.ts` → `ProgramsSection` via import → `ProgramCard` via a typed object prop.
 - Do not pre-create empty folders to satisfy a diagram.
@@ -56,14 +56,16 @@ Do not create a separate `.types.ts` file by default: extract only when there is
 - Use custom hooks for a genuine reuse or clarity need, not merely to move a few lines.
 - Native HTML controls may be preferable to JavaScript-heavy UI when they satisfy requirements (e.g. FAQ `details`).
 
-## 6. Forms, validation and failure handling (principles; internals TBD)
+## 6. Forms, validation and failure handling
+
+Current validation/action/delivery contracts are implemented; see `docs/contact-delivery.md` and `docs/contact-security.md`. Early exploratory notes below are not a reason to reselect the provider or weaken existing checks.
 
 - Keep presentation, input rules, server processing and delivery conceptually distinct.
 - Client checks serve UX; the server independently validates untrusted input.
 - Use `libphonenumber-js` for phone parsing/formatting/validation, with a custom UI and MD as default country; accepted phone values normalize to E.164.
 - Never report a successful request merely because client validation passed.
 - On known submission failure, preserve entered values and provide useful, nontechnical feedback.
-- Centralized application-error-to-message mapping is **proposed**, not implemented or mandatory yet.
+- Existing field-error codes map through `contactErrors.data.ts`; localization dictionaries also contain error copy, but are not yet wired through the form.
 - Treat network uncertainty and duplicate submissions as open engineering issues.
 
 ## 7. Styling and accessibility (agreed direction)
@@ -87,9 +89,9 @@ Do not create a separate `.types.ts` file by default: extract only when there is
 
 ## 9. Pending decisions
 
-- Exact form implementation signatures, notification transport and provider; contact form responsibilities and Server Action have been agreed.
-- Specific input schema, error codes, safe retry/de-duplication, anti-spam measures, data privacy rules.
-- Testing tools and complete project tree as needs emerge. Biome (including import organization) and Conventional Commits are selected.
+- Safe retry/de-duplication, data privacy/legal rules and release acceptance remain open. Validation schema, action result codes, Resend and Turnstile are implemented; see contact docs/source.
+- Rate limiting is deferred until evidence of abuse; its architecture plan is not implementation approval.
+- Node test-runner tests exist; broader UI regression/CI scope remains open. Biome (including import organization) and Conventional Commits are selected.
 - Further component-specific responsive design and contrast checks; foundational CSS tokens and Manrope are already implemented.
 
 ## 10. Change procedure
@@ -104,7 +106,8 @@ Every rule change should include: **old rule → new rule → reason → affecte
 - Server Action coordinates validation, notification delivery and a safe structured result; do not access provider secrets from Client Components.
 - Field errors first appear after a submit attempt; previously shown errors can update during correction.
 - Clear fields on confirmed success; preserve on error/unknown result.
-- Exact filenames, action signature, helper extraction, metadata rules and retry/deduplication logic require a small, reviewed implementation decision when reached.
+- Current shared validation lives in `src/lib/validateContactForm.ts`; action in `src/app/actions/submitContact.ts`. Keep existing trust-boundary checks. Retry/idempotency remains unresolved.
+- The next language-switch contract (empty allowed, draft discard confirmation, pending blocked, success allowed, uncertainty protected) is agreed but not implemented; see the localization plan. Do not treat the temporary contact-use lock as the final UX.
 
 ## 12. Git workflow v0.1
 
@@ -115,7 +118,7 @@ Every rule change should include: **old rule → new rule → reason → affecte
 
 ## 13. Shared site shell (A-018)
 
-- Put shared site `Header` and `Footer` in `src/app/layout.tsx` when implemented; keep home-specific section composition in `src/app/page.tsx`.
+- Shared `Header` is rendered through `LocaleShell` in `src/app/[locale]/layout.tsx`; home sections compose in `src/app/[locale]/page.tsx`. Footer remains pending. These paths supersede the pre-localization root paths in historical plans.
 - This is a deliberate decision for likely future pages. If a route later needs a different shell, reconsider nested layouts or route groups instead of assuming the shell applies everywhere.
 
 ## 14. Companion documents

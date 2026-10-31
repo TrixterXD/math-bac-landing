@@ -16,6 +16,12 @@ The developer owns scope, product decisions, architecture, review and acceptance
    Follow approved design decisions without inventing business
    claims or unapproved functionality.
 
+## Documentation and localization status
+- Distinguish source-inspected implementation, checks actually run, agreed next-task behavior and deferred features. A plan or open PR is not a production-readiness claim.
+- TASK-012D is documentation-only. The agreed language-switch contract is in `docs/TASK-012-LOCALIZATION-PLAN.md`; do not implement it without the next task's approval. Contact submission takes priority over language switching.
+- Romanian is default, Russian alternative. Route/dictionary foundations and client-side switching exist; complete section/asset translation remains pending. The contact-use lock is temporary, not the final UX contract.
+- Rate limiting is deferred until evidence of abuse; the existing proposal does not authorize dependencies or infrastructure.
+
 ## During implementation
 - Modify only the agreed scope; avoid unrelated refactoring and cosmetic churn.
 - Do not add packages, change architecture, disable type checks, introduce `any` or assertions to suppress problems, or alter business facts without approval.

@@ -5,6 +5,27 @@
 
 Each entry identifies the choice, reason, alternatives, and current status. **Agreed** means agreed for the prototype, not verified with Nastya.
 
+## Current checkpoint — TASK-012D
+
+Entries below preserve historical decisions and their original review status; old “pending”, branch and PR notes are not a current release report. Source inspection on `feature/localization-routing` confirms sections through Contact, shared validation, Server Action, Resend and Turnstile. See `docs/contact-delivery.md` and `docs/contact-security.md` for current contracts. No runtime checks or remote PR-status verification were performed in this audit.
+
+## D-027 — Romanian-first localization foundation
+- **Status:** Dictionary/routing foundation and client-side navigation implemented on this branch; PR #10 merge/acceptance not verified here.
+- **Choice:** Typed dictionaries without a new localization dependency; Romanian default (`/ro`), Russian alternative (`/ru`). Bare `/` consults the validated preference cookie, otherwise Romanian. Explicit URL wins.
+- **Mechanism:** Locale root layout owns document language, metadata and Header. Client navigation preserves query/hash and scroll; a HEAD request persists preference despite router caching. Proxy excludes action POSTs/RSC/prefetch.
+- **Pending:** Complete section/form/widget and image translations; translation review and runtime acceptance. Route availability is not full localization.
+
+## D-028 — Contact submission takes priority over language switching
+- **Status:** Agreed product contract for the next task, **not implemented**.
+- **Choice:** Empty/focused-empty → allow; non-empty draft → explicit discard confirmation; pending → block; confirmed success → allow; confirmed failure → allow with confirmation if draft remains. Uncertain delivery must keep its warning visible and avoid accidental duplicate submissions.
+- **Current shortcut:** Any contact focus/use or detected autofill locks switching for the visit, including after success. This is temporary and overly restrictive.
+- **Reason:** Avoid losing work or obscuring a possibly accepted request. Canonical state table: `docs/TASK-012-LOCALIZATION-PLAN.md`. No draft persistence architecture approved.
+
+## D-029 — Defer rate limiting until evidence of abuse
+- **Status:** Deferred; not implemented.
+- **Choice:** Retain the architecture proposal for possible later use; do not add Redis, dependencies or rate-limit outcomes now. Turnstile and validation remain in place, but do not guarantee absence of spam.
+- **Revisit:** Evidence of abuse, followed by a separately approved task. Public-release privacy/security acceptance remains required.
+
 ## D-001 — Build a learning prototype before the client brief
 - **Status:** Agreed.
 - **Choice:** Design an independent landing-page MVP; adapt only after Nastya clarifies her needs.
@@ -25,8 +46,8 @@ Each entry identifies the choice, reason, alternatives, and current status. **Ag
 - **Open:** Validate with real conversion behavior.
 
 ## D-004 — Two entry journeys on one landing page
-- **Status:** Agreed as scenarios.
-- **Choice:** Support quick-contact TikTok arrivals and research-oriented referrals without creating two separate sites.
+- **Status:** Working hypotheses, not validated user research.
+- **Choice:** TikTok visitors already familiar with the school may choose a language then quickly reach Contact; referred visitors choose a language, review teachers, advantages and FAQ, then contact. Both use one landing page.
 - **Reason:** Different visitor information needs; both can converge on one conversion.
 - **Caveat:** Source does not force behavior; either visitor can take either path.
 
@@ -232,8 +253,8 @@ Contact-form responsibility boundaries and the Server Action choice were subsequ
 Use `IMPLEMENTATION_PLAN.md` to start with the smallest foundation task. Resolve provider, exact validation rules, safe retry, privacy and abuse controls when their dependent tasks arrive.
 
 ## A-018 — Shared Header and Footer in RootLayout
-- **Status:** Agreed on 2026-10-29; implementation pending.
-- **Choice:** Render the shared `Header` and `Footer` in `src/app/layout.tsx`; compose home-only sections in `src/app/page.tsx`.
+- **Status:** Header implemented; Footer pending. Original paths superseded by locale routing (D-027).
+- **Choice:** Render shared Header through `LocaleShell` in `src/app/[locale]/layout.tsx`; compose home-only sections in `src/app/[locale]/page.tsx`. Future Footer belongs to the shared shell.
 - **Reason:** Anticipated additional pages, consistent site shell, and clear separation of route-specific content.
 - **Tradeoff:** Future pages that should not share this shell may require route groups/nested layouts or a revised structure.
 

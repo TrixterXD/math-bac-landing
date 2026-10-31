@@ -1,7 +1,18 @@
 # Implementation Plan — Math BAC Landing Page
 
-> Version: **0.6** · Date: **2026-10-31** · Status: **FAQ PR #6 updated and reviewed; Contact UI is next; weekend email-preview demo is a target, not a completed release**
+> Version: **0.6**, with TASK-012D alignment · Original plan date: **2026-10-31** · Status: **historical backlog; current branch checkpoint below supersedes old handoff/status labels**
 > Scope: **independent educational MVP**; Nastya has not approved commercial requirements. No code is authorized merely by this plan.
+
+## Current checkpoint and active task — TASK-012D
+
+Source-inspected on `feature/localization-routing`; no runtime checks or remote PR-status verification in this audit. The numbered backlog below preserves original sequencing, not a claim that all its gates are complete.
+
+- Hero, Team/dialog, Advantages, FAQ and Contact exist. Contact includes shared validation, Server Action, Resend, truthful acceptance/uncertainty feedback and Turnstile; see contact docs for current contracts. Footer/Reviews remain absent; Programs is deferred.
+- TASK-012B dictionaries and TASK-012C `/ro`/`/ru` routing/client navigation exist. Romanian is default; Russian alternative. Complete section/form/widget and image translation remains pending. See `docs/TASK-012-LOCALIZATION-PLAN.md`.
+- TASK-012D scope: documentation audit only. No application/test/config changes or release actions.
+- **Next switch task (agreed, not implemented):** allow empty/focused-empty and confirmed-success switching; explicit discard confirmation for non-empty drafts, including after confirmed failure; block pending; keep uncertainty warnings from silently disappearing and avoid accidental duplicates. Contact submission takes priority. Replace the temporary visit-long contact-use lock, not validation/security behavior.
+- Rate limiting is deferred until evidence of abuse. Its proposal does not authorize implementation or make release safeguards complete.
+- After PR #10 merges: verify merged routing/cookie/action behavior and actual acceptance results, refresh branch/PR wording, then approve the next small task. No assumption here that PR #10 has merged.
 
 ## 1. Goal and execution contract
 
@@ -15,10 +26,10 @@ Build a responsive one-page website for an online mathematics BAC preparation sc
 
 - Next.js App Router, React, TypeScript strict, CSS Modules, Git/GitHub, Vercel target. Biome is selected and configured.
 - Sections: Hero → Nastya/Team → Advantages → FAQ → Contact (Programs deferred) (with Header/Footer).
-- Major sections as components; `app/page.tsx` can compose them directly. Data arrays live in typed `.data.ts` modules; section imports collection; item cards receive typed object props.
+- Major sections as components; `src/app/[locale]/page.tsx` composes them directly. Data arrays live in typed `.data.ts` modules; section imports collection; item cards receive typed object props.
 - Static sections default to Server Components; the form is a focused Client Component. Local `useState` draft; **no Jotai**.
 - Phone: custom UI + `libphonenumber-js`, international countries, default `MD`, normalized E.164 on accepted input.
-- Contact: required name and phone, optional comment. Client checks for UX; independent server validation. Server Action is thin coordinator; email provider not yet chosen. Structured field errors. First validation errors appear after submission; update as user corrects. Confirmed success clears fields; failure or uncertain outcome preserves values.
+- Contact: required name and phone, optional comment. Client checks for UX; independent server validation. Server Action is thin coordinator; Resend is implemented. Structured field errors. First validation errors appear after submission; update as user corrects. Confirmed success clears fields; failure or uncertain outcome preserves values.
 - No verified program content, testimonials, teacher credentials, scores, prices or brand assets yet. The prepared Nastya portrait is for prototype use, not proof of permission to publish. Do not present mocks as real business claims.
 
 ## 3. Working Git workflow
@@ -28,9 +39,9 @@ Build a responsive one-page website for an online mathematics BAC preparation sc
 - PRs are optional, useful for larger review. Never confuse a passing local build with a successful public deploy.
 - For docs, `docs: ...`; for features, `feat: ...`; for fixes, `fix: ...`; no automatic commits by AI.
 
-## 4. Task backlog
+## 4. Historical task backlog (not the current handoff)
 
-Each task includes an acceptance gate. **Original task IDs remain stable**; the executor combined initial setup under TASK-001. Design Foundation and responsive Header have been implemented and reviewed. Hero PR #3 has been merged into `main` by the developer. Team and Advantages implementations were subsequently reported accepted; verify merge/build status in GitHub before treating them as final. FAQ is implemented and pushed in PR #6, with final build/manual acceptance and merge pending. Do not mistake a visual review for completed technical acceptance.
+The checkpoint in section 1 controls current progress. The entries below preserve earlier planning snapshots, including obsolete status labels; they must not be used as the next-task instruction without checking source and current PR state. Each task includes an acceptance gate. **Original task IDs remain stable**; the executor combined initial setup under TASK-001. Design Foundation and responsive Header have been implemented and reviewed. Hero PR #3 has been merged into `main` by the developer. Team and Advantages implementations were subsequently reported accepted; verify merge/build status in GitHub before treating them as final. FAQ is implemented and pushed in PR #6, with final build/manual acceptance and merge pending. Do not mistake a visual review for completed technical acceptance.
 
 ### Phase A — Foundation
 
@@ -162,7 +173,7 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 
 **TASK-019 — Abuse/privacy guardrails**
 - Depends on: TASK-018.
-- Scope: decide and implement proportionate anti-spam/rate limiting, safe logging, privacy notice and data minimization suitable for the eventual jurisdiction; confirm legal text before commercial launch.
+- Scope: review existing Turnstile, safe logging, privacy notice and data minimization suitable for the eventual jurisdiction; confirm legal text before commercial launch. Rate limiting is deferred until evidence of abuse (D-029), not a mandatory implementation gate.
 - Accept: secrets protected, spam-path tests, no unnecessary personal data in logs, unresolved legal items explicitly marked as launch blockers.
 
 ### Phase E — Release
@@ -196,15 +207,15 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 ## 6. Explicitly deferred (not implicit approval)
 
 - Exact versions and configuration, final brand/palette, actual portrait or teacher bios, business programs/prices, real social links.
-- Phone validation strictness, exact per-field limits, provider, domain/sender, delivery retry, deduplication, rate limit and privacy/legal requirements.
-- Test runner and exact automation/CI matrix, if benefits outweigh setup overhead.
+- Current phone rules/limits and Resend are implemented. Verified public sender/domain, delivery retry/idempotency and privacy/legal approval remain unresolved. Rate limiting is deferred until evidence of abuse.
+- Node test-runner tests exist; broader automation/CI matrix remains open.
 - Future mobile API, CMS, payments, analytics, admin panel, Jotai and backend database are **out of MVP scope**.
 
-## 7. Current handoff
+## 7. Historical handoff (2026-10-31; superseded by TASK-012D checkpoint)
 
 Repository: `https://github.com/TrixterXD/math-bac-landing` (private). As of last review, FAQ PR #6 is open with TASK-009.3 pushed. Verify `main` has the accepted FAQ before starting Contact branch; do not assume merge from an open PR.
 
-**Next:** Confirm FAQ manual checks/build and merge; then TASK-010.1 Contact UI based on provisional user-supplied mockup, on `feature/contact-section`. After UI visual approval, proceed in small increments toward a **Monday, 2026-11-02 controlled Vercel Preview demonstration** with real test notification delivery. This milestone is aspirational and does not replace security/privacy or commercial release gates. **PRODUCT_SPEC.md was not supplied for this documentation update**; reconcile MVP wording there when available.
+**Next:** Confirm FAQ manual checks/build and merge; then TASK-010.1 Contact UI based on provisional user-supplied mockup, on `feature/contact-section`. After UI visual approval, proceed in small increments toward a **Monday, 2026-11-02 controlled Vercel Preview demonstration** with real test notification delivery. This milestone is aspirational and does not replace security/privacy or commercial release gates. PRODUCT_SPEC.md was unavailable for that historical update; TASK-012D has since reviewed it and aligned the current journey/composition checkpoint.
 
 
 ## 8. Milestone interpretation (2026-10-31)

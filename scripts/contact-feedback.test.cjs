@@ -52,6 +52,13 @@ function mountForm() {
             transition = callback();
           },
         };
+      if (name.includes("Header/contactCoordination"))
+        return {
+          useContactCoordination: () => ({
+            update() {},
+            beginSubmission: () => true,
+          }),
+        };
       if (name.includes("actions/submitContact"))
         return {
           submitContact() {
@@ -171,6 +178,97 @@ for (const result of [
     assert.equal(form.challenge().props.onToken, previous.props.onToken);
     form.submit();
     assert.equal(form.calls(), 1);
-    assert.equal(form.challenge().props.requested, true);
+    assert.equal(
+      form.challenge().props.requested,
+      result.status !== "delivery_error" && !(result instanceof Error),
+    );
   });
 }
+
+for (const result of [
+  { status: "delivery_error" },
+  new Error("Mock transport failure"),
+]) {
+  test(`uncertainty survives all edits and blocks submission: ${result.status ?? "transport failure"}`, async () => {
+    const form = mountForm();
+    form.name().props.onChange({ currentTarget: { value: "Synthetic" } });
+    form.challenge().props.onToken("token");
+    form.submit();
+    await form.finish(result);
+    const feedback = () =>
+      form.find((node) => node.props?.["aria-live"] === "polite");
+    const warning = feedback().props.children;
+    assert.match(warning, /не отправляйте/i);
+    assert.equal(feedback().props["aria-atomic"], "true");
+    assert.equal(form.name().props.value, "Synthetic");
+    for (const [field, value] of [
+      ["name", "Edited"],
+      ["country", "RO"],
+      ["phone", "0721234567"],
+      ["comment", "Updated comment"],
+    ]) {
+      const input = () =>
+        form.find((node) => node.props?.id === `contact-${field}`);
+      input().props.onChange({ currentTarget: { value } });
+      assert.equal(input().props.value, value);
+      assert.equal(feedback().props.children, warning);
+      // A new verification token must not authorize another send after uncertainty.
+      form.challenge().props.onToken("fresh-token");
+      form.submit();
+      assert.equal(form.calls(), 1);
+      assert.equal(
+        form.find((node) => node.props?.type === "submit").props.disabled,
+        true,
+      );
+    }
+    form.find((node) => node.props?.id === "contact-phone").props.onBlur();
+    form.challenge().props.onRetry();
+    assert.equal(feedback().props.children, warning);
+    form.challenge().props.onToken("another-token");
+    form.submit();
+    assert.equal(form.calls(), 1);
+  });
+}
+
+test("server field validation is recoverable and pending prevents edits and duplicate sends", async () => {
+  const form = mountForm();
+  for (const [field, value] of [
+    ["name", "Synthetic"],
+    ["phone", "0721234567"],
+    ["comment", "Context"],
+    ["country", "RO"],
+  ]) {
+    form
+      .find((node) => node.props?.id === `contact-${field}`)
+      .props.onChange({ currentTarget: { value } });
+  }
+  form.challenge().props.onToken("token");
+  form.submit();
+  form.name().props.onChange({ currentTarget: { value: "Lost edit" } });
+  form.submit();
+  assert.equal(form.name().props.value, "Synthetic");
+  assert.equal(form.calls(), 1);
+  await form.finish({
+    status: "validation_error",
+    errors: { name: "invalid" },
+  });
+  form.name().props.onChange({ currentTarget: { value: "Corrected" } });
+  assert.equal(form.name().props["aria-invalid"], undefined);
+  form.challenge().props.onToken("fresh-token");
+  form.submit();
+  assert.equal(form.calls(), 2);
+  await form.finish({ status: "accepted" });
+  assert.equal(form.name(), undefined);
+  form.find((node) => node.props?.type === "button").props.onClick();
+  for (const [field, value] of [
+    ["name", ""],
+    ["phone", ""],
+    ["comment", ""],
+    ["country", "MD"],
+  ]) {
+    assert.equal(
+      form.find((node) => node.props?.id === `contact-${field}`).props.value,
+      value,
+    );
+  }
+});

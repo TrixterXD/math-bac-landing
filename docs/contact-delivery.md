@@ -46,7 +46,7 @@ content never becomes HTML, recipient, subject, or other message headers.
 
 Responses contain no applicant data, message body, provider errors, or credentials.
 No automatic retry is performed; the request has a 15-second timeout. Retry and
-idempotency policies remain open before client integration or broader access.
+idempotency policies remain open despite completed client integration and must be reviewed before broader access.
 
 ## Isolated unit tests (PowerShell, Node.js 24)
 
@@ -117,10 +117,44 @@ No additional live send is authorized by the client-integration task. Before exp
 delivery publicly, review anti-abuse/rate limiting, privacy, idempotency, and a
 verified sender/domain.
 
+## Locale/form coordination — TASK-012E.2
+
+`/ro` and `/ru` use client navigation; form/widget copy remains Russian.
+`LocaleShell` provides a narrowly scoped coordination context. `ContactForm` owns
+all values, errors, outcomes and tokens, publishing only dirty/pending/uncertain
+flags synchronously from its existing state-update paths. Dirty means any non-empty
+text field or country other than MD; focus alone does not count.
+
+Empty/focused-empty, typed-then-cleared with MD, and accepted forms allow switching.
+Drafts (including country-only changes and drafts after recoverable failures) require
+a localized native confirmation. Cancel leaves the form and widget untouched.
+Pending and uncertain submissions block switching. Synchronous operation guards
+prevent navigation once submission starts and prevent submission after navigation
+is accepted; accepted navigation locks remain through the transition, not just HEAD.
+HEAD preference persistence, query/hash and `scroll: false` are unchanged.
+
+Tests in `scripts/locale-shell.test.cjs` exercise the coordination contract directly,
+without a React hook simulator. Existing form/Turnstile handler tests remain separate.
+Rate limiting remains deferred until evidence of abuse.
+
+### Manual browser checklist (not executed for TASK-012E.2)
+
+- Switch `/ro` → `/ru` → `/ro`, then repeat with cached destinations. Confirm cookie,
+  query/hash, scroll and translated Header; inspect narrow/mobile keyboard navigation.
+- Try empty/focused-empty, each text field, country-only edit, and typed-then-cleared
+  with MD. Cancel must retain values, feedback, locale and verification state;
+  confirmation navigates once and mounts a fresh form/widget.
+- With mocked action results only: pending blocks locale changes; rapid switch/submit
+  interactions never start both operations. Success allows switching; recoverable
+  failure confirms discard; uncertainty retains its warning and blocks both operations.
+- Fail the HEAD request or navigation: interaction must recover without losing the
+  draft. No live email is needed. Verify actual browser autofill emits change events;
+  silent DOM-only autofill is not detected by the explicit React state contract.
+
 ## Client submission UX — TASK-010.3C
 
 The draft remains one local state object. Field errors are separate, and submission
-feedback has idle/pending/accepted/error states. A synchronous ref lock prevents
+feedback has idle/pending/accepted/error/uncertain states. A synchronous ref lock prevents
 same-tick duplicate submissions; while pending, all controls remain visible but are
 disabled so new edits cannot be lost to a successful reset. Country synchronization
 still happens on phone blur and before submit. The client sends the current draft,
@@ -134,6 +168,25 @@ supporting text. The reset-only “Отправить ещё одну заявк
 form and focuses Name through a guarded mount callback. It does not call the action. Errors and uncertain outcomes preserve entered values. There is
 no automatic retry. A single polite live region carries either the field-error
 summary or submission feedback, avoiding competing announcements.
+
+### Explicit uncertainty safeguard — TASK-012E.1
+
+Both `delivery_error` (which combines definite and ambiguous provider failures)
+and a rejected Server Action invocation enter `uncertain`, not ordinary `error`.
+The existing visible, polite/atomic warning remains after editing any draft field,
+phone blur, or widget retry. The submit button is disabled and the submit handler
+rejects further attempts even with a fresh Turnstile token. Draft values remain
+editable; token clearing and widget refresh after the attempt remain unchanged.
+Validation errors and known verification/server failures remain recoverable;
+provider-acknowledged success still resets the draft and country.
+
+This is in-memory protection for the current mounted form only. Reload, remount,
+other tabs or direct requests can bypass it; it is not server idempotency or an
+exactly-once delivery guarantee. No automatic resolution or uncertainty reset is
+provided. TASK-012E.2 also blocks locale switching while uncertainty remains.
+
+Focused handler tests: `node --test scripts/contact-feedback.test.cjs scripts/turnstile.test.cjs`.
+These use isolated hook/action mocks, not a browser or real email delivery.
 
 ### Manual integration checklist (mocked action only; no real emails)
 

@@ -2,6 +2,7 @@ import type {
   ContactFieldErrors,
   FieldError,
 } from "../lib/validateContactForm";
+import type { Locale } from "./locales";
 
 type CountryCode =
   | "AT"
@@ -67,6 +68,11 @@ export type Messages = {
       string
     >;
     cta: string;
+    languageLabel: string;
+    languages: Record<Locale, string>;
+    discardDraft: string;
+    switchUnavailable: string;
+    switchFailed: string;
   };
   hero: {
     pill: string;
