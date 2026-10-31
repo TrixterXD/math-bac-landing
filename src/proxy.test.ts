@@ -74,8 +74,8 @@ test("explicit locale wins and sets a host-only persistent preference cookie", (
   assert.equal(
     proxy(
       new NextRequest("https://example.test/ru", { method: "HEAD" }),
-    ).headers.get("set-cookie"),
-    null,
+    ).cookies.get("math_bac_locale")?.value,
+    "ru",
   );
 });
 

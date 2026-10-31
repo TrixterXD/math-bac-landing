@@ -27,15 +27,13 @@ export function proxy(request: NextRequest) {
   if (!isLocale(locale)) return new NextResponse(null, { status: 404 });
   const response = NextResponse.next();
   response.headers.set("Cache-Control", "private, no-store");
-  if (request.method === "GET") {
-    response.cookies.set("math_bac_locale", locale, {
-      path: "/",
-      httpOnly: true,
-      sameSite: "lax",
-      secure: request.nextUrl.protocol === "https:",
-      maxAge: 60 * 60 * 24 * 365,
-    });
-  }
+  response.cookies.set("math_bac_locale", locale, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "lax",
+    secure: request.nextUrl.protocol === "https:",
+    maxAge: 60 * 60 * 24 * 365,
+  });
   return response;
 }
 

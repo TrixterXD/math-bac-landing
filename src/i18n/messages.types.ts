@@ -71,6 +71,7 @@ export type Messages = {
     languageLabel: string;
     languages: Record<Locale, string>;
     switchUnavailable: string;
+    switchFailed: string;
   };
   hero: {
     pill: string;

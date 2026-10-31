@@ -10,11 +10,15 @@ export default function Header({
   locale,
   messages,
   switchingLocked,
+  isSwitching,
+  switchFailed,
   onLocaleChange,
 }: {
   locale: Locale;
   messages: Messages["header"];
   switchingLocked: boolean;
+  isSwitching: boolean;
+  switchFailed: boolean;
   onLocaleChange: (locale: Locale) => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -99,6 +103,7 @@ export default function Header({
         <fieldset
           className={styles.languages}
           aria-label={messages.languageLabel}
+          aria-busy={isSwitching}
         >
           {supportedLocales.map((language) => (
             <button
@@ -107,9 +112,11 @@ export default function Header({
               lang={language}
               aria-current={language === locale ? "true" : undefined}
               aria-describedby={
-                switchingLocked ? "locale-switch-notice" : undefined
+                switchingLocked || switchFailed
+                  ? "locale-switch-notice"
+                  : undefined
               }
-              disabled={switchingLocked || language === locale}
+              disabled={switchingLocked || isSwitching || language === locale}
               onClick={() => onLocaleChange(language)}
               onKeyDown={handleKeyDown}
             >
@@ -124,7 +131,11 @@ export default function Header({
         aria-live="polite"
         aria-atomic="true"
       >
-        {switchingLocked ? messages.switchUnavailable : ""}
+        {switchingLocked
+          ? messages.switchUnavailable
+          : switchFailed
+            ? messages.switchFailed
+            : ""}
       </p>
     </header>
   );

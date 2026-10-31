@@ -22,6 +22,7 @@ export const ro = {
     },
     cta: "Lasă o solicitare",
     languageLabel: "Limba site-ului",
+    switchFailed: "Nu s-a putut schimba limba. Încercați din nou.",
     languages: { ro: "Română", ru: "Русский" },
     switchUnavailable:
       "După începerea completării formularului, schimbarea limbii nu este disponibilă, pentru a păstra datele și rezultatul trimiterii.",
