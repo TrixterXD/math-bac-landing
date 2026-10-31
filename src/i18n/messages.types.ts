@@ -70,6 +70,7 @@ export type Messages = {
     cta: string;
     languageLabel: string;
     languages: Record<Locale, string>;
+    discardDraft: string;
     switchUnavailable: string;
     switchFailed: string;
   };

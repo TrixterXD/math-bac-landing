@@ -2,6 +2,7 @@
 
 import { startTransition, useCallback, useRef, useState } from "react";
 import { submitContact } from "@/app/actions/submitContact";
+import { useContactCoordination } from "@/components/Header/contactCoordination";
 import {
   type ContactFieldErrors,
   getSupportedInternationalCountry,
@@ -31,8 +32,9 @@ const emptyDraft: ContactFormData = {
 };
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState<ContactFormData>(emptyDraft);
-  const [submission, setSubmission] = useState<SubmissionState>({
+  const coordination = useContactCoordination();
+  const [formData, setDraft] = useState<ContactFormData>(emptyDraft);
+  const [submission, setSubmissionState] = useState<SubmissionState>({
     status: "idle",
   });
   const submitting = useRef(false);
@@ -49,6 +51,24 @@ export default function ContactForm() {
     if (token) setVerificationRequested(false);
   }, []);
 
+  function setFormData(draft: ContactFormData) {
+    // shortcut: silent DOM-only autofill is untracked, revisit if supported browsers omit change events.
+    coordination.update({
+      dirty: Boolean(
+        draft.name || draft.phone || draft.comment || draft.country !== "MD",
+      ),
+    });
+    setDraft(draft);
+  }
+
+  function setSubmission(next: SubmissionState) {
+    coordination.update({
+      pending: next.status === "pending",
+      uncertain: next.status === "uncertain",
+    });
+    setSubmissionState(next);
+  }
+
   function validateDraft(draft: ContactFormData) {
     const result = validateContactForm(draft);
     setErrors(result.valid ? {} : result.errors);
@@ -56,7 +76,7 @@ export default function ContactForm() {
 
   function updateField(field: keyof ContactFormData, value: string) {
     if (submitting.current) return;
-    setSubmission((current) =>
+    setSubmissionState((current) =>
       current.status === "uncertain" ? current : { status: "idle" },
     );
     const next = { ...formData, [field]: value };
@@ -78,6 +98,7 @@ export default function ContactForm() {
       submission.status === "uncertain"
     )
       return;
+    if (!coordination.beginSubmission()) return;
     const draft = synchronizeCountry();
     const validation = validateContactForm(draft);
     setErrors(validation.valid ? {} : validation.errors);

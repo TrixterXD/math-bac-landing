@@ -19,16 +19,17 @@ claim that PR #10 is merged or that runtime acceptance passed.
   metadata use the route locale; page sections, form/widget copy and image assets
   are **not yet fully localized**.
 - Language switching uses client-side navigation, preserving query/hash and scroll.
-  The temporary contact-use lock blocks switching for the rest of the visit after
-  form focus/use (even if empty), or when autofill is detected. This is deliberately
-  more restrictive than the agreed next-task contract.
+  TASK-012E.2 replaces the visit-long contact-use lock with explicit form-state
+  coordination: empty/focused-empty and successful forms allow switching; drafts
+  (including country-only changes) require discard confirmation. Pending or uncertain
+  delivery blocks switching. Uncertainty also blocks repeat sends in the mounted form.
 
 ## Planned and deferred
 
-The next language-switch task must allow empty/focused-empty forms and confirmed
-success, confirm discarding non-empty drafts (including after confirmed failure),
-block pending submissions, and preserve uncertainty warnings without encouraging
-duplicates. **This contract is not implemented yet. Contact submission takes priority.**
+The language-switch contract is implemented on this branch (TASK-012E.2), with
+browser/mobile/cache acceptance still requiring manual review. **Contact submission
+takes priority.** Reload/remount can reset the in-memory uncertainty protection;
+it is not an exactly-once delivery guarantee.
 The detailed localization research plan is kept locally and is not part of the
 repository. The agreed switching behavior is documented in
 [Product Specification](PRODUCT_SPEC.md) and [Decision Log](DECISIONS.md).

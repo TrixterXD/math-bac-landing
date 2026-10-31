@@ -24,8 +24,9 @@ export const ro = {
     languageLabel: "Limba site-ului",
     switchFailed: "Nu s-a putut schimba limba. Încercați din nou.",
     languages: { ro: "Română", ru: "Русский" },
+    discardDraft: "Schimbați limba și ștergeți datele introduse în formular?",
     switchUnavailable:
-      "După începerea completării formularului, schimbarea limbii nu este disponibilă, pentru a păstra datele și rezultatul trimiterii.",
+      "Schimbarea limbii este blocată cât timp solicitarea se trimite sau rezultatul trimiterii este incert.",
   },
   hero: {
     pill: "Școală online · Matematică · Pregătire pentru BAC",

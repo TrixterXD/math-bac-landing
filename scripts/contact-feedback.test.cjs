@@ -52,6 +52,13 @@ function mountForm() {
             transition = callback();
           },
         };
+      if (name.includes("Header/contactCoordination"))
+        return {
+          useContactCoordination: () => ({
+            update() {},
+            beginSubmission: () => true,
+          }),
+        };
       if (name.includes("actions/submitContact"))
         return {
           submitContact() {
