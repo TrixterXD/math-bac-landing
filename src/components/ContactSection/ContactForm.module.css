@@ -1,11 +1,51 @@
 .card {
   min-width: 0;
+  min-height: 38rem;
   margin: 0;
   padding: var(--space-6);
   border: 0;
   border-radius: var(--radius-card);
   background: var(--color-surface);
   box-shadow: 0 12px 32px #111a3209;
+}
+
+.successCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-6);
+  text-align: center;
+}
+
+.successIntro {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-6);
+}
+
+.successIcon {
+  display: grid;
+  place-items: center;
+  width: var(--space-16);
+  height: var(--space-16);
+  border-radius: var(--radius-pill);
+  background: var(--color-mint);
+  font-size: 2rem;
+}
+
+.successHeading {
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.successHeading:focus-visible {
+  outline: 3px solid var(--color-text);
+  outline-offset: var(--space-2);
+}
+
+.successCard .feedback,
+.successCard .preview {
+  margin: 0;
 }
 
 .legend {

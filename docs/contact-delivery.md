@@ -119,9 +119,11 @@ still happens on phone blur and before submit. The client sends the current draf
 not a cached normalized copy; the server independently validates it.
 
 All result cases are handled explicitly. Provider acceptance clears the draft,
-restores MD and clears field errors. The confirmation explicitly does not guarantee
-inbox delivery. Starting to edit a new request dismisses that confirmation and enables
-submission again. Errors and uncertain outcomes preserve entered values. There is
+restores MD and clears field errors. TASK-010.4A replaces the fields with a dedicated
+confirmation in the same card, without claiming inbox delivery. Its heading receives
+focus via a mount callback, while the existing polite live region announces the
+supporting text. The reset-only “Отправить ещё одну заявку” button restores the empty
+form and focuses Name through a guarded mount callback. It does not call the action. Errors and uncertain outcomes preserve entered values. There is
 no automatic retry. A single polite live region carries either the field-error
 summary or submission feedback, avoiding competing announcements.
 
@@ -143,9 +145,10 @@ do not replace these checks with repeated live sends or a public test endpoint.
   only one invocation. Sending label and disabled controls remain visible.
 - Resolve with `validation_error`: returned errors are associated with controls;
   values are unchanged and correction works.
-- Resolve with `accepted`: visible accessible confirmation, empty name/phone/comment,
-  MD selected, no stale field errors. Edit a new field: confirmation clears and the
-  submit button becomes available again.
+- Resolve with `accepted`: dedicated confirmation, no visible fields, heading focused,
+  and polite supporting text. Click “Отправить ещё одну заявку”: empty fields, MD,
+  no stale feedback/errors, Name focused, and zero additional action calls. Fill and
+  explicitly submit again: exactly one new action call.
 - Resolve with `delivery_error` or `server_error`, then reject the action promise:
   friendly feedback, no technical details, all values retained, no automatic retry.
 - At 360px, 390px and 1440px: inspect long feedback wrapping, form bounds, keyboard

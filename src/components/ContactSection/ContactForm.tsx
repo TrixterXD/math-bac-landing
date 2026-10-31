@@ -35,6 +35,7 @@ export default function ContactForm() {
     status: "idle",
   });
   const submitting = useRef(false);
+  const focusNameOnMount = useRef(false);
 
   const [errors, setErrors] = useState<ContactFieldErrors | null>(null);
 
@@ -131,90 +132,117 @@ export default function ContactForm() {
       }}
     >
       <fieldset
-        className={styles.card}
+        className={`${styles.card} ${submission.status === "accepted" ? styles.successCard : ""}`}
         aria-describedby="contact-preview"
         disabled={submission.status === "pending"}
       >
-        <legend className={styles.legend}>Заявка на подготовку</legend>
-        <label className={styles.field} htmlFor="contact-name">
-          Имя <span>(обязательно)</span>
-          <input
-            id="contact-name"
-            type="text"
-            autoComplete="name"
-            value={formData.name}
-            onChange={(event) => updateField("name", event.currentTarget.value)}
-            aria-invalid={errors?.name ? true : undefined}
-            aria-describedby={errors?.name ? "contact-name-error" : undefined}
-            required
-            placeholder="Как к вам обращаться?"
-          />
-          {renderError("name")}
-        </label>
-        <div className={styles.field}>
-          <label htmlFor="contact-phone">
-            Телефон <span>(обязательно)</span>
-          </label>
-          <div className={styles.phone}>
-            <select
-              className={styles.country}
-              id="contact-country"
-              aria-label="Страна и телефонный код"
-              value={formData.country}
-              aria-invalid={errors?.country ? true : undefined}
-              aria-describedby={
-                errors?.country ? "contact-country-error" : undefined
-              }
-              onChange={(event) =>
-                updateField("country", event.currentTarget.value)
-              }
+        {submission.status === "accepted" ? (
+          <div className={styles.successIntro}>
+            <span className={styles.successIcon} aria-hidden="true">
+              ✓
+            </span>
+            <h3
+              className={styles.successHeading}
+              tabIndex={-1}
+              ref={(heading) => heading?.focus()}
             >
-              {countries.map((country) => (
-                <option key={country.code} value={country.code}>
-                  {country.callingCode} — {country.name}
-                </option>
-              ))}
-            </select>
-            <input
-              id="contact-phone"
-              type="tel"
-              autoComplete="tel-national"
-              value={formData.phone}
-              onChange={(event) =>
-                updateField("phone", event.currentTarget.value)
-              }
-              onBlur={() => {
-                const next = synchronizeCountry();
-                if (errors !== null) validateDraft(next);
-              }}
-              aria-invalid={errors?.phone ? true : undefined}
-              aria-describedby={
-                errors?.phone ? "contact-phone-error" : undefined
-              }
-              required
-              placeholder="69 123 456"
-            />
+              Спасибо! Заявка отправлена
+            </h3>
           </div>
-          {renderError("country")}
-          {renderError("phone")}
-        </div>
-        <label className={styles.field} htmlFor="contact-comment">
-          Комментарий <span>(необязательно)</span>
-          <textarea
-            id="contact-comment"
-            rows={3}
-            value={formData.comment}
-            onChange={(event) =>
-              updateField("comment", event.currentTarget.value)
-            }
-            aria-invalid={errors?.comment ? true : undefined}
-            aria-describedby={
-              errors?.comment ? "contact-comment-error" : undefined
-            }
-            placeholder="Класс, трудности с математикой или цель подготовки"
-          />
-          {renderError("comment")}
-        </label>
+        ) : (
+          <>
+            <legend className={styles.legend}>Заявка на подготовку</legend>
+            <label className={styles.field} htmlFor="contact-name">
+              Имя <span>(обязательно)</span>
+              <input
+                id="contact-name"
+                ref={(input) => {
+                  if (input && focusNameOnMount.current) {
+                    input.focus();
+                    focusNameOnMount.current = false;
+                  }
+                }}
+                type="text"
+                autoComplete="name"
+                value={formData.name}
+                onChange={(event) =>
+                  updateField("name", event.currentTarget.value)
+                }
+                aria-invalid={errors?.name ? true : undefined}
+                aria-describedby={
+                  errors?.name ? "contact-name-error" : undefined
+                }
+                required
+                placeholder="Как к вам обращаться?"
+              />
+              {renderError("name")}
+            </label>
+            <div className={styles.field}>
+              <label htmlFor="contact-phone">
+                Телефон <span>(обязательно)</span>
+              </label>
+              <div className={styles.phone}>
+                <select
+                  className={styles.country}
+                  id="contact-country"
+                  aria-label="Страна и телефонный код"
+                  value={formData.country}
+                  aria-invalid={errors?.country ? true : undefined}
+                  aria-describedby={
+                    errors?.country ? "contact-country-error" : undefined
+                  }
+                  onChange={(event) =>
+                    updateField("country", event.currentTarget.value)
+                  }
+                >
+                  {countries.map((country) => (
+                    <option key={country.code} value={country.code}>
+                      {country.callingCode} — {country.name}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  id="contact-phone"
+                  type="tel"
+                  autoComplete="tel-national"
+                  value={formData.phone}
+                  onChange={(event) =>
+                    updateField("phone", event.currentTarget.value)
+                  }
+                  onBlur={() => {
+                    const next = synchronizeCountry();
+                    if (errors !== null) validateDraft(next);
+                  }}
+                  aria-invalid={errors?.phone ? true : undefined}
+                  aria-describedby={
+                    errors?.phone ? "contact-phone-error" : undefined
+                  }
+                  required
+                  placeholder="69 123 456"
+                />
+              </div>
+              {renderError("country")}
+              {renderError("phone")}
+            </div>
+            <label className={styles.field} htmlFor="contact-comment">
+              Комментарий <span>(необязательно)</span>
+              <textarea
+                id="contact-comment"
+                rows={3}
+                value={formData.comment}
+                onChange={(event) =>
+                  updateField("comment", event.currentTarget.value)
+                }
+                aria-invalid={errors?.comment ? true : undefined}
+                aria-describedby={
+                  errors?.comment ? "contact-comment-error" : undefined
+                }
+                placeholder="Класс, трудности с математикой или цель подготовки"
+              />
+              {renderError("comment")}
+            </label>
+          </>
+        )}
         <p
           className={
             submission.status === "error" || errorCount > 0
@@ -227,24 +255,39 @@ export default function ContactForm() {
           {submission.status === "pending"
             ? "Отправляем заявку…"
             : submission.status === "accepted"
-              ? "Заявка принята для обработки. Это не подтверждает доставку письма в почтовый ящик. Чтобы оставить новую заявку, начните заполнять форму."
+              ? "Ваша заявка принята. Ожидайте обратной связи."
               : submission.status === "error"
                 ? submission.message
                 : errorCount > 0
                   ? `Проверьте отмеченные поля: ${errorCount}.`
                   : ""}
         </p>
-        <button
-          className={styles.button}
-          type="submit"
-          disabled={
-            submission.status === "pending" || submission.status === "accepted"
-          }
-          aria-describedby="contact-preview"
-        >
-          {submission.status === "pending" ? "Отправляем…" : "Отправить заявку"}
-          <span aria-hidden="true">→</span>
-        </button>
+        {submission.status === "accepted" ? (
+          <button
+            className={styles.button}
+            type="button"
+            onClick={() => {
+              focusNameOnMount.current = true;
+              setFormData(emptyDraft);
+              setErrors(null);
+              setSubmission({ status: "idle" });
+            }}
+          >
+            Отправить ещё одну заявку
+          </button>
+        ) : (
+          <button
+            className={styles.button}
+            type="submit"
+            disabled={submission.status === "pending"}
+            aria-describedby="contact-preview"
+          >
+            {submission.status === "pending"
+              ? "Отправляем…"
+              : "Отправить заявку"}
+            <span aria-hidden="true">→</span>
+          </button>
+        )}
         <p className={styles.preview} id="contact-preview">
           Учебный прототип: форма отправляет настоящее тестовое письмо. Во время
           контролируемого тестирования не вводите реальные персональные данные.
