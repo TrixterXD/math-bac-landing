@@ -126,15 +126,15 @@ or detected autofill for the rest of the visit, even after success.
 The agreed next task is **not implemented**: allow empty/focused-empty and confirmed
 success; confirm discarding a remaining draft, including after confirmed failure;
 block pending; keep uncertain-delivery warnings from silently disappearing and avoid
-accidental duplicates. Contact submission takes priority. The current generic error
-state and feedback reset on editing do not fully satisfy that uncertainty contract.
+accidental duplicates. Contact submission takes priority. TASK-012E.1 implements
+only the form-instance uncertainty safeguard below; locale-switch behavior is unchanged.
 See `TASK-012-LOCALIZATION-PLAN.md` for the state table. Rate limiting remains
 deferred until evidence of abuse, not a production-ready safeguard.
 
 ## Client submission UX — TASK-010.3C
 
 The draft remains one local state object. Field errors are separate, and submission
-feedback has idle/pending/accepted/error states. A synchronous ref lock prevents
+feedback has idle/pending/accepted/error/uncertain states. A synchronous ref lock prevents
 same-tick duplicate submissions; while pending, all controls remain visible but are
 disabled so new edits cannot be lost to a successful reset. Country synchronization
 still happens on phone blur and before submit. The client sends the current draft,
@@ -148,6 +148,25 @@ supporting text. The reset-only “Отправить ещё одну заявк
 form and focuses Name through a guarded mount callback. It does not call the action. Errors and uncertain outcomes preserve entered values. There is
 no automatic retry. A single polite live region carries either the field-error
 summary or submission feedback, avoiding competing announcements.
+
+### Explicit uncertainty safeguard — TASK-012E.1
+
+Both `delivery_error` (which combines definite and ambiguous provider failures)
+and a rejected Server Action invocation enter `uncertain`, not ordinary `error`.
+The existing visible, polite/atomic warning remains after editing any draft field,
+phone blur, or widget retry. The submit button is disabled and the submit handler
+rejects further attempts even with a fresh Turnstile token. Draft values remain
+editable; token clearing and widget refresh after the attempt remain unchanged.
+Validation errors and known verification/server failures remain recoverable;
+provider-acknowledged success still resets the draft and country.
+
+This is in-memory protection for the current mounted form only. Reload, remount,
+other tabs or direct requests can bypass it; it is not server idempotency or an
+exactly-once delivery guarantee. No automatic resolution or uncertainty reset is
+provided. Header/locale coordination remains a separate task.
+
+Focused handler tests: `node --test scripts/contact-feedback.test.cjs scripts/turnstile.test.cjs`.
+These use isolated hook/action mocks, not a browser or real email delivery.
 
 ### Manual integration checklist (mocked action only; no real emails)
 

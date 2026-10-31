@@ -21,7 +21,7 @@ type ContactFormData = {
 
 type SubmissionState =
   | { status: "idle" | "pending" | "accepted" }
-  | { status: "error"; message: string };
+  | { status: "error" | "uncertain"; message: string };
 
 const emptyDraft: ContactFormData = {
   name: "",
@@ -56,7 +56,9 @@ export default function ContactForm() {
 
   function updateField(field: keyof ContactFormData, value: string) {
     if (submitting.current) return;
-    setSubmission({ status: "idle" });
+    setSubmission((current) =>
+      current.status === "uncertain" ? current : { status: "idle" },
+    );
     const next = { ...formData, [field]: value };
     setFormData(next);
     if (errors !== null) validateDraft(next);
@@ -70,7 +72,12 @@ export default function ContactForm() {
   }
 
   function handleSubmit() {
-    if (submitting.current || submission.status === "accepted") return;
+    if (
+      submitting.current ||
+      submission.status === "accepted" ||
+      submission.status === "uncertain"
+    )
+      return;
     const draft = synchronizeCountry();
     const validation = validateContactForm(draft);
     setErrors(validation.valid ? {} : validation.errors);
@@ -103,7 +110,7 @@ export default function ContactForm() {
             break;
           case "delivery_error":
             setSubmission({
-              status: "error",
+              status: "uncertain",
               message:
                 "Не удалось подтвердить отправку заявки. Данные сохранены. Заявка могла быть принята — не отправляйте её повторно, пока результат не уточнён.",
             });
@@ -125,7 +132,7 @@ export default function ContactForm() {
         }
       } catch {
         setSubmission({
-          status: "error",
+          status: "uncertain",
           message:
             "Связь с сервером прервалась. Не удалось подтвердить результат отправки. Данные сохранены; не отправляйте заявку повторно, пока результат не уточнён.",
         });
@@ -281,7 +288,9 @@ export default function ContactForm() {
         )}
         <p
           className={
-            submission.status === "error" || errorCount > 0
+            submission.status === "error" ||
+            submission.status === "uncertain" ||
+            errorCount > 0
               ? styles.errorSummary
               : styles.feedback
           }
@@ -292,7 +301,8 @@ export default function ContactForm() {
             ? "Отправляем заявку…"
             : submission.status === "accepted"
               ? "Ваша заявка принята. Ожидайте обратной связи."
-              : submission.status === "error"
+              : submission.status === "error" ||
+                  submission.status === "uncertain"
                 ? submission.message
                 : errorCount > 0
                   ? `Проверьте отмеченные поля: ${errorCount}.`
@@ -316,7 +326,10 @@ export default function ContactForm() {
           <button
             className={styles.button}
             type="submit"
-            disabled={submission.status === "pending"}
+            disabled={
+              submission.status === "pending" ||
+              submission.status === "uncertain"
+            }
             aria-describedby="contact-preview"
           >
             {submission.status === "pending"
