@@ -128,11 +128,42 @@ test("existing navigation, FAQ, advantage and teacher IDs/copy stay aligned", ()
     teachers.map(({ id, alt }) => [id, alt]),
   );
   assert.deepEqual(
-    Object.values(ru.hero.benefits),
-    heroBenefits.map(({ text, detail, ending }) =>
-      ending ? { text, detail, ending } : { text, detail },
-    ),
+    Object.keys(ru.hero.benefits),
+    heroBenefits.map(({ id }) => id),
   );
+});
+
+test("Hero preserves Russian copy and its two-line description contract in both locales", () => {
+  assert.deepEqual(ru.hero, {
+    pill: "Онлайн-школа · Математика · Подготовка к BAC",
+    heading: "Подготовка к BAC",
+    headingEmphasis: "по математике онлайн",
+    description:
+      "Уверенные знания. Спокойные родители.\nВысокие результаты на экзамене.",
+    benefits: {
+      explanation: { text: "Понятное объяснение", detail: " сложных тем" },
+      preparation: {
+        text: "Системная подготовка",
+        detail: " по программе BAC",
+      },
+      support: {
+        text: "Поддержка",
+        detail: " и мотивация",
+        ending: " на каждом этапе",
+      },
+    },
+    cta: "Оставить заявку",
+    demo: "Учебный прототип: описание и преимущества — демонстрационные.",
+    portraitAlt: "Настя сидит за столом с тетрадью и ручкой",
+  });
+  for (const { hero } of [ro, ru]) {
+    assert.equal(hero.description.split("\n").length, 2);
+    for (const { id } of heroBenefits) assert.ok(hero.benefits[id]);
+  }
+  assert.equal(ro.hero.heading, "Pregătire pentru BAC");
+  assert.equal(ro.hero.headingEmphasis, "la matematică, online");
+  assert.equal(ro.hero.cta, "Lasă o solicitare");
+  assert.match(ro.hero.demo, /demonstrative/);
 });
 
 test("both dictionaries cover exactly the 50 supported countries without owning calling codes", () => {
