@@ -12,13 +12,25 @@ async function main() {
     return;
   }
 
-  const result = await submitContact({
-    name: "Тест",
-    country: "MD",
-    phone: "069123456",
-    comment:
-      "Синтетическая тестовая заявка Math BAC. Не связывайтесь по указанному номеру.",
-  });
+  const token = process.env.CONTACT_SMOKE_TURNSTILE_TOKEN?.trim();
+  if (!token) {
+    console.error(
+      "Refusing to send: CONTACT_SMOKE_TURNSTILE_TOKEN is required; verification is never bypassed.",
+    );
+    process.exitCode = 1;
+    return;
+  }
+
+  const result = await submitContact(
+    {
+      name: "Тест",
+      country: "MD",
+      phone: "069123456",
+      comment:
+        "Синтетическая тестовая заявка Math BAC. Не связывайтесь по указанному номеру.",
+    },
+    token,
+  );
   console.log(
     `Contact smoke-test status: ${result.status}. Provider acceptance does not prove inbox delivery.`,
   );
