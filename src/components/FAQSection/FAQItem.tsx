@@ -3,9 +3,10 @@ import type { FAQ } from "./faq.data";
 
 type FAQItemProps = {
   item: FAQ;
+  answerPrefix: string;
 };
 
-export default function FAQItem({ item }: FAQItemProps) {
+export default function FAQItem({ item, answerPrefix }: FAQItemProps) {
   return (
     <details className={styles.item} name="faq">
       <summary className={styles.question}>
@@ -26,7 +27,7 @@ export default function FAQItem({ item }: FAQItemProps) {
         </svg>
       </summary>
       <p className={styles.answer}>
-        <strong>Демонстрационный ответ. </strong>
+        <strong>{answerPrefix}</strong>
         {item.answer}
       </p>
     </details>

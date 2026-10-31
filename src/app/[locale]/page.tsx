@@ -21,7 +21,7 @@ export default async function Home({
       <Hero messages={messages.hero} />
       <TeamSection messages={messages.team} />
       <AdvantagesSection messages={messages.advantages} />
-      <FAQSection />
+      <FAQSection messages={messages.faq} />
       <ContactSection />
     </main>
   );

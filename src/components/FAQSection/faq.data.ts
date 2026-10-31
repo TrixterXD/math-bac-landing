@@ -1,5 +1,7 @@
+import type { Messages } from "../../i18n/messages.types";
+
 export type FAQ = {
-  id: string;
+  id: keyof Messages["faq"]["items"];
   question: string;
   answer: string;
 };
