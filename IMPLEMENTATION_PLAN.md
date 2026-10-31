@@ -1,6 +1,6 @@
 # Implementation Plan — Math BAC Landing Page
 
-> Version: **0.5** · Date: **2026-10-30** · Status: **Hero merged into `main`; Team desktop implemented on `feature/team-section`, visual review approved; responsive/interaction acceptance pending**
+> Version: **0.6** · Date: **2026-10-31** · Status: **FAQ PR #6 updated and reviewed; Contact UI is next; weekend email-preview demo is a target, not a completed release**
 > Scope: **independent educational MVP**; Nastya has not approved commercial requirements. No code is authorized merely by this plan.
 
 ## 1. Goal and execution contract
@@ -14,7 +14,7 @@ Build a responsive one-page website for an online mathematics BAC preparation sc
 ## 2. Fixed baseline
 
 - Next.js App Router, React, TypeScript strict, CSS Modules, Git/GitHub, Vercel target. Biome is selected and configured.
-- Sections: Hero → Nastya/Team → Advantages → Programs → FAQ → Contact (with Header/Footer).
+- Sections: Hero → Nastya/Team → Advantages → FAQ → Contact (Programs deferred) (with Header/Footer).
 - Major sections as components; `app/page.tsx` can compose them directly. Data arrays live in typed `.data.ts` modules; section imports collection; item cards receive typed object props.
 - Static sections default to Server Components; the form is a focused Client Component. Local `useState` draft; **no Jotai**.
 - Phone: custom UI + `libphonenumber-js`, international countries, default `MD`, normalized E.164 on accepted input.
@@ -30,7 +30,7 @@ Build a responsive one-page website for an online mathematics BAC preparation sc
 
 ## 4. Task backlog
 
-Each task includes an acceptance gate. **Original task IDs remain stable**; the executor combined initial setup under TASK-001. Design Foundation and responsive Header have been implemented and reviewed. Hero PR #3 has been merged into `main` by the developer. TASK-006 desktop implementation is in progress on `feature/team-section`; remaining mobile/interactivity work requires explicit authorization. Do not mistake a visual review for completed technical acceptance.
+Each task includes an acceptance gate. **Original task IDs remain stable**; the executor combined initial setup under TASK-001. Design Foundation and responsive Header have been implemented and reviewed. Hero PR #3 has been merged into `main` by the developer. Team and Advantages implementations were subsequently reported accepted; verify merge/build status in GitHub before treating them as final. FAQ is implemented and pushed in PR #6, with final build/manual acceptance and merge pending. Do not mistake a visual review for completed technical acceptance.
 
 ### Phase A — Foundation
 
@@ -78,8 +78,8 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 - **Video CTA:** Deferred pending a real approved video and destination.
 - **Remaining integration notes:** PR #3 is merged according to the developer; any unresolved audit, production build, and anchor checks should be verified separately and not presumed passed. `#contact` target depends on the future Contact section.
 
-**TASK-006 — Team section (`feature/team-section`)**
-- **Status:** TASK-006.1 desktop static composition implemented by AI and visually accepted by developer after minor decoration adjustments; not yet committed/pushed as reported. Developer-provided report: `npm run lint`, `npm run typecheck`, `git diff --check` passed; production build and browser interaction QA were **not run**. Source diff and precise final code still require developer inspection.
+**TASK-006 — Team section (`feature/team-section`, historical)**
+- **Status:** Team desktop/mobile and Nastya dialog were subsequently reported implemented and visually accepted; older per-step notes below are historical. Verify integrated branch status and final QA rather than treating the old TASK-006.2 pending label as current. Developer-provided report: `npm run lint`, `npm run typecheck`, `git diff --check` passed; production build and browser interaction QA were **not run**. Source diff and precise final code still require developer inspection.
 - Depends on: TASK-003; integrated Hero from `main`.
 - Reference: `design/reference/landing-desktop.png`; desktop screenshot review on 2026-10-30. Runtime artwork: `public/images/team/` and related decorations, exact filenames verified against repository at implementation time.
 - **TASK-006.1 — Static desktop:** `src/components/TeamSection/TeamSection.tsx` (Server Component), reusable `TeacherCard.tsx`, typed `team.data.ts`, `TeamSection.module.css`, and `src/app/page.tsx` integration after Hero. Four portraits: Nastya dominant, three fictional demo teachers. `id="about"` matches Header. No team CTA. Decorative alt empty; no click handlers in this increment. Final desktop screenshot accepted visually. Handwritten «Больше, чем просто уроки» omitted by explicit design decision.
@@ -89,24 +89,32 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 - **Product guardrail:** Nastya image is user-provided/edited for prototype; public permission remains pending. Three remaining portrait subjects are fictional and must never imply verified employees. Text and composition are demonstrative.
 
 **TASK-007 — Advantages section**
+- **Status:** Implemented and visually accepted according to the developer; merge/build status should be checked against repository.
 - Depends on: TASK-003.
 - Scope: 3 mock advantages from spec, typed data where helpful.
 - Accept: readable on phone/desktop and not presented as verified school claims.
 
 **TASK-008 — Programs section**
+- **Status:** DEFERRED pending discussion with Nastya about real program formats. Do not implement mock cards now.
 - Depends on: TASK-003.
 - Scope: typed demo program collection + `ProgramsSection` imports it + `ProgramCard` receives one object via props.
 - Accept: two fake programs render; changing data does not require rewriting JSX; no state library.
 
 **TASK-009 — FAQ section**
+- **Status:** TASK-009.1–009.3 implemented and pushed to PR #6 (`feature/faq-section`); review found and fixed mobile DOM-order issue. Latest known branch is 2 commits ahead of `main`, 0 behind. Final local manual checks, `npm run build`, and merge are not yet confirmed.
+- **Implementation:** `FAQSection` Server Component, typed demo Q&A, native `<details name="faq">` across both columns; consecutive array halves form independent desktop stacks and sequential mobile reading/tab order. Decorative `public/images/faq/questions-note.png`.
 - Depends on: TASK-003.
 - Scope: mock question/answer content; prefer semantic native `<details>` if adequate.
 - Accept: accessible keyboard behavior and coherent layout without unnecessary client JS.
 
-**TASK-010 — Contact section shell and Footer**
+**TASK-010 — Contact section (UI first; Footer separate pending item)**
 - Depends on: TASK-003; anchors from TASK-004/005.
-- Scope: section header, nonfunctional form container/placeholder, and shared Footer in root `layout.tsx` (A-018), with only confirmed or labeled placeholder links.
-- Accept: full page sections compose in selected order; anchors work; no dead 'submit' button implying actual delivery.
+- Scope: build Contact against provisional mockup as a scoped UI increment; Footer remains a separate shell task and should not be silently bundled into Contact form work.
+- Accept: accessible fields/name/phone/country area/optional comment and correct responsive composition, with no fake submit behavior or success message.
+- **TASK-010.1:** Reference-faithful UI only; branch `feature/contact-section` after updating `main`; visually review before approval.
+- **TASK-010.2:** Focused client form state, agreed field schema, phone library and client validation; preserve existing separation of presentation and logic.
+- **TASK-010.3:** Server Action, independent validation, typed result, real email provider configuration and delivery error handling.
+- **TASK-010.4:** Vercel Preview integration and end-to-end test on phone, with real test email. This is a compressed demo sequence, not a waiver of the detailed safety/QA gates of TASK-012–021.
 
 **TASK-011 — Static page quality pass**
 - Depends on: TASK-004–010.
@@ -194,6 +202,11 @@ Each task includes an acceptance gate. **Original task IDs remain stable**; the 
 
 ## 7. Current handoff
 
-Repository: `https://github.com/TrixterXD/math-bac-landing` (private). Developer reports Hero PR #3 merged into stable `main` and local `main` updated. Current working branch: `feature/team-section`.
+Repository: `https://github.com/TrixterXD/math-bac-landing` (private). As of last review, FAQ PR #6 is open with TASK-009.3 pushed. Verify `main` has the accepted FAQ before starting Contact branch; do not assume merge from an open PR.
 
-TASK-006.1 desktop Team is implemented and visually reviewed, with decorations adjusted; the «Больше, чем просто уроки» note was deliberately omitted. Next authorized implementation target to scope: TASK-006.2 mobile 2×2 composition, **without** Nastya modal, which belongs to TASK-006.3. Use the repository's actual filenames and inspect the code/diff before assuming implementation details. Do not ask the agent to repeat finished desktop work. Long browser QA remains separate; no unverified claims or public-use permissions are implied.
+**Next:** Confirm FAQ manual checks/build and merge; then TASK-010.1 Contact UI based on provisional user-supplied mockup, on `feature/contact-section`. After UI visual approval, proceed in small increments toward a **Monday, 2026-11-02 controlled Vercel Preview demonstration** with real test notification delivery. This milestone is aspirational and does not replace security/privacy or commercial release gates. **PRODUCT_SPEC.md was not supplied for this documentation update**; reconcile MVP wording there when available.
+
+
+## 8. Milestone interpretation (2026-10-31)
+
+The existing TASK-012–021 sequence remains the detailed engineering/release checklist. The TASK-010.2–010.4 labels above are **implementation increments for the weekend demo**, not replacements for those checks. A preview that submits real personal contact data should be limited to authorized test participants; verify provider acceptance vs actual inbox arrival, secret handling, accessible failure states and a proportionate abuse/privacy approach before enabling broader access. Do not treat successful preview testing as permission to publicly launch the school website.

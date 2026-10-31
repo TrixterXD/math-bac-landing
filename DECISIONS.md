@@ -1,6 +1,6 @@
 # Decision Log — Math BAC Landing Page
 
-> Version: **0.8** · Updated: **2026-10-30**  
+> Version: **0.9** · Updated: **2026-10-31**  
 > These decisions apply to a **hypothetical educational MVP**, not a signed-off commercial project.
 
 Each entry identifies the choice, reason, alternatives, and current status. **Agreed** means agreed for the prototype, not verified with Nastya.
@@ -94,7 +94,7 @@ Each entry identifies the choice, reason, alternatives, and current status. **Ag
 
 ## D-015 — Prototype section sequence
 - **Status:** Agreed for prototype; not tested with visitors.
-- **Choice:** Hero → Nastya and team → Advantages → Programs → FAQ → Form (plus header/footer).
+- **Choice:** Hero → Nastya and team → Advantages → FAQ → Contact (plus header/footer) for the current demo; Programs is deferred pending clarification with Nastya.
 - **Reason:** Lead with founder recognition/trust while letting new visitors research and TikTok visitors jump directly to the form.
 - **Tradeoff:** Programs appear below trust-building sections; hero must explain the actual offer early.
 
@@ -166,7 +166,7 @@ Each entry identifies the choice, reason, alternatives, and current status. **Ag
 - **Status:** Agreed as revisable v0.1 defaults.
 - **Choice:** Functional components, Server Components by default, small Client Component boundaries for interactivity, props for explicit data dependencies, local state, composition, and hooks when actually useful.
 - **Reason:** Keep the application simple and avoid unnecessary browser JavaScript or abstraction.
-- **Caveat:** FAQ may use native `details` without client-side JavaScript; exact internals remain to be designed.
+- **Caveat:** FAQ uses native `<details name="faq">` without client-side JavaScript; independent desktop stacks preserve spacing.
 
 ## A-009 — Progressive understanding and reviewability
 - **Status:** Agreed learning principle.
@@ -303,3 +303,28 @@ Use `IMPLEMENTATION_PLAN.md` to start with the smallest foundation task. Resolve
 - **Choice:** Work proceeds on `feature/team-section` in small increments. TASK-006.1 reportedly created `TeamSection`, `TeacherCard`, `team.data.ts`, CSS Module and added Team after Hero in `page.tsx`; its source is authoritative for exact details, not this report. AI reported lint/typecheck/diff checks passing, no commit/push, and no production build/browser QA. Developer adjusted decorative positions and approved the screenshot.
 - **Reason:** Record the actual handoff and distinguish a visually approved layout from completed task acceptance.
 - **Next:** TASK-006.2 mobile, TASK-006.3 dialog, TASK-006.4 verification and authorized commit/merge.
+
+
+## D-024 — Defer Programs until discussing the real offer
+- **Status:** Agreed for the current prototype, 2026-10-31.
+- **Choice:** Defer TASK-008 Programs. Current composition proceeds from Advantages to FAQ and then Contact. Keep the visual reference for later review with Nastya.
+- **Reason:** Program types and terms are unconfirmed; polished mock program cards might misrepresent the school.
+- **Revisit:** After discussion with Nastya; do not treat the omission as a permanent product decision.
+
+## D-025 — FAQ native exclusive accordion and independent columns
+- **Status:** Implemented in `feature/faq-section`; PR #6 open at last verification, not yet documented as merged.
+- **Choice:** Six typed placeholder Q&As, native `<details name="faq">` sharing a single group, two independent desktop stacks and one-column mobile flow. Split the array into consecutive halves so mobile DOM, reading and keyboard order remain 1–6.
+- **Reason:** Avoid cross-column gaps and unnecessary client-side state while preserving natural mobile navigation.
+- **Tradeoff:** Desktop columns contain items 1–3 and 4–6, rather than alternating by row. Browser support for exclusive native details should be checked in the intended browsers.
+
+## D-026 — Contact design is provisional; implement in small increments
+- **Status:** Agreed plan, UI implementation not verified.
+- **Choice:** Follow the supplied pastel/coral Contact mockup for TASK-010.1, then visually inspect before making it final. Split delivery into UI-only → client draft/validation → Server Action/email → preview integration and testing.
+- **Constraints:** Required name/phone; optional comment; Moldova as default country; no pretend successful submission from the UI-only stage. Existing validation/server principles A-010–A-017 remain in force.
+- **Reason:** Separate visual approval from behavior and reliable delivery.
+
+## W-008 — Weekend demo milestone, not commercial launch
+- **Status:** Target for Monday, 2026-11-02; not a completion claim.
+- **Acceptance target:** Nastya can open a Vercel Preview URL on her phone, enter a test request, see truthful submission feedback and verify that a real test notification reaches the configured email inbox.
+- **Dependencies:** Deployment access, recipient/sender configuration, email-provider choice and any necessary domain verification, runtime secrets, independent server validation, and end-to-end tests.
+- **Scope:** Controlled demo only. Mock teacher content, portrait rights, privacy text, abuse controls and unconfirmed business information block an unrestricted public/commercial launch.
