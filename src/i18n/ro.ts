@@ -21,6 +21,10 @@ export const ro = {
       contact: "Contacte",
     },
     cta: "Lasă o solicitare",
+    languageLabel: "Limba site-ului",
+    languages: { ro: "Română", ru: "Русский" },
+    switchUnavailable:
+      "După începerea completării formularului, schimbarea limbii nu este disponibilă, pentru a păstra datele și rezultatul trimiterii.",
   },
   hero: {
     pill: "Școală online · Matematică · Pregătire pentru BAC",
