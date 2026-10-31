@@ -1,7 +1,7 @@
 # Contact notification delivery — controlled prototype only
 
-`submitContact` is not connected to the browser form. It checks the runtime payload,
-reuses `validateContactForm`, and passes only normalized data to the server-only
+`ContactForm` calls `submitContact` only after client validation passes. The action
+checks the runtime payload, reuses `validateContactForm`, and passes only normalized data to the server-only
 `sendContactNotification` function. No database, retries, or persistence are used.
 
 ## Configuration
@@ -104,6 +104,52 @@ is no test route or endpoint. Inspect the configured inbox and Resend dashboard
 privately to distinguish acceptance from delivery. Do not automatically rerun on
 failure or uncertainty: first investigate whether the original message was accepted.
 
-No real smoke test was authorized or performed during implementation. Before
-exposing delivery publicly, review anti-abuse/rate limiting, privacy, idempotency,
-verified sender/domain, and client handling of uncertain outcomes.
+The developer reports that one authorized live smoke test passed before TASK-010.3C.
+No additional live send is authorized by the client-integration task. Before exposing
+delivery publicly, review anti-abuse/rate limiting, privacy, idempotency, and a
+verified sender/domain.
+
+## Client submission UX — TASK-010.3C
+
+The draft remains one local state object. Field errors are separate, and submission
+feedback has idle/pending/accepted/error states. A synchronous ref lock prevents
+same-tick duplicate submissions; while pending, all controls remain visible but are
+disabled so new edits cannot be lost to a successful reset. Country synchronization
+still happens on phone blur and before submit. The client sends the current draft,
+not a cached normalized copy; the server independently validates it.
+
+All result cases are handled explicitly. Provider acceptance clears the draft,
+restores MD and clears field errors. The confirmation explicitly does not guarantee
+inbox delivery. Starting to edit a new request dismisses that confirmation and enables
+submission again. Errors and uncertain outcomes preserve entered values. There is
+no automatic retry. A single polite live region carries either the field-error
+summary or submission feedback, avoiding competing announcements.
+
+### Manual integration checklist (mocked action only; no real emails)
+
+No DOM/UI test library is installed. Existing unit tests cover authoritative
+validation and mocked provider/action behavior, not React rendering and interaction.
+During implementation, browser assertions intercepted all POST requests locally and
+used synthetic action responses: invalid input, synchronous duplicates, pending,
+acceptance/reset, server field errors, delivery/server errors and rejected invocation
+were checked without sending emails. These were ad hoc checks, not a committed UI
+regression suite. Use a separately approved UI mocking harness to repeat the checklist;
+do not replace these checks with repeated live sends or a public test endpoint.
+
+- Empty/invalid submit: field errors appear, and zero Server Action calls occur.
+- Valid MD/RO/DE/GB drafts: exactly one action invocation, correct current country
+  and unchanged phone text. A supported international number synchronizes country.
+- Hold the mocked action unresolved and dispatch submit twice in the same tick:
+  only one invocation. Sending label and disabled controls remain visible.
+- Resolve with `validation_error`: returned errors are associated with controls;
+  values are unchanged and correction works.
+- Resolve with `accepted`: visible accessible confirmation, empty name/phone/comment,
+  MD selected, no stale field errors. Edit a new field: confirmation clears and the
+  submit button becomes available again.
+- Resolve with `delivery_error` or `server_error`, then reject the action promise:
+  friendly feedback, no technical details, all values retained, no automatic retry.
+- At 360px, 390px and 1440px: inspect long feedback wrapping, form bounds, keyboard
+  focus, and the single live region with an assistive-technology check.
+
+A directly callable email action is now part of the page. Restrict preview access
+to authorized testers until anti-abuse/privacy safeguards are reviewed.

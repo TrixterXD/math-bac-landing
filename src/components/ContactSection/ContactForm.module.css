@@ -85,6 +85,11 @@
   cursor: pointer;
 }
 
+.button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .field input:focus-visible,
 .field textarea:focus-visible,
 .field select:focus-visible,
@@ -107,7 +112,13 @@
   font-size: 0.875rem;
 }
 
-.errorSummary:not(:empty) {
+.feedback {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.errorSummary:not(:empty),
+.feedback:not(:empty) {
   margin-bottom: var(--space-4);
 }
 

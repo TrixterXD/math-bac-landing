@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useRef, useState } from "react";
+import { submitContact } from "@/app/actions/submitContact";
 import {
   type ContactFieldErrors,
   getSupportedInternationalCountry,
@@ -17,13 +18,23 @@ type ContactFormData = {
   comment: string;
 };
 
+type SubmissionState =
+  | { status: "idle" | "pending" | "accepted" }
+  | { status: "error"; message: string };
+
+const emptyDraft: ContactFormData = {
+  name: "",
+  country: "MD",
+  phone: "",
+  comment: "",
+};
+
 export default function ContactForm() {
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: "",
-    country: "MD",
-    phone: "",
-    comment: "",
+  const [formData, setFormData] = useState<ContactFormData>(emptyDraft);
+  const [submission, setSubmission] = useState<SubmissionState>({
+    status: "idle",
   });
+  const submitting = useRef(false);
 
   const [errors, setErrors] = useState<ContactFieldErrors | null>(null);
 
@@ -33,6 +44,8 @@ export default function ContactForm() {
   }
 
   function updateField(field: keyof ContactFormData, value: string) {
+    if (submitting.current) return;
+    setSubmission({ status: "idle" });
     const next = { ...formData, [field]: value };
     setFormData(next);
     if (errors !== null) validateDraft(next);
@@ -43,6 +56,59 @@ export default function ContactForm() {
     const next = country ? { ...formData, country } : formData;
     if (next.country !== formData.country) setFormData(next);
     return next;
+  }
+
+  function handleSubmit() {
+    if (submitting.current || submission.status === "accepted") return;
+    const draft = synchronizeCountry();
+    const validation = validateContactForm(draft);
+    setErrors(validation.valid ? {} : validation.errors);
+    if (!validation.valid) {
+      setSubmission({ status: "idle" });
+      return;
+    }
+
+    // Lock synchronously: React's disabled rendering alone cannot stop same-tick submits.
+    submitting.current = true;
+    setSubmission({ status: "pending" });
+    startTransition(async () => {
+      try {
+        const result = await submitContact(draft);
+        switch (result.status) {
+          case "validation_error":
+            setErrors(result.errors);
+            setSubmission({ status: "idle" });
+            break;
+          case "accepted":
+            setFormData(emptyDraft);
+            setErrors(null);
+            setSubmission({ status: "accepted" });
+            break;
+          case "delivery_error":
+            setSubmission({
+              status: "error",
+              message:
+                "Не удалось подтвердить отправку заявки. Данные сохранены. Заявка могла быть принята — не отправляйте её повторно, пока результат не уточнён.",
+            });
+            break;
+          case "server_error":
+            setSubmission({
+              status: "error",
+              message:
+                "Не удалось обработать заявку на сервере. Данные сохранены. Попробуйте позже.",
+            });
+            break;
+        }
+      } catch {
+        setSubmission({
+          status: "error",
+          message:
+            "Связь с сервером прервалась. Не удалось подтвердить результат отправки. Данные сохранены; не отправляйте заявку повторно, пока результат не уточнён.",
+        });
+      } finally {
+        submitting.current = false;
+      }
+    });
   }
 
   function renderError(field: keyof ContactFormData) {
@@ -61,10 +127,14 @@ export default function ContactForm() {
       noValidate
       onSubmit={(event) => {
         event.preventDefault();
-        validateDraft(synchronizeCountry());
+        handleSubmit();
       }}
     >
-      <fieldset className={styles.card} aria-describedby="contact-preview">
+      <fieldset
+        className={styles.card}
+        aria-describedby="contact-preview"
+        disabled={submission.status === "pending"}
+      >
         <legend className={styles.legend}>Заявка на подготовку</legend>
         <label className={styles.field} htmlFor="contact-name">
           Имя <span>(обязательно)</span>
@@ -146,22 +216,38 @@ export default function ContactForm() {
           {renderError("comment")}
         </label>
         <p
-          className={styles.errorSummary}
+          className={
+            submission.status === "error" || errorCount > 0
+              ? styles.errorSummary
+              : styles.feedback
+          }
           aria-live="polite"
           aria-atomic="true"
         >
-          {errorCount > 0 ? `Проверьте отмеченные поля: ${errorCount}.` : ""}
+          {submission.status === "pending"
+            ? "Отправляем заявку…"
+            : submission.status === "accepted"
+              ? "Заявка принята для обработки. Это не подтверждает доставку письма в почтовый ящик. Чтобы оставить новую заявку, начните заполнять форму."
+              : submission.status === "error"
+                ? submission.message
+                : errorCount > 0
+                  ? `Проверьте отмеченные поля: ${errorCount}.`
+                  : ""}
         </p>
         <button
           className={styles.button}
           type="submit"
+          disabled={
+            submission.status === "pending" || submission.status === "accepted"
+          }
           aria-describedby="contact-preview"
         >
-          Отправить заявку <span aria-hidden="true">→</span>
+          {submission.status === "pending" ? "Отправляем…" : "Отправить заявку"}
+          <span aria-hidden="true">→</span>
         </button>
         <p className={styles.preview} id="contact-preview">
-          Учебный макет: отправка пока не подключена. Не вводите реальные
-          контактные данные.
+          Учебный прототип: форма отправляет настоящее тестовое письмо. Во время
+          контролируемого тестирования не вводите реальные персональные данные.
         </p>
       </fieldset>
     </form>
