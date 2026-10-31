@@ -46,7 +46,7 @@ content never becomes HTML, recipient, subject, or other message headers.
 
 Responses contain no applicant data, message body, provider errors, or credentials.
 No automatic retry is performed; the request has a 15-second timeout. Retry and
-idempotency policies remain open before client integration or broader access.
+idempotency policies remain open despite completed client integration and must be reviewed before broader access.
 
 ## Isolated unit tests (PowerShell, Node.js 24)
 
@@ -116,6 +116,20 @@ The developer reports that one authorized live smoke test passed before TASK-010
 No additional live send is authorized by the client-integration task. Before exposing
 delivery publicly, review anti-abuse/rate limiting, privacy, idempotency, and a
 verified sender/domain.
+
+## Localization/switching checkpoint — TASK-012D
+
+`/ro` and `/ru` and client-side language navigation exist, but form/widget copy is
+still Russian. The temporary shell lock blocks switching after any contact focus/use
+or detected autofill for the rest of the visit, even after success.
+
+The agreed next task is **not implemented**: allow empty/focused-empty and confirmed
+success; confirm discarding a remaining draft, including after confirmed failure;
+block pending; keep uncertain-delivery warnings from silently disappearing and avoid
+accidental duplicates. Contact submission takes priority. The current generic error
+state and feedback reset on editing do not fully satisfy that uncertainty contract.
+See `TASK-012-LOCALIZATION-PLAN.md` for the state table. Rate limiting remains
+deferred until evidence of abuse, not a production-ready safeguard.
 
 ## Client submission UX — TASK-010.3C
 

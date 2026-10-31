@@ -5,6 +5,16 @@
 > Updated: **2026-10-29**  
 > This is **not** an approved client brief. Validate all business-specific claims and requirements with Nastya before commercial deployment.
 
+## Current implementation checkpoint — TASK-012D
+
+This document preserves early product exploration below; historical TBDs are not all still open. Source inspection on `feature/localization-routing` confirms Hero → Team → Advantages → FAQ → Contact, shared validation, Server Action, Resend delivery and Turnstile. Programs is deferred (D-024); Footer is not implemented. Exact current validation/result rules live in source and `docs/contact-delivery.md`, not the preliminary tables below. No runtime verification was performed in this audit.
+
+Romanian is default, Russian alternative. Typed dictionaries, `/ro` and `/ru`, localized Header/document language/metadata and client-side switching exist. Full page-section, form/widget and image translation is pending. The temporary contact-use lock blocks switching even after empty focus and after success; it is not the final product behavior.
+
+**Agreed next task, not implemented:** allow switching on empty/focused-empty forms and confirmed success; require explicit draft-discard confirmation for a non-empty draft, including after confirmed failure; block pending submissions. Uncertain delivery warnings must not silently disappear, and accidental duplicate submissions must be avoided. Contact submission takes priority. See `docs/TASK-012-LOCALIZATION-PLAN.md` for the canonical state table.
+
+Rate limiting is deferred until evidence of abuse. Privacy/legal approval, real content/asset permissions and public-release acceptance remain open; implementation is not production readiness.
+
 ## 1. Product concept
 
 A responsive one-page website for a small educational business in Moldova preparing school students for the mathematics Baccalaureate (BAC). The founder, Nastya, teaches mathematics and leads several other teachers. **Lessons are delivered online** (information supplied during discovery).
@@ -40,20 +50,21 @@ This is the **full cumulative journey**, not a shortened replacement. Update thi
 ### Entry scenario A — TikTok
 1. Parent watches Nastya's TikTok explanation of the school/benefits.
 2. Parent follows a link to the site, potentially already willing to contact the school.
-3. The hero presents Nastya’s portrait to support recognition from TikTok, clearly states online BAC mathematics preparation, and exposes the primary contact CTA without requiring a full read.
-4. Parent proceeds to the shared contact form.
+3. Parent may choose a language (Romanian default, Russian alternative), then quickly reaches the contact form without a full page read.
+4. The hero presents Nastya’s portrait to support recognition from TikTok, clearly states online BAC mathematics preparation, and exposes the primary contact CTA without requiring a full read.
+5. Parent proceeds to the shared contact form.
 
 ### Entry scenario B — recommendation
 1. Parent hears about the school from another person.
 2. Parent opens the landing page and wants to understand the offering.
-3. Parent sees the service and online format in the hero, then may explore the founder/team, proposed advantages, preparation programs and FAQ (content subject to confirmation).
+3. Parent chooses a language, then sees the service and online format in the hero and may review teachers, advantages and FAQ (content subject to confirmation). Programs remains deferred pending discussion with Nastya.
 4. Parent proceeds to the shared contact form when ready.
 
-**Important:** these are behavioral hypotheses, not hard user categories. TikTok visitors may still explore the page; referred visitors may contact immediately.
+**Important:** both journeys are working hypotheses, not validated user research or hard user categories. TikTok visitors may still explore the page; referred visitors may contact immediately.
 
 ### Page exploration / information path (working hypothesis)
 
-**Agreed prototype section order:** Hero → Nastya and teaching team → Advantages → Preparation programs → FAQ → Contact form. Plus site header/navigation and footer.
+**Current agreed prototype section order:** Hero → Nastya and teaching team → Advantages → FAQ → Contact form. Preparation programs is deferred (D-024). Plus site header/navigation and footer.
 
 - **Hero:** state online BAC mathematics preparation immediately; make contact CTA visible; use Nastya’s own approved photograph as the principal visual when available. Avoid a generic classroom/group-learning visual that might imply offline group lessons.
 - **Fast journey:** Hero CTA leads directly to the contact form (typically a same-page anchor); visitors do not need to read all sections.
@@ -86,7 +97,9 @@ The school can access the parent's contact details and any optional context and 
 
 ## 4. MVP scope — current working definition
 
-### Agreed prototype section order (content remains provisional)
+### Original MVP section exploration (content provisional; Programs later deferred)
+
+The numbered list retains historical planning context; current composition is recorded above.
 1. **Hero** — online BAC mathematics preparation, recognizable portrait of Nastya, primary CTA to form.
 2. **Nastya and team** — human introduction and trust-building; actual bios/credentials pending.
 3. **Advantages** — demo placeholders only: low-stress atmosphere, conceptual understanding, freedom to ask questions.
@@ -152,17 +165,17 @@ Example helper text for comment: “Расскажите немного о ва�
 - **Delivery provider:** accept and attempt delivery; provider acknowledgment is not equivalent to inbox delivery.
 
 ### Candidate technical stack
-Next.js App Router, React, TypeScript, CSS Modules, Git/GitHub, Vercel; `libphonenumber-js` for phone logic. Server Action is selected for this site; the email provider and its integration remain to be selected.
+Next.js App Router, React, TypeScript, CSS Modules, Git/GitHub, Vercel; `libphonenumber-js` for phone logic. Server Action and Resend notification are implemented for the current prototype; refer to `docs/contact-delivery.md` for the current integration contract.
 
 ## 6. Agreed engineering architecture — working design v0.1
 
-- Each major landing section is a separate React component (Hero, Team, Benefits, Programs, FAQ, Contact). `app/page.tsx` composes home-specific sections directly; a redundant `LandingPage` wrapper is not required. Shared Header and Footer belong in root `app/layout.tsx` (A-018).
+- Each major landing section is a separate React component (Hero, Team, Benefits, Programs, FAQ, Contact). `app/[locale]/page.tsx` composes home-specific sections directly; a redundant `LandingPage` wrapper is not required. Shared Header is rendered through `LocaleShell` in `app/[locale]/layout.tsx`; Footer remains pending (A-018, superseded path).
 - Keep typed mock collections in separate `.data.ts` modules, apart from JSX.
 - A section may import its data array directly; a child card receives one object via props (e.g., `ProgramsSection` → `ProgramCard`). This is a deliberate choice for static content, not a universal props policy.
 - Prefer local React state for the contact form; do not add Jotai/global state to the MVP.
 - Organize directories by technical role (`app`, `components`, `data`, `types`, `lib`) rather than full feature domains. Only create directories/files when needed.
 - Use CSS Modules for component styles. Favor Server Components for static sections; isolate the Client Component boundary around interactive form UI. Native HTML interaction (such as `details`) can avoid a client boundary where appropriate.
-- Source of truth for conventions: **`CODE_STYLE_GUIDE.md`**. Contact-form responsibilities and Server Action approach are agreed; exact contracts, directory tree details and delivery provider remain pending.
+- Source of truth for conventions: **`CODE_STYLE_GUIDE.md`**. Contact-form responsibilities and Server Action approach are implemented; the current contracts and delivery provider (Resend) are documented in `docs/contact-delivery.md` and source. The early design notes below are historical.
 
 ### Conceptual static data path
 `programs.data.ts` → `ProgramsSection` (direct import) → `ProgramCard` (typed prop).
@@ -171,15 +184,15 @@ Next.js App Router, React, TypeScript, CSS Modules, Git/GitHub, Vercel; `libphon
 - Presentation and local state: contact UI, draft values, feedback and pending state.
 - Validation: application rules and `libphonenumber-js` for phone behavior (details TBD).
 - Server: authoritative validation and coordination of delivery (Server Action selected).
-- Delivery: external email provider (proposal, not selected).
-- Error copy: centralized mapping is only a **proposed** mechanism, not a selected implementation.
+- Delivery: Resend notification adapter (implemented); provider acceptance does not prove inbox delivery.
+- Error copy: current field-error mapping exists; localization of contact-form copy remains pending.
 
 ### Contact form decisions agreed after v0.3 (A-010–A-017)
 
 - Share a dedicated `validatePhoneNumber` function between browser-side UX and authoritative server-side checks; use `libphonenumber-js` internally. No guarantee of phone ownership.
 - Use **Server Action** as the landing page submission entry point (A-011), not a separate public Route Handler for the MVP. Do not assume it is secret or bypasses server-side validation.
 - Treat the Server Action as a **thin coordinator**: invoke contact validation, then notification delivery, then return a safe result. Do not invent service classes or layers solely for architecture.
-- Return a **structured result** (conceptual `success`, `validation_error` with field-level information, `delivery_error`). The exact TypeScript discriminated union, messages and unknown network outcome handling are deferred to implementation.
+- Return a **structured result** for success, validation errors and delivery errors. The result contract and unknown network-outcome handling are implemented; consult current source and `docs/contact-delivery.md` rather than this historical conceptual sketch.
 - Show the first field errors **after submit is attempted**, preferably together. Update visible errors as fields are corrected, rather than showing premature errors on first typing.
 - Use one `useState` object for **draft values**: `name`, `country` (default `MD`), `phone`, `comment`; manage errors and submission feedback separately as needed. Avoid duplicate state if React/Next.js form hooks already own an equivalent value.
 - **Confirmed success:** clear fields, restore default country, show acknowledgement. **Failure or unknown outcome:** preserve draft. Unknown outcome must not be described as certain failure.
@@ -207,7 +220,9 @@ The full entry scenarios and common submission stages above continue to apply. A
 - Test strategy and production verification.
 - No unnecessary architectural abstraction or dependency.
 
-## 8. Open decisions / engineering questions
+## 8. Historical engineering questions
+
+Provider (Resend), validation rules, result codes and basic test tooling have since been implemented; use the current checkpoint and delivery/security docs. Safe retry/idempotency, privacy, business approval and release verification remain open. Rate limiting is deliberately deferred until evidence of abuse.
 
 1. **Next engineering step:** use `IMPLEMENTATION_PLAN.md` to guide incremental implementation; finalize remaining detailed contracts at the corresponding tasks.
 2. **Error policy later:** decide visitor-friendly fallback for unsuccessful delivery (retry, messenger, other); determine safe retry behavior.
@@ -215,7 +230,7 @@ The full entry scenarios and common submission stages above continue to apply. A
 4. Define exact validation and normalization contract for name/comment/phone/country.
 5. Define server response states, including unknown delivery outcome.
 6. Server Action selected; design its exact submission signature and email-service integration during implementation.
-7. Select email provider, sender/domain requirements, owner recipient, and how to verify successful processing.
+7. Resend is selected and integrated; verify sender/domain and recipient configuration and successful processing in the intended deployment before launch.
 8. Decide spam mitigation, duplicate prevention, and basic privacy treatment.
 9. Confirm real programs, languages, formats, schedule, prices, team information, testimonials, social handles, and CTA wording with Nastya **later**.
 10. Validate remaining detailed form rules, test tooling and release criteria during the corresponding plan tasks; refine guidelines as needed.
