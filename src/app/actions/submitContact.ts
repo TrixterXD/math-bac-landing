@@ -1,6 +1,10 @@
 "use server";
 
 import {
+  type ContactNotificationResult,
+  sendContactNotification,
+} from "../../lib/sendContactNotification";
+import {
   type ContactFieldErrors,
   type ContactFormInput,
   validateContactForm,
@@ -8,7 +12,7 @@ import {
 
 export type ContactSubmissionResult =
   | { status: "validation_error"; errors: ContactFieldErrors }
-  | { status: "delivery_not_implemented" }
+  | ContactNotificationResult
   | { status: "server_error" };
 
 export async function submitContact(
@@ -29,7 +33,7 @@ export async function submitContact(
     if (!result.valid) {
       return { status: "validation_error", errors: result.errors };
     }
-    return { status: "delivery_not_implemented" };
+    return await sendContactNotification(result.data);
   } catch {
     return { status: "server_error" };
   }

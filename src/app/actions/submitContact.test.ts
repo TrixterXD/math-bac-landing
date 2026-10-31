@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { afterEach, beforeEach, mock, test } from "node:test";
 import {
   type ContactFormInput,
   validateContactForm,
@@ -8,7 +8,31 @@ import { type ContactSubmissionResult, submitContact } from "./submitContact";
 
 const draft = { name: "Анна", country: "MD", phone: "069123456", comment: "" };
 
-test("valid input is validated but never reported as delivered or echoed", async () => {
+let originalEnv: NodeJS.ProcessEnv;
+beforeEach(() => {
+  originalEnv = { ...process.env };
+  process.env.RESEND_API_KEY = "unit-test-key";
+  process.env.CONTACT_NOTIFICATION_EMAIL = "recipient@example.test";
+  delete process.env.RESEND_DEBUG;
+  delete process.env.RESEND_BASE_URL;
+  mock.method(globalThis, "fetch", async () => {
+    throw new Error("Unit tests must mock provider responses");
+  });
+});
+afterEach(() => {
+  process.env = originalEnv;
+  mock.restoreAll();
+});
+
+test("validated input is normalized before delivery and provider acceptance is not echoed as data", async () => {
+  const request = mock.method(
+    globalThis,
+    "fetch",
+    async (_url: string | URL | Request, options?: RequestInit) => {
+      assert.match(String(options?.body), /Телефон: \+/);
+      return Response.json({ id: "mock-message-id" });
+    },
+  );
   for (const [country, phone] of [
     ["MD", "069123456"],
     ["RO", "0721234567"],
@@ -18,13 +42,17 @@ test("valid input is validated but never reported as delivered or echoed", async
   ]) {
     const input = Object.freeze({ ...draft, country, phone });
     assert.deepEqual(await submitContact(input), {
-      status: "delivery_not_implemented",
+      status: "accepted",
     });
     assert.equal(input.phone, phone);
   }
+  assert.equal(request.mock.callCount(), 5);
 });
 
-test("external invalid fields are independently rejected using the shared rules", async () => {
+test("external invalid fields are independently rejected without sending email", async () => {
+  const request = mock.method(globalThis, "fetch", async () => {
+    throw new Error("Unexpected delivery");
+  });
   const cases: ContactFormInput[] = [
     { name: "", country: "MD", phone: "", comment: "" },
     { ...draft, name: "Ion123" },
@@ -47,6 +75,23 @@ test("external invalid fields are independently rejected using the shared rules"
       });
     }
   }
+  assert.equal(request.mock.callCount(), 0);
+});
+
+test("provider rejection returns delivery_error without exposing provider details", async () => {
+  const request = mock.method(globalThis, "fetch", async () =>
+    Response.json(
+      { name: "validation_error", message: "private provider detail" },
+      { status: 403 },
+    ),
+  );
+  assert.deepEqual(await submitContact(draft), { status: "delivery_error" });
+  assert.equal(request.mock.callCount(), 1);
+});
+
+test("missing delivery configuration returns delivery_error", async () => {
+  delete process.env.RESEND_API_KEY;
+  assert.deepEqual(await submitContact(draft), { status: "delivery_error" });
 });
 
 test("malformed envelopes bypassing TypeScript return field errors, not crashes", async () => {
