@@ -1,8 +1,10 @@
 # Contact notification delivery — controlled prototype only
 
 `ContactForm` calls `submitContact` only after client validation passes. The action
-checks the runtime payload, reuses `validateContactForm`, and passes only normalized data to the server-only
-`sendContactNotification` function. No database, retries, or persistence are used.
+checks the runtime payload, reuses `validateContactForm`, verifies Turnstile with
+Cloudflare, and passes only normalized data to the server-only
+`sendContactNotification` function. Mandatory security configuration and local testing:
+[contact-security.md](contact-security.md). Missing protection configuration blocks delivery. No database, retries, or persistence are used.
 
 ## Configuration
 
@@ -33,6 +35,8 @@ content never becomes HTML, recipient, subject, or other message headers.
 ## Outcomes
 
 - `validation_error`: shared server validation failed; no provider call.
+- `verification_error`: Turnstile was absent, invalid, expired, spent, unavailable,
+  misconfigured, or returned an unapproved hostname; no Resend call.
 - `accepted`: Resend returned a message ID without an error. This is provider
   acceptance, not proof of inbox arrival or reading.
 - `delivery_error`: missing configuration, provider rejection, missing message ID,
@@ -82,6 +86,10 @@ Compile locally first (this does not send):
 npx tsc --outDir .contact-smoke --noEmit false --incremental false --module commonjs --moduleResolution node --esModuleInterop --skipLibCheck --strict --target ES2017 scripts/contact-smoke.ts
 if ($LASTEXITCODE -ne 0) { throw 'Smoke-test compilation failed' }
 ```
+
+Before running, configure Turnstile and privately set `CONTACT_SMOKE_TURNSTILE_TOKEN`
+to a fresh matching token as described in [contact-security.md](contact-security.md).
+The script cannot bypass verification and refuses a missing token.
 
 After authorization, execute this block **once** from the repository root:
 

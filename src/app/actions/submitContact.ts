@@ -9,14 +9,17 @@ import {
   type ContactFormInput,
   validateContactForm,
 } from "../../lib/validateContactForm";
+import { verifyTurnstile } from "../../lib/verifyTurnstile";
 
 export type ContactSubmissionResult =
   | { status: "validation_error"; errors: ContactFieldErrors }
   | ContactNotificationResult
-  | { status: "server_error" };
+  | { status: "server_error" }
+  | { status: "verification_error" };
 
 export async function submitContact(
   input: ContactFormInput,
+  turnstileToken?: unknown,
 ): Promise<ContactSubmissionResult> {
   try {
     // TypeScript cannot protect the runtime boundary from malformed external payloads.
@@ -32,6 +35,9 @@ export async function submitContact(
     });
     if (!result.valid) {
       return { status: "validation_error", errors: result.errors };
+    }
+    if (!(await verifyTurnstile(turnstileToken))) {
+      return { status: "verification_error" };
     }
     return await sendContactNotification(result.data);
   } catch {

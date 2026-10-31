@@ -10,6 +10,7 @@ import {
 import styles from "./ContactForm.module.css";
 import { contactErrorMessages } from "./contactErrors.data";
 import { countries } from "./countries.data";
+import TurnstileChallenge from "./TurnstileChallenge";
 
 type ContactFormData = {
   name: string;
@@ -36,6 +37,9 @@ export default function ContactForm() {
   });
   const submitting = useRef(false);
   const focusNameOnMount = useRef(false);
+
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [challengeVersion, setChallengeVersion] = useState(0);
 
   const [errors, setErrors] = useState<ContactFieldErrors | null>(null);
 
@@ -69,12 +73,21 @@ export default function ContactForm() {
       return;
     }
 
+    if (!turnstileToken) {
+      setSubmission({
+        status: "error",
+        message:
+          "Пройдите проверку безопасности перед отправкой. Данные сохранены.",
+      });
+      return;
+    }
+
     // Lock synchronously: React's disabled rendering alone cannot stop same-tick submits.
     submitting.current = true;
     setSubmission({ status: "pending" });
     startTransition(async () => {
       try {
-        const result = await submitContact(draft);
+        const result = await submitContact(draft, turnstileToken);
         switch (result.status) {
           case "validation_error":
             setErrors(result.errors);
@@ -92,6 +105,13 @@ export default function ContactForm() {
                 "Не удалось подтвердить отправку заявки. Данные сохранены. Заявка могла быть принята — не отправляйте её повторно, пока результат не уточнён.",
             });
             break;
+          case "verification_error":
+            setSubmission({
+              status: "error",
+              message:
+                "Проверка безопасности не подтверждена. Данные сохранены. Пройдите новую проверку и отправьте заявку ещё раз.",
+            });
+            break;
           case "server_error":
             setSubmission({
               status: "error",
@@ -107,6 +127,8 @@ export default function ContactForm() {
             "Связь с сервером прервалась. Не удалось подтвердить результат отправки. Данные сохранены; не отправляйте заявку повторно, пока результат не уточнён.",
         });
       } finally {
+        setTurnstileToken("");
+        setChallengeVersion((version) => version + 1);
         submitting.current = false;
       }
     });
@@ -241,6 +263,14 @@ export default function ContactForm() {
               />
               {renderError("comment")}
             </label>
+            <TurnstileChallenge
+              key={challengeVersion}
+              onToken={setTurnstileToken}
+              onRetry={() => {
+                setTurnstileToken("");
+                setChallengeVersion((version) => version + 1);
+              }}
+            />
           </>
         )}
         <p
