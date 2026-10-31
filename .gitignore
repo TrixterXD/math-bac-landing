@@ -40,5 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Local architecture plans
+/docs/TASK-011-RATE-LIMITING-PLAN.md
+/docs/TASK-012-LOCALIZATION-PLAN.md
+
 .contact-smoke/
 .contact-tests/

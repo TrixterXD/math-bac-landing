@@ -5,7 +5,7 @@ export const ro = {
   metadata: {
     title: "Math BAC — Prototip educațional",
     description:
-      "Prototip educațional. Pagina de prezentare nu este încă implementată.",
+      "Prototip educațional de site despre pregătirea online pentru BAC la matematică. Conținutul este demonstrativ și nu este aprobat pentru utilizare comercială.",
   },
   header: {
     homeLabel: "Math BAC — pagina principală",

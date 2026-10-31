@@ -3,7 +3,8 @@ import type { Messages } from "./messages.types";
 export const ru = {
   metadata: {
     title: "Math BAC — Учебный прототип",
-    description: "Учебный прототип. Лендинг пока не реализован.",
+    description:
+      "Учебный прототип сайта об онлайн-подготовке к BAC по математике. Содержание демонстрационное и не утверждено для коммерческого использования.",
   },
   header: {
     homeLabel: "Math BAC — главная",
