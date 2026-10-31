@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useRef, useState } from "react";
+import { startTransition, useCallback, useRef, useState } from "react";
 import { submitContact } from "@/app/actions/submitContact";
 import {
   type ContactFieldErrors,
@@ -43,6 +43,11 @@ export default function ContactForm() {
   const [verificationRequested, setVerificationRequested] = useState(false);
 
   const [errors, setErrors] = useState<ContactFieldErrors | null>(null);
+
+  const handleToken = useCallback((token: string) => {
+    setTurnstileToken(token);
+    if (token) setVerificationRequested(false);
+  }, []);
 
   function validateDraft(draft: ContactFormData) {
     const result = validateContactForm(draft);
@@ -125,6 +130,7 @@ export default function ContactForm() {
             "Связь с сервером прервалась. Не удалось подтвердить результат отправки. Данные сохранены; не отправляйте заявку повторно, пока результат не уточнён.",
         });
       } finally {
+        setVerificationRequested(false);
         setTurnstileToken("");
         setChallengeVersion((version) => version + 1);
         submitting.current = false;
@@ -264,8 +270,9 @@ export default function ContactForm() {
             <TurnstileChallenge
               key={challengeVersion}
               requested={verificationRequested}
-              onToken={setTurnstileToken}
+              onToken={handleToken}
               onRetry={() => {
+                setVerificationRequested(false);
                 setTurnstileToken("");
                 setChallengeVersion((version) => version + 1);
               }}
@@ -297,6 +304,7 @@ export default function ContactForm() {
             type="button"
             onClick={() => {
               focusNameOnMount.current = true;
+              setVerificationRequested(false);
               setFormData(emptyDraft);
               setErrors(null);
               setSubmission({ status: "idle" });
