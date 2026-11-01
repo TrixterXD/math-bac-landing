@@ -1,26 +1,34 @@
 import Image from "next/image";
+import type { Locale } from "@/i18n/locales";
+import type { Messages } from "@/i18n/messages.types";
 import ContactForm from "./ContactForm";
 import styles from "./ContactSection.module.css";
 
-export default function ContactSection() {
+export default function ContactSection({
+  locale,
+  messages,
+  countryNames,
+  turnstileMessages,
+}: {
+  locale: Locale;
+  messages: Messages["contact"];
+  countryNames: Messages["countries"];
+  turnstileMessages: Messages["turnstile"];
+}) {
   return (
     <section
       id="contact"
       className={styles.section}
       aria-labelledby="contact-heading"
-      lang="ru"
     >
       <div className={styles.inner}>
         <div className={styles.copy}>
           <h2 id="contact-heading" className={styles.heading}>
-            Остались вопросы
+            {messages.heading}
             <br />
-            <span>или хотите записаться?</span>
+            <span>{messages.headingEmphasis}</span>
           </h2>
-          <p className={styles.description}>
-            Оставьте заявку, чтобы обсудить вопросы о подготовке к BAC по
-            математике онлайн.
-          </p>
+          <p className={styles.description}>{messages.description}</p>
           <Image
             className={styles.arrow}
             src="/images/contacts/paper-plane-trail.png"
@@ -30,7 +38,12 @@ export default function ContactSection() {
             sizes="(max-width: 1023px) 160px, 256px"
           />
         </div>
-        <ContactForm />
+        <ContactForm
+          locale={locale}
+          messages={messages}
+          countryNames={countryNames}
+          turnstileMessages={turnstileMessages}
+        />
         <Image
           className={styles.note}
           src="/images/contacts/contact-note.png"

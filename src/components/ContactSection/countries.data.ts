@@ -1,7 +1,8 @@
-import { type CountryCode, getCountryCallingCode } from "libphonenumber-js";
+import { getCountryCallingCode } from "libphonenumber-js";
+import type { Messages } from "../../i18n/messages.types";
 
 type Country = {
-  code: CountryCode;
+  code: keyof Messages["countries"];
   name: string;
 };
 

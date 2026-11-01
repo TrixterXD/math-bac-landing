@@ -3,6 +3,7 @@ const { readFileSync } = require("node:fs");
 const { test } = require("node:test");
 const vm = require("node:vm");
 const ts = require("typescript");
+const { ru } = require("../src/i18n/ru.ts");
 
 // Exercise the actual component callbacks without loading Cloudflare or sending mail.
 function mount({ siteKey = "mock-key", requested = false } = {}) {
@@ -75,6 +76,8 @@ function mount({ siteKey = "mock-key", requested = false } = {}) {
     },
   });
   const props = {
+    locale: "ru",
+    messages: ru.turnstile,
     requested,
     onToken: (token) => tokens.push(token),
     onRetry: () => {

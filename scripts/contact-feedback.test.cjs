@@ -3,6 +3,7 @@ const { readFileSync } = require("node:fs");
 const { test } = require("node:test");
 const vm = require("node:vm");
 const ts = require("typescript");
+const { ru } = require("../src/i18n/ru.ts");
 
 // Match the existing Turnstile tests: run component handlers with isolated hook/action mocks.
 function mountForm() {
@@ -86,7 +87,12 @@ function mountForm() {
   });
   function render() {
     cursor = 0;
-    return module.exports.default();
+    return module.exports.default({
+      locale: "ru",
+      messages: ru.contact,
+      countryNames: ru.countries,
+      turnstileMessages: ru.turnstile,
+    });
   }
   function find(predicate, node = render()) {
     if (!node || typeof node !== "object") return undefined;

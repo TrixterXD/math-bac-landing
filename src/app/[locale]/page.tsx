@@ -22,7 +22,12 @@ export default async function Home({
       <TeamSection messages={messages.team} />
       <AdvantagesSection messages={messages.advantages} />
       <FAQSection messages={messages.faq} />
-      <ContactSection />
+      <ContactSection
+        locale={locale}
+        messages={messages.contact}
+        countryNames={messages.countries}
+        turnstileMessages={messages.turnstile}
+      />
     </main>
   );
 }

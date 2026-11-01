@@ -3,13 +3,14 @@
 import { startTransition, useCallback, useRef, useState } from "react";
 import { submitContact } from "@/app/actions/submitContact";
 import { useContactCoordination } from "@/components/Header/contactCoordination";
+import type { Locale } from "@/i18n/locales";
+import type { Messages } from "@/i18n/messages.types";
 import {
   type ContactFieldErrors,
   getSupportedInternationalCountry,
   validateContactForm,
 } from "@/lib/validateContactForm";
 import styles from "./ContactForm.module.css";
-import { contactErrorMessages } from "./contactErrors.data";
 import { countries } from "./countries.data";
 import TurnstileChallenge from "./TurnstileChallenge";
 
@@ -31,7 +32,17 @@ const emptyDraft: ContactFormData = {
   comment: "",
 };
 
-export default function ContactForm() {
+export default function ContactForm({
+  locale,
+  messages,
+  countryNames,
+  turnstileMessages,
+}: {
+  locale: Locale;
+  messages: Messages["contact"];
+  countryNames: Messages["countries"];
+  turnstileMessages: Messages["turnstile"];
+}) {
   const coordination = useContactCoordination();
   const [formData, setDraft] = useState<ContactFormData>(emptyDraft);
   const [submission, setSubmissionState] = useState<SubmissionState>({
@@ -132,30 +143,26 @@ export default function ContactForm() {
           case "delivery_error":
             setSubmission({
               status: "uncertain",
-              message:
-                "Не удалось подтвердить отправку заявки. Данные сохранены. Заявка могла быть принята — не отправляйте её повторно, пока результат не уточнён.",
+              message: messages.feedback.delivery_error,
             });
             break;
           case "verification_error":
             setSubmission({
               status: "error",
-              message:
-                "Проверка безопасности не подтверждена. Данные сохранены. Пройдите новую проверку и отправьте заявку ещё раз.",
+              message: messages.feedback.verification_error,
             });
             break;
           case "server_error":
             setSubmission({
               status: "error",
-              message:
-                "Не удалось обработать заявку на сервере. Данные сохранены. Попробуйте позже.",
+              message: messages.feedback.server_error,
             });
             break;
         }
       } catch {
         setSubmission({
           status: "uncertain",
-          message:
-            "Связь с сервером прервалась. Не удалось подтвердить результат отправки. Данные сохранены; не отправляйте заявку повторно, пока результат не уточнён.",
+          message: messages.feedback.network_error,
         });
       } finally {
         setVerificationRequested(false);
@@ -170,7 +177,7 @@ export default function ContactForm() {
     const error = errors?.[field];
     return error ? (
       <span className={styles.error} id={`contact-${field}-error`}>
-        {contactErrorMessages[field][error]}
+        {messages.errors[field][error]}
       </span>
     ) : null;
   }
@@ -200,14 +207,14 @@ export default function ContactForm() {
               tabIndex={-1}
               ref={(heading) => heading?.focus()}
             >
-              Спасибо! Заявка отправлена
+              {messages.form.successHeading}
             </h3>
           </div>
         ) : (
           <>
-            <legend className={styles.legend}>Заявка на подготовку</legend>
+            <legend className={styles.legend}>{messages.form.legend}</legend>
             <label className={styles.field} htmlFor="contact-name">
-              Имя <span>(обязательно)</span>
+              {messages.form.name} <span>{messages.form.required}</span>
               <input
                 id="contact-name"
                 ref={(input) => {
@@ -227,19 +234,19 @@ export default function ContactForm() {
                   errors?.name ? "contact-name-error" : undefined
                 }
                 required
-                placeholder="Как к вам обращаться?"
+                placeholder={messages.form.namePlaceholder}
               />
               {renderError("name")}
             </label>
             <div className={styles.field}>
               <label htmlFor="contact-phone">
-                Телефон <span>(обязательно)</span>
+                {messages.form.phone} <span>{messages.form.required}</span>
               </label>
               <div className={styles.phone}>
                 <select
                   className={styles.country}
                   id="contact-country"
-                  aria-label="Страна и телефонный код"
+                  aria-label={messages.form.countryLabel}
                   value={formData.country}
                   aria-invalid={errors?.country ? true : undefined}
                   aria-describedby={
@@ -251,7 +258,7 @@ export default function ContactForm() {
                 >
                   {countries.map((country) => (
                     <option key={country.code} value={country.code}>
-                      {country.callingCode} — {country.name}
+                      {country.callingCode} — {countryNames[country.code]}
                     </option>
                   ))}
                 </select>
@@ -272,14 +279,14 @@ export default function ContactForm() {
                     errors?.phone ? "contact-phone-error" : undefined
                   }
                   required
-                  placeholder="69 123 456"
+                  placeholder={messages.form.phonePlaceholder}
                 />
               </div>
               {renderError("country")}
               {renderError("phone")}
             </div>
             <label className={styles.field} htmlFor="contact-comment">
-              Комментарий <span>(необязательно)</span>
+              {messages.form.comment} <span>{messages.form.optional}</span>
               <textarea
                 id="contact-comment"
                 rows={3}
@@ -291,12 +298,14 @@ export default function ContactForm() {
                 aria-describedby={
                   errors?.comment ? "contact-comment-error" : undefined
                 }
-                placeholder="Класс, трудности с математикой или цель подготовки"
+                placeholder={messages.form.commentPlaceholder}
               />
               {renderError("comment")}
             </label>
             <TurnstileChallenge
               key={challengeVersion}
+              locale={locale}
+              messages={turnstileMessages}
               requested={verificationRequested}
               onToken={handleToken}
               onRetry={() => {
@@ -319,14 +328,17 @@ export default function ContactForm() {
           aria-atomic="true"
         >
           {submission.status === "pending"
-            ? "Отправляем заявку…"
+            ? messages.feedback.pending
             : submission.status === "accepted"
-              ? "Ваша заявка принята. Ожидайте обратной связи."
+              ? messages.feedback.accepted
               : submission.status === "error" ||
                   submission.status === "uncertain"
                 ? submission.message
                 : errorCount > 0
-                  ? `Проверьте отмеченные поля: ${errorCount}.`
+                  ? messages.feedback.fieldErrors.replace(
+                      "{count}",
+                      String(errorCount),
+                    )
                   : ""}
         </p>
         {submission.status === "accepted" ? (
@@ -341,7 +353,7 @@ export default function ContactForm() {
               setSubmission({ status: "idle" });
             }}
           >
-            Отправить ещё одну заявку
+            {messages.form.submitAgain}
           </button>
         ) : (
           <button
@@ -354,14 +366,13 @@ export default function ContactForm() {
             aria-describedby="contact-preview"
           >
             {submission.status === "pending"
-              ? "Отправляем…"
-              : "Отправить заявку"}
+              ? messages.form.pendingButton
+              : messages.form.submit}
             <span aria-hidden="true">→</span>
           </button>
         )}
         <p className={styles.preview} id="contact-preview">
-          Учебный прототип: форма отправляет настоящее тестовое письмо. Во время
-          контролируемого тестирования не вводите реальные персональные данные.
+          {messages.form.preview}
         </p>
       </fieldset>
     </form>
