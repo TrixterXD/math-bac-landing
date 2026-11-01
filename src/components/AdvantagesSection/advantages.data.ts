@@ -1,5 +1,7 @@
+import type { Messages } from "../../i18n/messages.types";
+
 export type Advantage = {
-  id: string;
+  id: keyof Messages["advantages"]["items"];
   title: string;
   description: string;
   accent: "coral" | "mint" | "lilac";

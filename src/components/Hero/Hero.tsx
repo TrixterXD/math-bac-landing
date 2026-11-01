@@ -1,27 +1,35 @@
 import Image from "next/image";
+import type { Locale } from "@/i18n/locales";
+import type { Messages } from "@/i18n/messages.types";
 import { heroBenefits } from "./Hero.data";
 import styles from "./Hero.module.css";
 
-export default function Hero() {
+export default function Hero({
+  locale,
+  messages,
+}: {
+  locale: Locale;
+  messages: Messages["hero"];
+}) {
+  const [description, descriptionEnding] = messages.description.split("\n");
+
   return (
-    <section className={styles.hero} aria-labelledby="hero-heading" lang="ru">
+    <section className={styles.hero} aria-labelledby="hero-heading">
       <div className={styles.inner}>
         <div className={styles.copy}>
-          <p className={styles.pill}>
-            Онлайн-школа · Математика · Подготовка к BAC
-          </p>
+          <p className={styles.pill}>{messages.pill}</p>
           <h1 id="hero-heading" className={styles.heading}>
-            Подготовка к BAC
-            <span>по математике онлайн</span>
+            {messages.heading}
+            <span>{messages.headingEmphasis}</span>
           </h1>
           <p className={styles.description}>
-            Уверенные знания. Спокойные родители.
+            {description}
             <br />
-            Высокие результаты на экзамене.
+            {descriptionEnding}
           </p>
           <ul className={styles.benefits}>
             {heroBenefits.map((benefit) => (
-              <li key={benefit.text}>
+              <li key={benefit.id}>
                 <span className={styles.icon}>
                   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                     <path
@@ -34,19 +42,19 @@ export default function Hero() {
                   </svg>
                 </span>
                 <span>
-                  {benefit.text}
-                  <span className={styles.benefitDetail}>{benefit.detail}</span>
-                  {benefit.ending}
+                  {messages.benefits[benefit.id].text}
+                  <span className={styles.benefitDetail}>
+                    {messages.benefits[benefit.id].detail}
+                  </span>
+                  {benefit.id === "support" && messages.benefits.support.ending}
                 </span>
               </li>
             ))}
           </ul>
           <a className={styles.cta} href="#contact">
-            Оставить заявку <span aria-hidden="true">⟶</span>
+            {messages.cta} <span aria-hidden="true">⟶</span>
           </a>
-          <p className={styles.demo}>
-            Учебный прототип: описание и преимущества — демонстрационные.
-          </p>
+          <p className={styles.demo}>{messages.demo}</p>
         </div>
         <div className={styles.visual}>
           <div className={styles.blob} aria-hidden="true" />
@@ -61,7 +69,7 @@ export default function Hero() {
           <Image
             className={styles.portrait}
             src="/images/hero/nastya-hero.png"
-            alt="Настя сидит за столом с тетрадью и ручкой"
+            alt={messages.portraitAlt}
             width={1086}
             height={1448}
             sizes="(width < 1280px) min(100vw - 32px, 360px), 536px"
@@ -69,7 +77,7 @@ export default function Hero() {
           />
           <Image
             className={styles.lessonNote}
-            src="/images/hero/lesson-note.png"
+            src={`/images/hero/lesson-note_${locale}.png`}
             alt=""
             width={1448}
             height={1086}
@@ -78,7 +86,7 @@ export default function Hero() {
         </div>
         <Image
           className={styles.mathNote}
-          src="/images/hero/math-note.png"
+          src={`/images/hero/math-note_${locale}.png`}
           alt=""
           width={1448}
           height={1086}
