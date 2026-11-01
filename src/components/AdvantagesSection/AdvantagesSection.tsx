@@ -1,12 +1,15 @@
 import Image from "next/image";
+import type { Locale } from "@/i18n/locales";
 import type { Messages } from "@/i18n/messages.types";
 import AdvantageCard from "./AdvantageCard";
 import styles from "./AdvantagesSection.module.css";
 import { advantages } from "./advantages.data";
 
 export default function AdvantagesSection({
+  locale,
   messages,
 }: {
+  locale: Locale;
   messages: Messages["advantages"];
 }) {
   return (
@@ -31,7 +34,7 @@ export default function AdvantagesSection({
             />
             <Image
               className={styles.note}
-              src="/images/team/lesson-note.png"
+              src={`/images/team/system-note_${locale}.png`}
               alt=""
               width={1448}
               height={1086}

@@ -11,7 +11,7 @@ export type Teacher = {
 export const teachers: Teacher[] = [
   {
     id: "nastya",
-    image: "/images/team/nastya.png",
+    image: "/images/team/nastya_ro.png",
     alt: "Настя — основатель и преподаватель математики",
     width: 1122,
     height: 1402,

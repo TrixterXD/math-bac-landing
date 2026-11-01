@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Locale } from "@/i18n/locales";
 import type { Messages } from "@/i18n/messages.types";
 import NastyaProfile from "./NastyaProfile";
 import TeacherCard from "./TeacherCard";
@@ -6,8 +7,10 @@ import styles from "./TeamSection.module.css";
 import { teachers } from "./team.data";
 
 export default function TeamSection({
+  locale,
   messages,
 }: {
+  locale: Locale;
   messages: Messages["team"];
 }) {
   return (
@@ -29,6 +32,10 @@ export default function TeamSection({
             {teachers.map((teacher) => {
               const localizedTeacher = {
                 ...teacher,
+                image:
+                  teacher.id === "nastya"
+                    ? `/images/team/nastya_${locale}.png`
+                    : teacher.image,
                 alt: messages.portraits[teacher.id],
               };
               return (
@@ -58,7 +65,7 @@ export default function TeamSection({
           />
           <Image
             className={styles.note}
-            src="/images/team/team-note.png"
+            src={`/images/team/team-note_${locale}.png`}
             alt=""
             width={1448}
             height={1086}

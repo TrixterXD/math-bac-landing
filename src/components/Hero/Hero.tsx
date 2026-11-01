@@ -1,9 +1,16 @@
 import Image from "next/image";
+import type { Locale } from "@/i18n/locales";
 import type { Messages } from "@/i18n/messages.types";
 import { heroBenefits } from "./Hero.data";
 import styles from "./Hero.module.css";
 
-export default function Hero({ messages }: { messages: Messages["hero"] }) {
+export default function Hero({
+  locale,
+  messages,
+}: {
+  locale: Locale;
+  messages: Messages["hero"];
+}) {
   const [description, descriptionEnding] = messages.description.split("\n");
 
   return (
@@ -70,7 +77,7 @@ export default function Hero({ messages }: { messages: Messages["hero"] }) {
           />
           <Image
             className={styles.lessonNote}
-            src="/images/hero/lesson-note.png"
+            src={`/images/hero/lesson-note_${locale}.png`}
             alt=""
             width={1448}
             height={1086}
@@ -79,7 +86,7 @@ export default function Hero({ messages }: { messages: Messages["hero"] }) {
         </div>
         <Image
           className={styles.mathNote}
-          src="/images/hero/math-note.png"
+          src={`/images/hero/math-note_${locale}.png`}
           alt=""
           width={1448}
           height={1086}

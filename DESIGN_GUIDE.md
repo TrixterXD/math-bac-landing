@@ -73,7 +73,7 @@ The following values are **initial approximations by visual inspection**. They a
 | Prepared Nastya portrait | `public/images/hero/nastya-hero.png` | Website runtime via `next/image` |
 | Mobile Hero concept (Variant C) | `design/reference/hero/mobile-concept.png` | Hero mobile visual review |
 | Full mobile composition | `design/reference/landing-mobile.png` | Overall mobile visual direction |
-| Hero math/lesson/pyramid decorations | `public/images/hero/math-note.png`, `lesson-note.png`, `math-pyramid.png` | Independent runtime images |
+| Hero math/lesson/pyramid decorations | `public/images/hero/math-note_ro.png`, `math-note_ru.png`, `lesson-note_ro.png`, `lesson-note_ru.png`, `math-pyramid.png` | Independent runtime images |
 | Team portrait collage and accents | `public/images/team/` (verify actual names in repo) | Team section runtime assets, 4 separate portraits, decorative note/crown/arrow/burst |
 
 The Hero crop includes some content below the Hero; it is a framing reference, not approval to implement Team or Advantages during TASK-005A.

@@ -46,7 +46,7 @@ export default function ContactSection({
         />
         <Image
           className={styles.note}
-          src="/images/contacts/contact-note.png"
+          src={`/images/contacts/bac-note_${locale}.png`}
           alt=""
           width={1122}
           height={1402}

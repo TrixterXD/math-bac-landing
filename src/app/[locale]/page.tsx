@@ -18,10 +18,10 @@ export default async function Home({
 
   return (
     <main>
-      <Hero messages={messages.hero} />
-      <TeamSection messages={messages.team} />
-      <AdvantagesSection messages={messages.advantages} />
-      <FAQSection messages={messages.faq} />
+      <Hero locale={locale} messages={messages.hero} />
+      <TeamSection locale={locale} messages={messages.team} />
+      <AdvantagesSection locale={locale} messages={messages.advantages} />
+      <FAQSection locale={locale} messages={messages.faq} />
       <ContactSection
         locale={locale}
         messages={messages.contact}
