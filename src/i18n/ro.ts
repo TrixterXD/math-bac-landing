@@ -3,12 +3,12 @@ import type { Messages } from "./messages.types";
 // Draft translations: native-speaker review is required before publication.
 export const ro = {
   metadata: {
-    title: "Math BAC — Prototip educațional",
+    title: "EasyMath — Prototip educațional",
     description:
       "Prototip educațional de site despre pregătirea online pentru BAC la matematică. Conținutul este demonstrativ și nu este aprobat pentru utilizare comercială.",
   },
   header: {
-    homeLabel: "Math BAC — pagina principală",
+    homeLabel: "EasyMath — pagina principală",
     openMenu: "Deschide meniul",
     closeMenu: "Închide meniul",
     navigationLabel: "Navigare principală",
@@ -30,8 +30,7 @@ export const ro = {
   },
   hero: {
     pill: "Școală online · Matematică · Pregătire pentru BAC",
-    heading: "Pregătire pentru BAC",
-    headingEmphasis: "la matematică, online",
+    heading: "Meditații individuale la matematică",
     description:
       "Cunoștințe solide. Părinți liniștiți.\nRezultate înalte la examen.",
     benefits: {
@@ -54,12 +53,11 @@ export const ro = {
     portraitAlt: "Nastya stă la masă cu un caiet și un pix",
   },
   team: {
-    heading: "Nastya",
-    headingEmphasis: "și echipa",
+    heading: "Despre Anastasia",
     description:
-      "Credem că fiecare elev poate obține o notă mare la BAC — are nevoie doar de îndrumare bine organizată, explicații clare și sprijin.",
-    demo: "Prototip educațional: textul și portretele echipei sunt demonstrative și nu reprezintă componența confirmată a școlii.",
-    listLabel: "Profesori — demonstrație",
+      "Cred că fiecare elev poate avea succes la matematică. Are nevoie doar de îndrumare bine organizată, explicații clare și sprijin.",
+    demo: "Prototip educațional: textul este demonstrativ și nu reprezintă o biografie confirmată.",
+    listLabel: "Profilul Anastasiei",
     portraits: {
       nastya: "Nastya — fondatoare și profesoară de matematică",
       "teacher-glasses": "Portret demonstrativ al unui profesor cu ochelari",

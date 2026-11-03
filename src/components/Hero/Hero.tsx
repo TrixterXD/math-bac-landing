@@ -20,7 +20,6 @@ export default function Hero({
           <p className={styles.pill}>{messages.pill}</p>
           <h1 id="hero-heading" className={styles.heading}>
             {messages.heading}
-            <span>{messages.headingEmphasis}</span>
           </h1>
           <p className={styles.description}>
             {description}
