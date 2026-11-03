@@ -144,7 +144,8 @@ export const ro = {
     },
   },
   programs: {
-    heading: "Programe de studiu",
+    heading: "Programe",
+    headingEnding: "de studiu",
     items: {
       middle: {
         title: "Clasele V–VIII",

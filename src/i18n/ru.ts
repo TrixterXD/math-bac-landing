@@ -141,7 +141,8 @@ export const ru = {
     },
   },
   programs: {
-    heading: "Программы обучения",
+    heading: "Программы",
+    headingEnding: "обучения",
     items: {
       middle: {
         title: "V–VIII классы",

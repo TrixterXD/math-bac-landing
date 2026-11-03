@@ -22,7 +22,7 @@ export default async function Home({
       <Hero locale={locale} messages={messages.hero} />
       <TeamSection locale={locale} messages={messages.team} />
       <AdvantagesSection locale={locale} messages={messages.advantages} />
-      <ProgramsSection messages={messages.programs} />
+      <ProgramsSection locale={locale} messages={messages.programs} />
       <FAQSection locale={locale} messages={messages.faq} />
       <ContactSection
         locale={locale}

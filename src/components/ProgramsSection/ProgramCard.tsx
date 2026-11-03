@@ -1,3 +1,7 @@
+import Image from "next/image";
+import type { Locale } from "@/i18n/locales";
+import matematicaNoteRo from "../../../public/images/programs/matematica-note_ro.png";
+import matematicaNoteRu from "../../../public/images/programs/matematica-note_ru.png";
 import type { Program, ProgramId } from "./programs.data";
 import styles from "./ProgramsSection.module.css";
 
@@ -5,9 +9,11 @@ const symbols = { middle: "∑", ninth: "x²", bac: "π" };
 
 export default function ProgramCard({
   id,
+  locale,
   program,
 }: {
   id: ProgramId;
+  locale: Locale;
   program: Program;
 }) {
   return (
@@ -22,7 +28,8 @@ export default function ProgramCard({
         </span>
       </summary>
       <div className={styles.content}>
-        {program.groups.map((group) => (
+        <div className={styles.text}>
+          {program.groups.map((group) => (
           <div key={group.heading ?? program.title}>
             {group.heading && <h3 className={styles.subheading}>{group.heading}</h3>}
             {typeof group.content === "string" ? (
@@ -33,7 +40,14 @@ export default function ProgramCard({
               </ul>
             )}
           </div>
-        ))}
+          ))}
+        </div>
+        <Image
+          className={styles.notebook}
+          src={locale === "ro" ? matematicaNoteRo : matematicaNoteRu}
+          alt=""
+          sizes="(max-width: 640px) 280px, (max-width: 960px) 240px, 320px"
+        />
       </div>
     </details>
   );

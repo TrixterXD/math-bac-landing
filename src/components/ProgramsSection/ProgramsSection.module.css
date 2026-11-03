@@ -31,13 +31,37 @@
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.06rem;
+  color: var(--color-text);
+}
+
+.headingAccent {
   color: var(--color-primary);
 }
 
-.decoration {
-  width: 10rem;
+.headingEnding {
+  position: relative;
+  display: inline-block;
+  padding-right: 2.5rem;
+}
+
+.spark {
+  position: absolute;
+  top: -0.25rem;
+  right: 0;
+  width: 2.5rem;
+  height: auto;
+}
+
+.programNote {
+  width: 18rem;
+  max-width: 100%;
   height: auto;
   flex-shrink: 0;
+}
+
+.spark,
+.programNote,
+.notebook {
   pointer-events: none;
   user-select: none;
 }
@@ -129,11 +153,26 @@
 
 .content {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+  align-items: center;
   gap: var(--space-6);
   padding: 0 var(--space-8) var(--space-8) calc(5rem + var(--space-6) * 3);
   font-size: 1.125rem;
   line-height: 1.7;
   overflow-wrap: anywhere;
+}
+
+.text {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-6);
+}
+
+.notebook {
+  width: 100%;
+  height: auto;
+  max-width: 20rem;
+  justify-self: center;
 }
 
 .subheading {
@@ -153,6 +192,21 @@
   color: #bc3540;
 }
 
+@media (width < 60rem) {
+  .header {
+    flex-wrap: wrap;
+  }
+
+  .programNote {
+    margin-left: auto;
+  }
+
+  .content {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 15rem);
+    padding-left: var(--space-6);
+  }
+}
+
 @media (width < 40rem) {
   .section {
     padding: var(--space-8) var(--space-4);
@@ -163,8 +217,8 @@
     margin-bottom: var(--space-6);
   }
 
-  .decoration {
-    width: 6rem;
+  .programNote {
+    width: 14rem;
   }
 
   .items {
@@ -194,7 +248,12 @@
   }
 
   .content {
+    grid-template-columns: minmax(0, 1fr);
     padding: 0 var(--space-4) var(--space-6);
     font-size: 1rem;
+  }
+
+  .notebook {
+    max-width: 17.5rem;
   }
 }

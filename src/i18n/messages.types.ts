@@ -123,6 +123,7 @@ export type Messages = {
   };
   programs: {
     heading: string;
+    headingEnding: string;
     items: Record<ProgramId, Program>;
   };
   faq: {
