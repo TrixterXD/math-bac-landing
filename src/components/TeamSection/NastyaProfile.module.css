@@ -50,13 +50,25 @@
   gap: var(--space-6);
 }
 
-.demoHeading {
-  font-size: 1.125rem;
+.visual {
+  display: grid;
+  gap: var(--space-6);
 }
 
-.notice {
-  margin-block: var(--space-4);
-  color: var(--color-text-muted);
+.decoration {
+  display: none;
+}
+
+@media (width >= 1280px) {
+  .decoration {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.biography p + p {
+  margin-top: var(--space-4);
 }
 
 @media (width < 40rem) {

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useId, useRef } from "react";
 import type { Messages } from "@/i18n/messages.types";
+import purpleMath from "../../../public/images/team/purple-math.png";
 import styles from "./NastyaProfile.module.css";
 import TeacherCard from "./TeacherCard";
 import type { Teacher } from "./team.data";
@@ -42,18 +43,26 @@ export default function NastyaProfile({
           </button>
         </div>
         <div className={styles.content}>
-          <Image
-            className={styles.portrait}
-            src={teacher.image}
-            alt={teacher.alt}
-            width={teacher.width}
-            height={teacher.height}
-            sizes="(width < 640px) 192px, 256px"
-          />
-          <div>
-            <h3 className={styles.demoHeading}>{messages.demoHeading}</h3>
-            <p className={styles.notice}>{messages.notice}</p>
-            <p lang="la">{messages.latinPlaceholder}</p>
+          <div className={styles.visual}>
+            <Image
+              className={styles.portrait}
+              src={teacher.image}
+              alt={teacher.alt}
+              width={teacher.width}
+              height={teacher.height}
+              sizes="(width < 640px) 192px, 256px"
+            />
+            <Image
+              className={styles.decoration}
+              src={purpleMath}
+              alt=""
+              sizes="256px"
+            />
+          </div>
+          <div className={styles.biography}>
+            {messages.biography.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
         </div>
       </dialog>

@@ -4,7 +4,7 @@
 
 .inner {
   display: grid;
-  grid-template-columns: 44% 56%;
+  grid-template-columns: 65% 35%;
   width: calc(100% - var(--space-12));
   max-width: var(--content-width);
   margin-inline: auto;
@@ -12,6 +12,7 @@
 }
 
 .copy {
+  min-width: 0;
   padding-top: var(--space-4);
   padding-right: var(--space-8);
 }
@@ -29,17 +30,16 @@
   line-height: 1.5;
 }
 
-.demo {
-  max-width: 29rem;
+.reviews {
+  min-width: 0;
+  min-height: 12rem;
   margin-top: var(--space-6);
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
 }
 
 .visual {
   position: relative;
   min-width: 0;
-  width: min(100%, 24rem);
+  width: min(100%, 18rem);
   justify-self: center;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .crown,
-.arrow,
+.note,
 .spark {
   position: absolute;
   height: auto;
@@ -59,22 +59,37 @@
 }
 
 .crown {
-  top: -2rem;
-  left: 4rem;
-  width: 4.5rem;
+  top: -2.5rem;
+  left: 7.6rem;
+  width: 4.9rem;
   transform: rotate(-12deg);
 }
 
-.arrow {
-  top: 4.5rem;
-  right: 0;
-  width: 4.5rem;
+.note {
+  top: -2rem;
+  left: 100%;
+  width: 9rem;
 }
 
 .spark {
-  top: 10.5rem;
+  top: 1.5rem;
   right: 0;
-  width: 4rem;
+  width: 3rem;
+}
+
+@media (width >= 80rem) {
+  .visual {
+    align-self: start;
+    margin-top: 12rem;
+  }
+
+  .description {
+    max-width: none;
+  }
+
+  .reviews {
+    margin-top: var(--space-4);
+  }
 }
 
 @media (width < 80rem) {
@@ -85,7 +100,6 @@
     padding-block: var(--space-8);
   }
 
-  /* Share the grid so the disclaimer can follow the portrait composition. */
   .copy {
     display: contents;
   }
@@ -103,12 +117,6 @@
     font-size: 1rem;
   }
 
-  .demo {
-    grid-row: 4;
-    max-width: none;
-    margin-top: var(--space-6);
-  }
-
   .visual {
     grid-row: 3;
     width: min(100%, 20rem);
@@ -116,18 +124,26 @@
   }
 
   .crown {
-    top: -1.5rem;
-    left: var(--space-4);
+    top: -1.8rem;
+    left: 57%;
     width: 4rem;
+    transform: translateX(-50%) rotate(-12deg);
   }
 
-  .arrow {
-    top: 3rem;
-    width: 3rem;
+  .note {
+    top: -1.5rem;
+    right: 0;
+    left: auto;
+    width: 25%;
+  }
+
+  .reviews {
+    grid-row: 4;
   }
 
   .spark {
-    top: 10rem;
-    width: 3.5rem;
+    top: 5%;
+    right: 3%;
+    width: 12%;
   }
 }
