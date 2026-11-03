@@ -51,7 +51,6 @@ export default function AdvantagesSection({
             </li>
           ))}
         </ul>
-        <p className={styles.demo}>{messages.demo}</p>
       </div>
     </section>
   );
