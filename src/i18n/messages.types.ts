@@ -1,3 +1,4 @@
+import type { Program, ProgramId } from "../components/ProgramsSection/programs.data";
 import type {
   ContactFieldErrors,
   FieldError,
@@ -119,6 +120,13 @@ export type Messages = {
       "focus" | "support" | "format",
       { title: string; description: string }
     >;
+  };
+  programs: {
+    heading: string;
+    demo: string;
+    detailsLabel: string;
+    closeLabel: string;
+    items: Record<ProgramId, Program>;
   };
   faq: {
     heading: string;

@@ -143,6 +143,32 @@ export const ro = {
       },
     },
   },
+  programs: {
+    heading: "Programe de studiu",
+    demo: "Conținut demonstrativ temporar: descrierile nu reprezintă oferta confirmată a școlii.",
+    detailsLabel: "Vezi detaliile programului",
+    closeLabel: "Închide",
+    items: {
+      middle: {
+        title: "Clasele V–VIII",
+        description: "Descriere demonstrativă pentru categoria claselor V–VIII.",
+        preview: "Exemplu de conținut: recapitularea unei teme și discutarea unor exerciții. Structura reală nu este încă aprobată.",
+        details: "Aici vor apărea temele și modul de lucru pentru clasele V–VIII. Formatul, orarul și condițiile de participare urmează să fie confirmate.",
+      },
+      ninth: {
+        title: "Clasa a IX-a",
+        description: "Descriere demonstrativă pentru categoria clasei a IX-a.",
+        preview: "Exemplu de conținut: discutarea unor teme și exerciții de clasa a IX-a. Structura reală nu este încă aprobată.",
+        details: "Aici vor apărea conținutul și modul de lucru pentru clasa a IX-a. Formatul, orarul și condițiile de participare urmează să fie confirmate.",
+      },
+      bac: {
+        title: "Clasele X–XII și BAC",
+        description: "Descriere demonstrativă pentru categoria claselor X–XII și BAC.",
+        preview: "Exemplu de conținut: discutarea unor teme de liceu și a unor exerciții de tip BAC. Structura reală nu este încă aprobată.",
+        details: "Aici vor apărea temele și modul de lucru pentru clasele X–XII și BAC. Formatul, orarul și condițiile de participare urmează să fie confirmate.",
+      },
+    },
+  },
   faq: {
     heading: "Întrebări frecvente",
     demo: "Prototip educațional: răspunsurile de mai jos sunt texte demonstrative provizorii, nu condiții confirmate ale școlii.",

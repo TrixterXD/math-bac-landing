@@ -15,6 +15,10 @@ Romanian is default, Russian alternative. Typed dictionaries, `/ro` and `/ru`, l
 
 Rate limiting is deferred until evidence of abuse. Privacy/legal approval, real content/asset permissions and public-release acceptance remain open; implementation is not production readiness.
 
+## Programs approval update — TASK-023.1
+
+D-030 supersedes the historical D-024 deferral below. Current approved composition is Hero → Team → Advantages → Programs → FAQ → Contact. Programs foundation is now source-implemented with three categories (Clasele V–VIII, Clasa a IX-a, Clasele X–XII și BAC), exclusive native accordion behavior and native details modals. Descriptions and modal copy are explicitly temporary/demo in RO and RU; actual school terms remain unconfirmed. No checks were run for this increment at the developer's request; implementation is not acceptance or production readiness. Reference styling and decorations are deferred to TASK-023.2. Existing TASK-018 remains contact result states.
+
 ## 1. Product concept
 
 A responsive one-page website for a small educational business in Moldova preparing school students for the mathematics Baccalaureate (BAC). The founder, Nastya, teaches mathematics and leads several other teachers. **Lessons are delivered online** (information supplied during discovery).

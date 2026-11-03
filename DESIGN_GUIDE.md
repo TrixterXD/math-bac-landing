@@ -3,6 +3,10 @@
 > Version: **0.5** · 2026-10-31 · Status: **visual reference approved; tokens are provisional**
 > Full-page reference: `design/reference/landing-desktop.png`; Header reference: `design/reference/header/image.png`; Hero desktop reference: `design/reference/hero/desktop.png`; Hero mobile reference: `design/reference/hero/mobile-concept.png`; full mobile reference: `design/reference/landing-mobile.png`. These are AI-generated **static concepts**, not annotated Figma designs or responsive specifications. Reference dimensions may change when the files are replaced.
 
+## Programs approval update — TASK-023
+
+D-030 supersedes historical Programs deferral notes below. The approved Programs reference is `design/reference/programs-desktop/programs-desktop.png`, taking precedence over the older full-page Programs concept. Three stacked cards have horizontal summaries, exclusive accordion behavior and expanded-content buttons opening detailed modals. TASK-023.1 implements structure, functionality and clearly identified RO/RU demo text only, with minimal usable layout CSS. TASK-023.2 will implement coral-red EasyMath accents, white cards, soft shadows, lavender decorative elements and responsive visual polish. Do not copy reference marketing claims. No visual/browser verification was performed for TASK-023.1.
+
 ## 1. Design objective
 
 Recreate **Design Concept A — Warm & Playful** as faithfully as practical. Preserve hierarchy, warm cream surfaces, coral primary accents, lilac secondary accents, dark navy typography, rounded cards, teacher-led hero, playful handwritten/math annotations and spacious section layout.
