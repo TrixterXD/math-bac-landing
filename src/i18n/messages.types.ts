@@ -89,8 +89,17 @@ export type Messages = {
   };
   team: {
     heading: string;
+    reviewsHeading: string;
+    reviews: Record<
+      "parent" | "bianca" | "andreea" | "corina" | "dumitru" | "milenaMother" | "elena",
+      {
+        fullName: string;
+        role: string;
+        text: string;
+        expansion?: { text: string; expandLabel: string; collapseLabel: string };
+      }
+    >;
     description: string;
-    demo: string;
     listLabel: string;
     portraits: Record<
       "nastya" | "teacher-glasses" | "teacher-woman" | "teacher-curly",
@@ -100,9 +109,7 @@ export type Messages = {
       title: string;
       badge: string;
       close: string;
-      demoHeading: string;
-      notice: string;
-      latinPlaceholder: string;
+      biography: string[];
     };
   };
   advantages: {

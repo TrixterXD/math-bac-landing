@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import ReviewCard from "./ReviewCard";
-import { reviews } from "./reviews.data";
+import type { Review } from "./reviews.data";
 import styles from "./ReviewsSection.module.css";
 
-export default function ReviewsCarousel() {
+export default function ReviewsCarousel({ reviews }: { reviews: Review[] }) {
   const [page, setPage] = useState(0);
   const [cardsPerPage, setCardsPerPage] = useState(1);
   const pageCount = Math.ceil(reviews.length / cardsPerPage);
@@ -24,7 +24,7 @@ export default function ReviewsCarousel() {
     updateViewport();
     desktop.addEventListener("change", updateViewport);
     return () => desktop.removeEventListener("change", updateViewport);
-  }, []);
+  }, [reviews.length]);
 
   return (
     <div>

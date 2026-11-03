@@ -25,9 +25,11 @@ export default function TeamSection({
             {messages.heading}
           </h2>
           <p className={styles.description}>{messages.description}</p>
-          <p className={styles.demo}>{messages.demo}</p>
           <div className={styles.reviews}>
-            <ReviewsSection />
+            <ReviewsSection
+              heading={messages.reviewsHeading}
+              reviews={messages.reviews}
+            />
           </div>
         </div>
         <div className={styles.visual}>

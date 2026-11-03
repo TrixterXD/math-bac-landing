@@ -4,7 +4,7 @@
 
 .inner {
   display: grid;
-  grid-template-columns: 44% 56%;
+  grid-template-columns: 65% 35%;
   width: calc(100% - var(--space-12));
   max-width: var(--content-width);
   margin-inline: auto;
@@ -28,13 +28,6 @@
   margin-top: var(--space-6);
   font-size: 1.25rem;
   line-height: 1.5;
-}
-
-.demo {
-  max-width: 29rem;
-  margin-top: var(--space-6);
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
 }
 
 .reviews {
@@ -84,6 +77,21 @@
   width: 3rem;
 }
 
+@media (width >= 80rem) {
+  .visual {
+    align-self: start;
+    margin-top: 12rem;
+  }
+
+  .description {
+    max-width: none;
+  }
+
+  .reviews {
+    margin-top: var(--space-4);
+  }
+}
+
 @media (width < 80rem) {
   .inner {
     grid-template-columns: minmax(0, 1fr);
@@ -92,7 +100,6 @@
     padding-block: var(--space-8);
   }
 
-  /* Share the grid so the disclaimer can follow the portrait composition. */
   .copy {
     display: contents;
   }
@@ -110,12 +117,6 @@
     font-size: 1rem;
   }
 
-  .demo {
-    grid-row: 4;
-    max-width: none;
-    margin-top: var(--space-6);
-  }
-
   .visual {
     grid-row: 3;
     width: min(100%, 20rem);
@@ -123,24 +124,26 @@
   }
 
   .crown {
-    top: -1.5rem;
-    left: var(--space-4);
+    top: -1.8rem;
+    left: 57%;
     width: 4rem;
+    transform: translateX(-50%) rotate(-12deg);
   }
 
   .note {
-    top: -2rem;
+    top: -1.5rem;
     right: 0;
     left: auto;
-    width: 5rem;
+    width: 25%;
   }
 
   .reviews {
-    grid-row: 5;
+    grid-row: 4;
   }
 
   .spark {
-    top: 10rem;
-    width: 3.5rem;
+    top: 5%;
+    right: 3%;
+    width: 12%;
   }
 }

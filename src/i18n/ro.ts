@@ -54,9 +54,51 @@ export const ro = {
   },
   team: {
     heading: "Despre Anastasia",
+    reviewsHeading: "Recenzii",
+    reviews: {
+      parent: {
+        fullName: "Anonim",
+        role: "Părinte al unui elev de clasa a VI-a",
+        text: "Bună ziua, sunt foarte bucuroasă să aud că azi a mai luat încă o notă pozitivă. Artiom e foarte entuziasmat de succesele lui. Mi-a spus că de când face ore cu dvs. înțelege altfel decât de la profesoară. Vă mulțumim pentru contribuția adusă lui cu ajutorul vostru și pentru încrederea că poate.",
+      },
+      bianca: {
+        fullName: "Bianca",
+        role: "Elevă în clasa a X-a",
+        text: "Profesoara explică subiectele pe înțelesul copilului și nivelul acestuia, am avut de fiecare dată sentimente pozitive după ore. M-a ajutat să înțeleg mai bine temele și mi-a dat mai multă încredere în mine 💋",
+      },
+      andreea: {
+        fullName: "Andreea",
+        role: "Elevă în clasa a X-a",
+        text: "Îți mulțumesc enorm, ești extrem de drăguță, am rămas cu niște impresii foarte plăcute.",
+      },
+      corina: {
+        fullName: "Corina",
+        role: "Elevă în clasa a IX-a",
+        text: "Salut. Am o veste bună. Am aflat rezultatele de la examene și la matematică am obținut punctaj maxim. ☺️",
+      },
+      dumitru: {
+        fullName: "Dumitru",
+        role: "Absolvent, clasa a XII-a",
+        text: "O profesoară de nota 10! Explică totul foarte clar și pe înțelesul tuturor. Am început pregătirea știind practic nimic la matematică, iar cu ajutorul ei am reușit să ajung la susținerea BAC-ului după doar două săptămâni de pregătire. Sunt foarte recunoscător pentru tot ajutorul oferit și o recomand cu toată încrederea!",
+      },
+      milenaMother: {
+        fullName: "Mama Milenei",
+        role: "Părinte, clasa a IX-a",
+        text: "Domnișoara Anastasia, bună seara!\n\nVă mulțumesc din suflet pentru ajutor 🙏\n\nȘi sper că pe viitor, o să mai aveți posibilitatea de a petrece lecții cu Milena.\n\nChiar ați făcut o muncă enormă 🌷",
+      },
+      elena: {
+        fullName: "Elena",
+        role: "Elevă, clasa a XI-a",
+        text: "Am cunoscut-o pe Nastia în 2024, când mă pregăteam pentru examenul de matematică din clasa a IX-a. Am încercat și alți profesori, dar nimeni nu a reușit să-mi explice matematica atât de clar și să-mi ofere atâta încredere.",
+        expansion: {
+          text: "Pentru mine, Nastia a devenit mai mult decât o profesoară — a devenit și o prietenă cu care puteam vorbi deschis. Îi voi fi mereu recunoscătoare pentru răbdare, sprijin și toate lecțiile noastre! ❤️🫶🏻",
+          expandLabel: "Citește mai mult",
+          collapseLabel: "Arată mai puțin",
+        },
+      },
+    },
     description:
       "Cred că fiecare elev poate avea succes la matematică. Are nevoie doar de îndrumare bine organizată, explicații clare și sprijin.",
-    demo: "Prototip educațional: textul este demonstrativ și nu reprezintă o biografie confirmată.",
     listLabel: "Profilul Anastasiei",
     portraits: {
       nastya: "Nastya — fondatoare și profesoară de matematică",
@@ -66,13 +108,15 @@ export const ro = {
     },
     profile: {
       title: "Despre Nastya",
-      badge: "Despre Nastya ↗",
+      badge: "Despre Anastasia ↗",
       close: "Închide",
-      demoHeading: "Biografie demonstrativă",
-      notice:
-        "Text provizoriu pentru prototipul educațional. Nu conține informații reale despre Nastya; biografia va fi adăugată după aprobare.",
-      latinPlaceholder:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae justo eget magna fermentum iaculis. Donec vel sapien at quam tincidunt viverra.",
+      biography: [
+        "Bună! Sunt Anastasia, fondatoarea acestui proiect educațional și profesor de matematică cu peste 5 ani de experiență.",
+        "Povestea mea în lumea matematicii a început încă din perioada liceului, când am descoperit cât de mult îmi place să explic, să ajut și să fac lucrurile complicate mai ușor de înțeles.",
+        "De-a lungul anilor, am lucrat cu zeci de elevi, fiecare cu propriul ritm, propriile dificultăți și obiective.",
+        "Am creat acest proiect din dorința de a oferi elevilor mai mult decât simple lecții de matematică: un mediu în care pot pune întrebări fără rețineri, pot învăța în ritmul lor și își pot dezvolta încrederea în propriile capacități.",
+        "Cred că fiecare elev poate obține rezultate frumoase atunci când beneficiază de îndrumarea potrivită!",
+      ],
     },
   },
   advantages: {
