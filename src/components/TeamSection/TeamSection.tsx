@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ReviewsSection from "@/components/ReviewsSection/ReviewsSection";
 import type { Locale } from "@/i18n/locales";
 import type { Messages } from "@/i18n/messages.types";
 import NastyaProfile from "./NastyaProfile";
@@ -25,6 +26,9 @@ export default function TeamSection({
           </h2>
           <p className={styles.description}>{messages.description}</p>
           <p className={styles.demo}>{messages.demo}</p>
+          <div className={styles.reviews}>
+            <ReviewsSection />
+          </div>
         </div>
         <div className={styles.visual}>
           <ul className={styles.teachers} aria-label={messages.listLabel}>
@@ -58,12 +62,12 @@ export default function TeamSection({
             sizes="72px"
           />
           <Image
-            className={styles.arrow}
-            src="/images/team/arrow.png"
+            className={styles.note}
+            src={`/images/team/team-note_${locale}.png`}
             alt=""
-            width={1254}
-            height={1254}
-            sizes="72px"
+            width={1672}
+            height={941}
+            sizes="(max-width: 1279px) 80px, 144px"
           />
           <Image
             className={styles.spark}
