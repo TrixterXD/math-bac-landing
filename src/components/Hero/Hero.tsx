@@ -53,7 +53,6 @@ export default function Hero({
           <a className={styles.cta} href="#contact">
             {messages.cta} <span aria-hidden="true">⟶</span>
           </a>
-          <p className={styles.demo}>{messages.demo}</p>
         </div>
         <div className={styles.visual}>
           <div className={styles.blob} aria-hidden="true" />

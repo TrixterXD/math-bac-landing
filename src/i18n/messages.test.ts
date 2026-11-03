@@ -152,7 +152,6 @@ test("Hero updates the headline and preserves its description and benefits in bo
       },
     },
     cta: "Оставить заявку",
-    demo: "Учебный прототип: описание и преимущества — демонстрационные.",
     portraitAlt: "Настя сидит за столом с тетрадью и ручкой",
   });
   for (const { hero } of [ro, ru]) {
@@ -161,7 +160,6 @@ test("Hero updates the headline and preserves its description and benefits in bo
   }
   assert.equal(ro.hero.heading, "Meditații individuale la matematică");
   assert.equal(ro.hero.cta, "Lasă o solicitare");
-  assert.match(ro.hero.demo, /demonstrative/);
 });
 
 test("EasyMath branding and Anastasia headings are consistent in both locales", () => {

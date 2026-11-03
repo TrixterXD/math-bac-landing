@@ -194,7 +194,6 @@ export default function ContactForm({
     >
       <fieldset
         className={`${styles.card} ${submission.status === "accepted" ? styles.successCard : ""}`}
-        aria-describedby="contact-preview"
         disabled={submission.status === "pending"}
       >
         {submission.status === "accepted" ? (
@@ -363,7 +362,6 @@ export default function ContactForm({
               submission.status === "pending" ||
               submission.status === "uncertain"
             }
-            aria-describedby="contact-preview"
           >
             {submission.status === "pending"
               ? messages.form.pendingButton
@@ -371,9 +369,6 @@ export default function ContactForm({
             <span aria-hidden="true">→</span>
           </button>
         )}
-        <p className={styles.preview} id="contact-preview">
-          {messages.form.preview}
-        </p>
       </fieldset>
     </form>
   );
