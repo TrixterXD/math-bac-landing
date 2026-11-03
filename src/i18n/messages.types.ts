@@ -115,7 +115,6 @@ export type Messages = {
   };
   advantages: {
     heading: string;
-    demo: string;
     items: Record<
       "focus" | "support" | "format",
       { title: string; description: string }

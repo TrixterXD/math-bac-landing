@@ -125,22 +125,21 @@ export const ro = {
   },
   advantages: {
     heading: "Avantaje",
-    demo: "Prototip educațional: avantajele și descrierile sunt variante demonstrative propuse spre aprobare, nu promisiuni confirmate ale școlii.",
     items: {
       focus: {
-        title: "Accent pe rezultat",
+        title: "Accent pe rezultate",
         description:
-          "Abordare propusă: analizarea formatului BAC și exersarea subiectelor de examen, cu consolidarea treptată a cunoștințelor.",
+          "Fiecare elev are propriul ritm de învățare, iar noi adaptăm lecțiile în funcție de nivelul și obiectivele sale. Punem accent pe înțelegerea materiei, consolidarea cunoștințelor și progresul vizibil, pas cu pas.",
       },
       support: {
         title: "Sprijin și motivație",
         description:
-          "Abordare propusă: discutarea dificultăților fără teama de a greși, încurajarea întrebărilor și observarea propriului progres.",
+          "Credem că fiecare elev poate progresa atunci când are parte de îndrumarea potrivită. Oferim susținere, răbdare și explicații clare, construind încrederea în propriile capacități și curajul de a aborda orice exercițiu.",
       },
       format: {
         title: "Format modern și comod",
         description:
-          "Abordare propusă: combinarea lecțiilor online, a materialelor didactice și a exercițiului individual între lecții.",
+          "Lecțiile se desfășoară online, într-un format interactiv și flexibil. Elevii beneficiază de materiale digitale, caiețel personal online, explicații vizuale și posibilitatea de a învăța din confortul propriei locuințe.",
       },
     },
   },
