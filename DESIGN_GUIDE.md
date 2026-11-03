@@ -3,6 +3,10 @@
 > Version: **0.5** · 2026-10-31 · Status: **visual reference approved; tokens are provisional**
 > Full-page reference: `design/reference/landing-desktop.png`; Header reference: `design/reference/header/image.png`; Hero desktop reference: `design/reference/hero/desktop.png`; Hero mobile reference: `design/reference/hero/mobile-concept.png`; full mobile reference: `design/reference/landing-mobile.png`. These are AI-generated **static concepts**, not annotated Figma designs or responsive specifications. Reference dimensions may change when the files are replaced.
 
+## Programs approval update — TASK-023
+
+D-031 supersedes historical Programs deferral and modal notes below. The approved Programs reference is `design/reference/programs-desktop/programs-desktop.png`, taking precedence over the older full-page Programs concept. TASK-023.2 source implementation uses three rounded stacked cards with horizontal summaries, exclusive native accordion behavior and complete approved RO/RU content directly inside the expanded cards. There are no detail buttons or modals. Coral accents, white surfaces, soft shadows, lavender details and responsive spacing use existing tokens; math symbols and the existing Hero math illustration provide decoration. Unapproved reference claims and popularity badges are omitted. No visual/browser verification was performed; responsive fidelity remains subject to developer review.
+
 ## 1. Design objective
 
 Recreate **Design Concept A — Warm & Playful** as faithfully as practical. Preserve hierarchy, warm cream surfaces, coral primary accents, lilac secondary accents, dark navy typography, rounded cards, teacher-led hero, playful handwritten/math annotations and spacious section layout.

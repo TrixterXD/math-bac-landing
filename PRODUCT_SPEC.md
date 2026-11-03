@@ -15,6 +15,10 @@ Romanian is default, Russian alternative. Typed dictionaries, `/ro` and `/ru`, l
 
 Rate limiting is deferred until evidence of abuse. Privacy/legal approval, real content/asset permissions and public-release acceptance remain open; implementation is not production readiness.
 
+## Programs approval update — TASK-023.1
+
+D-031 supersedes D-030's temporary content/dialog design and the historical D-024 deferral below. Current approved composition is Hero → Team → Advantages → Programs → FAQ → Contact. TASK-023.2 source implementation shows Anastasia's approved Romanian program content and faithful Russian translations in three exclusive native accordion cards (Clasele V–VIII, Clasa a IX-a, Clasele X–XII și BAC). The third has separate X–XII and BAC subsections. All content is displayed directly inside the expanded cards; no program detail buttons, dialogs or demo disclaimers remain. Programs styling follows the approved dedicated reference using existing tokens and math artwork. No prices, schedules or extra promises are introduced. No checks were run at the developer's request; implementation is not acceptance or production readiness. Existing TASK-018 remains contact result states.
+
 ## 1. Product concept
 
 A responsive one-page website for a small educational business in Moldova preparing school students for the mathematics Baccalaureate (BAC). The founder, Nastya, teaches mathematics and leads several other teachers. **Lessons are delivered online** (information supplied during discovery).

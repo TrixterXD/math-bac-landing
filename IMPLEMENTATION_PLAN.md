@@ -105,8 +105,8 @@ The checkpoint in section 1 controls current progress. The entries below preserv
 - Scope: 3 mock advantages from spec, typed data where helpful.
 - Accept: readable on phone/desktop and not presented as verified school claims.
 
-**TASK-008 — Programs section**
-- **Status:** DEFERRED pending discussion with Nastya about real program formats. Do not implement mock cards now.
+**TASK-008 — Programs section (historical)**
+- **Status:** Replaced by approved TASK-023 (D-030); earlier deferral no longer blocks explicitly marked demo implementation.
 - Depends on: TASK-003.
 - Scope: typed demo program collection + `ProgramsSection` imports it + `ProgramCard` receives one object via props.
 - Accept: two fake programs render; changing data does not require rewriting JSX; no state library.
@@ -192,6 +192,18 @@ The checkpoint in section 1 controls current progress. The entries below preserv
 - Depends on: TASK-021 and business approval.
 - Scope: replace mock content/assets with verified school data, approve legal/privacy text, finalize recipient/domain, run production smoke test, deploy when authorized.
 - Accept: no unapproved claims, clear operator handoff, verified contact flow; only then declare commercial release.
+
+## Active Programs task — TASK-023
+
+Developer approval supersedes the historical Programs deferral and TASK-012D-only handoff for this scoped increment. Existing TASK-018 remains contact submission result states.
+
+- **Reference:** `design/reference/programs-desktop/programs-desktop.png`.
+- **TASK-023.1 — Foundation/functionality/localization:** Source implementation added; not checked or accepted. Three stacked accordion cards for Clasele V–VIII, Clasa a IX-a, Clasele X–XII și BAC, between Advantages and FAQ. Native exclusive details, expanded-content detail buttons, native dialogs with Escape/close/focus return. Typed RO/RU temporary demo content; no invented promises, prices or outcomes. No new dependencies or contact changes.
+- **Acceptance pending:** Verify all three categories in both locales, exclusive opening and collapse, keyboard activation, modal close/Escape/focus return, narrow-screen readability, and `#programs` navigation.
+- **Execution boundary:** Developer explicitly requested no lint, typecheck, build, tests, browser checks, commits or push for this increment; none run.
+- **TASK-023.2 — Final content and simplified design:** Source implementation added, not checked or accepted. D-031 supersedes TASK-023.1's dialogs and temporary content: three exclusive native accordion cards show complete approved RO content and faithful RU translations; the third has separate X–XII and BAC groups. Removed Programs buttons/dialogs/refs/client boundary/unused labels and dialog CSS. Rounded white surfaces, coral accents, lavender details, soft shadows and responsive spacing reuse existing tokens and math artwork. No new dependencies or invented program terms.
+- **Current acceptance pending:** Verify both languages, complete content, native accordion exclusivity, keyboard focus and activation, mobile/tablet/desktop layout and `#programs` integration. Dialog checks in the historical TASK-023.1 gate no longer apply.
+- **Verification:** No tests, lint, typecheck, build, browser checks, commits or push, per developer instruction.
 
 ## 5. Per-task acceptance checklist
 

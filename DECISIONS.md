@@ -327,10 +327,24 @@ Use `IMPLEMENTATION_PLAN.md` to start with the smallest foundation task. Resolve
 
 
 ## D-024 — Defer Programs until discussing the real offer
-- **Status:** Agreed for the current prototype, 2026-10-31.
+- **Status:** Superseded by D-030 for prototype implementation; real offer approval remains pending.
 - **Choice:** Defer TASK-008 Programs. Current composition proceeds from Advantages to FAQ and then Contact. Keep the visual reference for later review with Nastya.
 - **Reason:** Program types and terms are unconfirmed; polished mock program cards might misrepresent the school.
 - **Revisit:** After discussion with Nastya; do not treat the omission as a permanent product decision.
+
+## D-031 — Simplified Programs with approved bilingual content
+- **Status:** TASK-023.2 source implementation added; no checks or acceptance performed.
+- **Choice:** Supersede D-030's demo-content and modal requirements. Keep three native exclusive accordion cards; show the complete Anastasia-approved Romanian content and faithful Russian translations directly inside them. The third card has distinct X–XII and BAC subsections. Remove all Programs dialog code and labels; Programs is server-rendered without refs, state or client handlers.
+- **Design:** Follow the approved Programs reference with rounded white cards, coral accents, lavender details and soft shadows. Reuse the existing math illustration; omit unapproved reference claims, popularity badge and the now-removed detail CTA.
+- **Scope:** No prices, schedules or additional promises. Existing page integration and unrelated components unchanged. Native exclusive-details support and responsive/keyboard behavior require developer verification; no checks run per instruction.
+
+## D-030 — Approve Programs foundation with explicit demo content (historical; superseded by D-031)
+- **Status:** Approved by developer; TASK-023.1 source implementation added, checks and acceptance not performed.
+- **Choice:** Supersede D-024. Add Programs between Advantages and FAQ, with three categories: Clasele V–VIII, Clasa a IX-a, Clasele X–XII și BAC. Use clearly marked temporary RO/RU descriptions, not school promises, prices or outcomes.
+- **Interaction:** Native exclusive `<details name="programs">`; expanded content opens a native `<dialog>` with close button, Escape dismissal and focus restoration to its trigger. Static section with focused client card/dialog boundaries.
+- **Reference:** `design/reference/programs-desktop/programs-desktop.png`. TASK-023.1 covers structure/function/localization only; TASK-023.2 covers coral accents, white cards, soft shadows, lavender decorations and responsive visual polish.
+- **Numbering:** Existing TASK-018 remains contact result states; Programs uses next available ID TASK-023.
+- **Verification:** No lint, typecheck, build, tests or browser checks run, per developer instruction. Business content and translation review remain pending.
 
 ## D-025 — FAQ native exclusive accordion and independent columns
 - **Status:** Implemented in `feature/faq-section`; PR #6 open at last verification, not yet documented as merged.

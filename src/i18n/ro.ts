@@ -143,6 +143,46 @@ export const ro = {
       },
     },
   },
+  programs: {
+    heading: "Programe",
+    headingEnding: "de studiu",
+    items: {
+      middle: {
+        title: "Clasele V–VIII",
+        groups: [
+          {
+            content: [
+              "Explicarea și înțelegerea materiei școlare.",
+              "Rezolvarea exercițiilor și problemelor.",
+              "Recuperarea lacunelor.",
+              "Pregătire suplimentară pentru evaluări.",
+            ],
+          },
+        ],
+      },
+      ninth: {
+        title: "Clasa a IX-a",
+        groups: [
+          {
+            content: "Consolidarea programei școlare, aprofundarea noțiunilor importante și pregătirea sistematică pentru examenul național de absolvire a gimnaziului cu rezolvarea variantelor de examen.",
+          },
+        ],
+      },
+      bac: {
+        title: "Clasele X–XII și BAC",
+        groups: [
+          {
+            heading: "Clasele X–XII",
+            content: "Înțelegerea și aprofundarea programei școlare, rezolvarea exercițiilor complexe și pregătirea pentru tezele semestriale.",
+          },
+          {
+            heading: "Pregătire pentru examenul de BAC",
+            content: "Program intensiv de pregătire, cu recapitularea materiei, rezolvarea variantelor de examen și exersarea subiectelor, pentru obținerea unui rezultat cât mai bun la BAC.",
+          },
+        ],
+      },
+    },
+  },
   faq: {
     heading: "Întrebări frecvente",
     demo: "Prototip educațional: răspunsurile de mai jos sunt texte demonstrative provizorii, nu condiții confirmate ale școlii.",
