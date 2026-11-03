@@ -8,7 +8,8 @@ export type ProgramId = (typeof programs)[number]["id"];
 
 export type Program = {
   title: string;
-  description: string;
-  preview: string;
-  details: string;
+  groups: {
+    heading?: string;
+    content: string | string[];
+  }[];
 };

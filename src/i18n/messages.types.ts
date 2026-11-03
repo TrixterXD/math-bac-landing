@@ -123,9 +123,6 @@ export type Messages = {
   };
   programs: {
     heading: string;
-    demo: string;
-    detailsLabel: string;
-    closeLabel: string;
     items: Record<ProgramId, Program>;
   };
   faq: {

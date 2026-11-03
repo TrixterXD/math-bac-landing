@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Messages } from "@/i18n/messages.types";
 import ProgramCard from "./ProgramCard";
 import styles from "./ProgramsSection.module.css";
@@ -10,16 +11,23 @@ export default function ProgramsSection({
 }) {
   return (
     <section id="programs" className={styles.section} aria-labelledby="programs-heading">
-      <h2 id="programs-heading">{messages.heading}</h2>
-      <p>{messages.demo}</p>
+      <div className={styles.header}>
+        <h2 id="programs-heading" className={styles.heading}>{messages.heading}</h2>
+        <Image
+          className={styles.decoration}
+          src="/images/hero/math-pyramid.png"
+          alt=""
+          width={1472}
+          height={1062}
+          sizes="(max-width: 640px) 96px, 160px"
+        />
+      </div>
       <div className={styles.items}>
         {programs.map(({ id }) => (
           <ProgramCard
             key={id}
+            id={id}
             program={messages.items[id]}
-            detailsLabel={messages.detailsLabel}
-            closeLabel={messages.closeLabel}
-            demo={messages.demo}
           />
         ))}
       </div>

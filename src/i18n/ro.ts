@@ -145,27 +145,40 @@ export const ro = {
   },
   programs: {
     heading: "Programe de studiu",
-    demo: "Conținut demonstrativ temporar: descrierile nu reprezintă oferta confirmată a școlii.",
-    detailsLabel: "Vezi detaliile programului",
-    closeLabel: "Închide",
     items: {
       middle: {
         title: "Clasele V–VIII",
-        description: "Descriere demonstrativă pentru categoria claselor V–VIII.",
-        preview: "Exemplu de conținut: recapitularea unei teme și discutarea unor exerciții. Structura reală nu este încă aprobată.",
-        details: "Aici vor apărea temele și modul de lucru pentru clasele V–VIII. Formatul, orarul și condițiile de participare urmează să fie confirmate.",
+        groups: [
+          {
+            content: [
+              "Explicarea și înțelegerea materiei școlare.",
+              "Rezolvarea exercițiilor și problemelor.",
+              "Recuperarea lacunelor.",
+              "Pregătire suplimentară pentru evaluări.",
+            ],
+          },
+        ],
       },
       ninth: {
         title: "Clasa a IX-a",
-        description: "Descriere demonstrativă pentru categoria clasei a IX-a.",
-        preview: "Exemplu de conținut: discutarea unor teme și exerciții de clasa a IX-a. Structura reală nu este încă aprobată.",
-        details: "Aici vor apărea conținutul și modul de lucru pentru clasa a IX-a. Formatul, orarul și condițiile de participare urmează să fie confirmate.",
+        groups: [
+          {
+            content: "Consolidarea programei școlare, aprofundarea noțiunilor importante și pregătirea sistematică pentru examenul național de absolvire a gimnaziului cu rezolvarea variantelor de examen.",
+          },
+        ],
       },
       bac: {
         title: "Clasele X–XII și BAC",
-        description: "Descriere demonstrativă pentru categoria claselor X–XII și BAC.",
-        preview: "Exemplu de conținut: discutarea unor teme de liceu și a unor exerciții de tip BAC. Structura reală nu este încă aprobată.",
-        details: "Aici vor apărea temele și modul de lucru pentru clasele X–XII și BAC. Formatul, orarul și condițiile de participare urmează să fie confirmate.",
+        groups: [
+          {
+            heading: "Clasele X–XII",
+            content: "Înțelegerea și aprofundarea programei școlare, rezolvarea exercițiilor complexe și pregătirea pentru tezele semestriale.",
+          },
+          {
+            heading: "Pregătire pentru examenul de BAC",
+            content: "Program intensiv de pregătire, cu recapitularea materiei, rezolvarea variantelor de examen și exersarea subiectelor, pentru obținerea unui rezultat cât mai bun la BAC.",
+          },
+        ],
       },
     },
   },

@@ -17,7 +17,7 @@ Rate limiting is deferred until evidence of abuse. Privacy/legal approval, real 
 
 ## Programs approval update — TASK-023.1
 
-D-030 supersedes the historical D-024 deferral below. Current approved composition is Hero → Team → Advantages → Programs → FAQ → Contact. Programs foundation is now source-implemented with three categories (Clasele V–VIII, Clasa a IX-a, Clasele X–XII și BAC), exclusive native accordion behavior and native details modals. Descriptions and modal copy are explicitly temporary/demo in RO and RU; actual school terms remain unconfirmed. No checks were run for this increment at the developer's request; implementation is not acceptance or production readiness. Reference styling and decorations are deferred to TASK-023.2. Existing TASK-018 remains contact result states.
+D-031 supersedes D-030's temporary content/dialog design and the historical D-024 deferral below. Current approved composition is Hero → Team → Advantages → Programs → FAQ → Contact. TASK-023.2 source implementation shows Anastasia's approved Romanian program content and faithful Russian translations in three exclusive native accordion cards (Clasele V–VIII, Clasa a IX-a, Clasele X–XII și BAC). The third has separate X–XII and BAC subsections. All content is displayed directly inside the expanded cards; no program detail buttons, dialogs or demo disclaimers remain. Programs styling follows the approved dedicated reference using existing tokens and math artwork. No prices, schedules or extra promises are introduced. No checks were run at the developer's request; implementation is not acceptance or production readiness. Existing TASK-018 remains contact result states.
 
 ## 1. Product concept
 

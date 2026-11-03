@@ -5,7 +5,7 @@
 
 ## Programs approval update — TASK-023
 
-D-030 supersedes historical Programs deferral notes below. The approved Programs reference is `design/reference/programs-desktop/programs-desktop.png`, taking precedence over the older full-page Programs concept. Three stacked cards have horizontal summaries, exclusive accordion behavior and expanded-content buttons opening detailed modals. TASK-023.1 implements structure, functionality and clearly identified RO/RU demo text only, with minimal usable layout CSS. TASK-023.2 will implement coral-red EasyMath accents, white cards, soft shadows, lavender decorative elements and responsive visual polish. Do not copy reference marketing claims. No visual/browser verification was performed for TASK-023.1.
+D-031 supersedes historical Programs deferral and modal notes below. The approved Programs reference is `design/reference/programs-desktop/programs-desktop.png`, taking precedence over the older full-page Programs concept. TASK-023.2 source implementation uses three rounded stacked cards with horizontal summaries, exclusive native accordion behavior and complete approved RO/RU content directly inside the expanded cards. There are no detail buttons or modals. Coral accents, white surfaces, soft shadows, lavender details and responsive spacing use existing tokens; math symbols and the existing Hero math illustration provide decoration. Unapproved reference claims and popularity badges are omitted. No visual/browser verification was performed; responsive fidelity remains subject to developer review.
 
 ## 1. Design objective
 
