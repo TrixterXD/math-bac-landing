@@ -3,9 +3,9 @@ import type { Messages } from "./messages.types";
 // Draft translations: native-speaker review is required before publication.
 export const ro = {
   metadata: {
-    title: "EasyMath — Prototip educațional",
+    title: "EasyMath — Lecții individuale de matematică online",
     description:
-      "Prototip educațional de site despre pregătirea online pentru BAC la matematică. Conținutul este demonstrativ și nu este aprobat pentru utilizare comercială.",
+      "Lecții individuale de matematică online, în română și rusă, pentru clasele V–XII și pregătire pentru examenul de BAC.",
   },
   header: {
     homeLabel: "EasyMath — pagina principală",
@@ -49,7 +49,6 @@ export const ro = {
       },
     },
     cta: "Lasă o solicitare",
-    demo: "Prototip educațional: descrierea și avantajele sunt demonstrative.",
     portraitAlt: "Nastya stă la masă cu un caiet și un pix",
   },
   team: {
@@ -106,9 +105,6 @@ export const ro = {
     listLabel: "Profilul Anastasiei",
     portraits: {
       nastya: "Nastya — fondatoare și profesoară de matematică",
-      "teacher-glasses": "Portret demonstrativ al unui profesor cu ochelari",
-      "teacher-woman": "Portret demonstrativ al unei profesoare",
-      "teacher-curly": "Portret demonstrativ al unui profesor cu părul creț",
     },
     profile: {
       title: "Despre Anastasia",
@@ -185,38 +181,26 @@ export const ro = {
   },
   faq: {
     heading: "Întrebări frecvente",
-    demo: "Prototip educațional: răspunsurile de mai jos sunt texte demonstrative provizorii, nu condiții confirmate ale școlii.",
-    answerPrefix: "Răspuns demonstrativ. ",
     items: {
       lessons: {
         question: "Cum se desfășoară lecțiile?",
         answer:
-          "Aici va apărea descrierea lecțiilor online: platforma, durata și modul de lucru. Detaliile urmează să fie stabilite împreună cu școala.",
+          "Lecțiile se desfășoară online, într-un format interactiv, cu explicații pas cu pas, exerciții practice și materiale digitale. Fiecare lecție este adaptată nivelului și ritmului de învățare al elevului, astfel încât materia să fie înțeleasă și consolidată eficient.",
       },
       "group-size": {
-        question: "Câți elevi sunt într-o grupă?",
+        question: "Individual sau în grupe?",
         answer:
-          "Aici vor fi informații despre mărimea grupelor și formatele de studiu disponibile. Numărul concret de elevi nu este încă confirmat.",
-      },
-      "online-format": {
-        question: "Este formatul online potrivit pentru copilul meu?",
-        answer:
-          "Aici vor fi explicate cerințele privind dispozitivul, conexiunea la internet și lucrul individual al elevului. Recomandările vor fi precizate după aprobare.",
+          "Oferim exclusiv lecții individuale, pentru a acorda fiecărui elev atenție deplină. Profesorul se concentrează pe dificultățile, obiectivele și progresul unui singur elev, adaptând metodele de predare nevoilor acestuia.",
       },
       languages: {
         question: "În ce limbi se desfășoară lecțiile?",
         answer:
-          "Aici va apărea lista limbilor de predare și ale materialelor didactice. Opțiunile disponibile nu sunt încă confirmate.",
+          "Lecțiile sunt disponibile în limbile română și rusă, astfel încât fiecare elev să poată învăța în limba în care se simte cel mai confortabil.",
       },
       "starting-level": {
         question: "Ce nivel inițial este necesar?",
         answer:
-          "Aici vor fi descrise cerințele privind cunoștințele inițiale și modul posibil de alegere a programului. Condițiile urmează să fie stabilite împreună cu școala.",
-      },
-      payment: {
-        question: "Cum se efectuează plata?",
-        answer:
-          "Aici vor apărea condițiile de plată aprobate. Costul, metodele de plată și termenele nu sunt încă stabilite pentru acest prototip.",
+          "Nu este necesar un anumit nivel de pregătire. Lucrăm atât cu elevi care au nevoie să recupereze materia de bază, cât și cu cei care doresc să-și aprofundeze cunoștințele sau să se pregătească pentru examene. Începem prin identificarea nivelului actual și construim un plan de învățare potrivit fiecărui elev.",
       },
     },
   },
@@ -241,8 +225,6 @@ export const ro = {
       submitAgain: "Trimite încă o solicitare",
       pendingButton: "Se trimite…",
       successHeading: "Mulțumim! Solicitarea a fost trimisă",
-      preview:
-        "Prototip educațional: formularul trimite un e-mail de test real. În timpul testării controlate, nu introduce date personale reale.",
     },
     errors: {
       name: {

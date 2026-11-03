@@ -136,12 +136,6 @@
   outline-offset: 4px;
 }
 
-.demo {
-  margin-top: var(--space-4);
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
-}
-
 .visual {
   position: relative;
   min-width: 0;

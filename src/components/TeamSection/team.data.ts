@@ -16,25 +16,4 @@ export const teachers: Teacher[] = [
     width: 1122,
     height: 1402,
   },
-  {
-    id: "teacher-glasses",
-    image: "/images/team/teacher-glasses.png",
-    alt: "Демонстрационный портрет преподавателя в очках",
-    width: 360,
-    height: 353,
-  },
-  {
-    id: "teacher-woman",
-    image: "/images/team/teacher-woman.png",
-    alt: "Демонстрационный портрет преподавательницы",
-    width: 366,
-    height: 353,
-  },
-  {
-    id: "teacher-curly",
-    image: "/images/team/teacher-curly.png",
-    alt: "Демонстрационный портрет преподавателя с кудрявыми волосами",
-    width: 365,
-    height: 353,
-  },
 ];

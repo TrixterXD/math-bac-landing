@@ -20,7 +20,6 @@ export default function FAQSection({
         <h2 id="faq-heading" className={styles.heading}>
           {messages.heading}
         </h2>
-        <p className={styles.demo}>{messages.demo}</p>
         <div className={styles.body}>
           <div className={styles.items}>
             {[0, 1].map((column) => (
@@ -31,7 +30,6 @@ export default function FAQSection({
                     <FAQItem
                       key={item.id}
                       item={{ ...item, ...messages.items[item.id] }}
-                      answerPrefix={messages.answerPrefix}
                     />
                   ))}
               </div>

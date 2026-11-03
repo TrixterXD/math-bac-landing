@@ -13,6 +13,8 @@ export default function TeamSection({
   locale: Locale;
   messages: Messages["team"];
 }) {
+  const teacher = teachers[0];
+
   return (
     <section
       id="about"
@@ -35,26 +37,16 @@ export default function TeamSection({
         </div>
         <div className={styles.visual}>
           <ul className={styles.teachers} aria-label={messages.listLabel}>
-            {teachers
-              .filter((teacher) => teacher.id === "nastya")
-              .map((teacher) => {
-                const localizedTeacher = {
+            <li>
+              <NastyaProfile
+                teacher={{
                   ...teacher,
-                  image:
-                    teacher.id === "nastya"
-                      ? `/images/team/nastya_${locale}.png`
-                      : teacher.image,
-                  alt: messages.portraits[teacher.id],
-                };
-                return (
-                  <li key={teacher.id}>
-                    <NastyaProfile
-                      teacher={localizedTeacher}
-                      messages={messages.profile}
-                    />
-                  </li>
-                );
-              })}
+                  image: `/images/team/nastya_${locale}.png`,
+                  alt: messages.portraits.nastya,
+                }}
+                messages={messages.profile}
+              />
+            </li>
           </ul>
           <Image
             className={styles.crown}

@@ -85,7 +85,6 @@ export type Messages = {
       support: { text: string; detail: string; ending: string };
     };
     cta: string;
-    demo: string;
     portraitAlt: string;
   };
   team: {
@@ -103,10 +102,7 @@ export type Messages = {
     >;
     description: string;
     listLabel: string;
-    portraits: Record<
-      "nastya" | "teacher-glasses" | "teacher-woman" | "teacher-curly",
-      string
-    >;
+    portraits: Record<"nastya", string>;
     profile: {
       title: string;
       badge: string;
@@ -128,15 +124,11 @@ export type Messages = {
   };
   faq: {
     heading: string;
-    demo: string;
-    answerPrefix: string;
     items: Record<
       | "lessons"
       | "group-size"
-      | "online-format"
       | "languages"
-      | "starting-level"
-      | "payment",
+      | "starting-level",
       { question: string; answer: string }
     >;
   };
@@ -159,7 +151,6 @@ export type Messages = {
       submitAgain: string;
       pendingButton: string;
       successHeading: string;
-      preview: string;
     };
     errors: Record<keyof ContactFieldErrors, Record<FieldError, string>>;
     feedback: {
