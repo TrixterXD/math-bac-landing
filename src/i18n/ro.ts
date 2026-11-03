@@ -55,6 +55,10 @@ export const ro = {
   team: {
     heading: "Despre Anastasia",
     reviewsHeading: "Recenzii",
+    reviewsNavigation: {
+      previous: "Pagina anterioară de recenzii",
+      next: "Pagina următoare de recenzii",
+    },
     reviews: {
       parent: {
         fullName: "Anonim",
@@ -107,7 +111,7 @@ export const ro = {
       "teacher-curly": "Portret demonstrativ al unui profesor cu părul creț",
     },
     profile: {
-      title: "Despre Nastya",
+      title: "Despre Anastasia",
       badge: "Despre Anastasia ↗",
       close: "Închide",
       biography: [

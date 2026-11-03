@@ -90,6 +90,7 @@ export type Messages = {
   team: {
     heading: string;
     reviewsHeading: string;
+    reviewsNavigation: { previous: string; next: string };
     reviews: Record<
       "parent" | "bianca" | "andreea" | "corina" | "dumitru" | "milenaMother" | "elena",
       {

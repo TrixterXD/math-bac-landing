@@ -51,6 +51,10 @@ export const ru = {
   team: {
     heading: "Об Анастасии",
     reviewsHeading: "Отзывы учеников",
+    reviewsNavigation: {
+      previous: "Предыдущая страница отзывов",
+      next: "Следующая страница отзывов",
+    },
     reviews: {
       parent: {
         fullName: "Анонимно",
@@ -104,7 +108,7 @@ export const ru = {
         "Демонстрационный портрет преподавателя с кудрявыми волосами",
     },
     profile: {
-      title: "О Насте",
+      title: "Об Анастасии",
       badge: "Об Анастасии ↗",
       close: "Закрыть",
       biography: [

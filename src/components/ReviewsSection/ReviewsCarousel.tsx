@@ -1,11 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Messages } from "@/i18n/messages.types";
 import ReviewCard from "./ReviewCard";
 import type { Review } from "./reviews.data";
 import styles from "./ReviewsSection.module.css";
 
-export default function ReviewsCarousel({ reviews }: { reviews: Review[] }) {
+export default function ReviewsCarousel({
+  reviews,
+  navigation,
+}: {
+  reviews: Review[];
+  navigation: Messages["team"]["reviewsNavigation"];
+}) {
   const [page, setPage] = useState(0);
   const [cardsPerPage, setCardsPerPage] = useState(1);
   const pageCount = Math.ceil(reviews.length / cardsPerPage);
@@ -39,7 +46,7 @@ export default function ReviewsCarousel({ reviews }: { reviews: Review[] }) {
         <button
           type="button"
           className={styles.arrow}
-          aria-label="Previous reviews page"
+          aria-label={navigation.previous}
           disabled={currentPage === 0}
           onClick={() => setPage(Math.max(0, currentPage - 1))}
         >
@@ -51,7 +58,7 @@ export default function ReviewsCarousel({ reviews }: { reviews: Review[] }) {
         <button
           type="button"
           className={styles.arrow}
-          aria-label="Next reviews page"
+          aria-label={navigation.next}
           disabled={currentPage >= pageCount - 1}
           onClick={() => setPage(Math.min(pageCount - 1, currentPage + 1))}
         >

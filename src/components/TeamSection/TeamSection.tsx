@@ -28,6 +28,7 @@ export default function TeamSection({
           <div className={styles.reviews}>
             <ReviewsSection
               heading={messages.reviewsHeading}
+              navigation={messages.reviewsNavigation}
               reviews={messages.reviews}
             />
           </div>
