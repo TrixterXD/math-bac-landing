@@ -133,11 +133,10 @@ test("existing navigation, FAQ, advantage and teacher IDs/copy stay aligned", ()
   );
 });
 
-test("Hero preserves Russian copy and its two-line description contract in both locales", () => {
+test("Hero updates the headline and preserves its description and benefits in both locales", () => {
   assert.deepEqual(ru.hero, {
     pill: "Онлайн-школа · Математика · Подготовка к BAC",
-    heading: "Подготовка к BAC",
-    headingEmphasis: "по математике онлайн",
+    heading: "Индивидуальные занятия по математике",
     description:
       "Уверенные знания. Спокойные родители.\nВысокие результаты на экзамене.",
     benefits: {
@@ -160,10 +159,18 @@ test("Hero preserves Russian copy and its two-line description contract in both 
     assert.equal(hero.description.split("\n").length, 2);
     for (const { id } of heroBenefits) assert.ok(hero.benefits[id]);
   }
-  assert.equal(ro.hero.heading, "Pregătire pentru BAC");
-  assert.equal(ro.hero.headingEmphasis, "la matematică, online");
+  assert.equal(ro.hero.heading, "Meditații individuale la matematică");
   assert.equal(ro.hero.cta, "Lasă o solicitare");
   assert.match(ro.hero.demo, /demonstrative/);
+});
+
+test("EasyMath branding and Anastasia headings are consistent in both locales", () => {
+  for (const messages of [ro, ru]) {
+    assert.ok(messages.metadata.title.startsWith("EasyMath — "));
+    assert.ok(messages.header.homeLabel.startsWith("EasyMath — "));
+  }
+  assert.equal(ro.team.heading, "Despre Anastasia");
+  assert.equal(ru.team.heading, "Об Анастасии");
 });
 
 test("both dictionaries cover exactly the 50 supported countries without owning calling codes", () => {

@@ -77,7 +77,6 @@ export type Messages = {
   hero: {
     pill: string;
     heading: string;
-    headingEmphasis: string;
     description: string;
     benefits: {
       explanation: { text: string; detail: string };
@@ -90,7 +89,6 @@ export type Messages = {
   };
   team: {
     heading: string;
-    headingEmphasis: string;
     description: string;
     demo: string;
     listLabel: string;

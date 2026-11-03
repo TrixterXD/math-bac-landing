@@ -22,10 +22,6 @@
   letter-spacing: -0.1rem;
 }
 
-.heading span {
-  color: var(--color-primary);
-}
-
 .description {
   max-width: 29rem;
   margin-top: var(--space-6);
@@ -43,48 +39,17 @@
 .visual {
   position: relative;
   min-width: 0;
-  min-height: 25rem;
+  width: min(100%, 24rem);
+  justify-self: center;
 }
 
 .teachers {
-  position: relative;
-  height: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.teachers li {
-  position: absolute;
-  top: 8rem;
-  width: 23%;
-}
-
-.teachers li:first-child {
-  top: 0;
-  left: 0;
-  width: 42%;
-}
-
-.teachers li:nth-child(2) {
-  left: 39%;
-  transform: rotate(7deg);
-}
-
-.teachers li:nth-child(3) {
-  top: 10rem;
-  left: 59%;
-  transform: rotate(6deg);
-}
-
-.teachers li:nth-child(4) {
-  top: 10.5rem;
-  left: 79%;
-  transform: rotate(8deg);
-}
-
 .crown,
-.note,
 .arrow,
 .spark {
   position: absolute;
@@ -100,21 +65,15 @@
   transform: rotate(-12deg);
 }
 
-.note {
-  top: -3rem;
-  right: 0;
-  width: 17.5rem;
-}
-
 .arrow {
   top: 4.5rem;
-  left: 49%;
+  right: 0;
   width: 4.5rem;
 }
 
 .spark {
   top: 10.5rem;
-  right: -4rem;
+  right: 0;
   width: 4rem;
 }
 
@@ -152,55 +111,23 @@
 
   .visual {
     grid-row: 3;
-    width: 100%;
-    max-width: 32rem;
-    min-height: 0;
-    margin: var(--space-4) auto 0;
-    padding-top: 8rem;
-  }
-
-  .teachers {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: center;
-    justify-items: center;
-    gap: var(--space-3);
-    height: auto;
-  }
-
-  .teachers li:nth-child(n) {
-    position: static;
-    width: 82%;
-    min-width: 0;
-    transform: none;
-  }
-
-  .teachers li:first-child {
-    width: 100%;
+    width: min(100%, 20rem);
+    margin: var(--space-8) auto 0;
   }
 
   .crown {
-    top: 5.5rem;
+    top: -1.5rem;
     left: var(--space-4);
     width: 4rem;
   }
 
-  .note {
-    top: 0;
-    right: 0;
-    width: min(55%, 12rem);
-  }
-
   .arrow {
-    top: 6rem;
-    left: 35%;
+    top: 3rem;
     width: 3rem;
   }
 
   .spark {
-    top: 21rem;
-    right: -15;
-    bottom: var(--space-2);
+    top: 10rem;
     width: 3.5rem;
   }
 }

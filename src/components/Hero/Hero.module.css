@@ -46,16 +46,12 @@
 }
 
 .heading {
-  width: 49rem;
+  max-width: 100%;
+  text-wrap: balance;
   font-size: 3.75rem;
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.12rem;
-}
-
-.heading span {
-  display: block;
-  color: var(--color-primary);
 }
 
 .description {
@@ -252,7 +248,7 @@
     grid-area: 1 / 1;
     width: auto;
     padding-right: 32%;
-    font-size: clamp(2rem, 8.5vw, 3rem);
+    font-size: clamp(1.5rem, 7vw, 3rem);
     letter-spacing: -0.06rem;
   }
 

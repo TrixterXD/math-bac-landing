@@ -43,7 +43,7 @@ export default function Header({
           href="#page-top"
           aria-label={messages.homeLabel}
         >
-          Math <span>BAC</span>
+          Easy<span>Math</span>
         </a>
         <button
           ref={toggleRef}
