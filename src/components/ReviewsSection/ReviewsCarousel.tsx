@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import type { Messages } from "@/i18n/messages.types";
 import ReviewCard from "./ReviewCard";
-import type { Review } from "./reviews.data";
 import styles from "./ReviewsSection.module.css";
+import type { Review } from "./reviews.data";
 
 export default function ReviewsCarousel({
   reviews,
@@ -50,7 +50,19 @@ export default function ReviewsCarousel({
           disabled={currentPage === 0}
           onClick={() => setPage(Math.max(0, currentPage - 1))}
         >
-          <span aria-hidden="true">←</span>
+          <svg
+            aria-hidden="true"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 12H5m7-7-7 7 7 7" />
+          </svg>
         </button>
         <p aria-live="polite" aria-atomic="true">
           {pageCount === 0 ? 0 : currentPage + 1} / {pageCount}
@@ -62,7 +74,19 @@ export default function ReviewsCarousel({
           disabled={currentPage >= pageCount - 1}
           onClick={() => setPage(Math.min(pageCount - 1, currentPage + 1))}
         >
-          <span aria-hidden="true">→</span>
+          <svg
+            aria-hidden="true"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M5 12h14m-7-7 7 7-7 7" />
+          </svg>
         </button>
       </div>
     </div>

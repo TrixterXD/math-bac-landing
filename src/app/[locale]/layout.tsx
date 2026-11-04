@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
+import Footer from "@/components/Footer/Footer";
 import LocaleShell from "@/components/Header/LocaleShell";
 import { getMessages } from "@/i18n/getMessages";
 import { isLocale, supportedLocales } from "@/i18n/locales";
@@ -40,6 +41,7 @@ export default async function RootLayout({
       <body>
         <LocaleShell key={locale} locale={locale} messages={messages.header}>
           {children}
+          <Footer locale={locale} messages={messages.footer} />
         </LocaleShell>
       </body>
     </html>
