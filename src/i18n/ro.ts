@@ -13,10 +13,9 @@ export const ro = {
     closeMenu: "Închide meniul",
     navigationLabel: "Navigare principală",
     navigation: {
-      about: "Despre noi",
+      about: "Despre mine",
       advantages: "Avantaje",
       programs: "Programe",
-      reviews: "Recenzii",
       faq: "Întrebări frecvente",
       contact: "Contacte",
     },

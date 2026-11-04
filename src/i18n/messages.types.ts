@@ -65,7 +65,7 @@ export type Messages = {
     closeMenu: string;
     navigationLabel: string;
     navigation: Record<
-      "about" | "advantages" | "programs" | "reviews" | "faq" | "contact",
+      "about" | "advantages" | "programs" | "faq" | "contact",
       string
     >;
     cta: string;

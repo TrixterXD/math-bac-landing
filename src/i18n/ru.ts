@@ -12,10 +12,9 @@ export const ru = {
     closeMenu: "Закрыть меню",
     navigationLabel: "Основная навигация",
     navigation: {
-      about: "О нас",
+      about: "Обо мне",
       advantages: "Преимущества",
       programs: "Программы",
-      reviews: "Отзывы",
       faq: "FAQ",
       contact: "Контакты",
     },
