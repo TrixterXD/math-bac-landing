@@ -51,7 +51,7 @@ export default function Footer({
           <nav aria-labelledby="footer-navigation-heading">
             <h2 id="footer-navigation-heading" className={styles.heading}>{messages.navigationTitle}</h2>
             <ul className={styles.links}>
-              <li><a href="#page-top">{messages.home}</a></li>
+              <li><a href="#">{messages.home}</a></li>
               <li><a href="#about">{messages.about}</a></li>
               <li><a href="#advantages">{messages.advantages}</a></li>
               <li><a href="#faq">{messages.faq}</a></li>
