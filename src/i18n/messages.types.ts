@@ -96,6 +96,7 @@ export type Messages = {
   hero: {
     pill: string;
     heading: string;
+    headingEmphasis: string;
     description: string;
     benefits: {
       explanation: { text: string; detail: string };
@@ -142,6 +143,7 @@ export type Messages = {
   };
   faq: {
     heading: string;
+    headingEmphasis: string;
     items: Record<
       | "lessons"
       | "group-size"

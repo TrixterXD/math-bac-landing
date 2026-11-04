@@ -15,6 +15,10 @@
   letter-spacing: -0.06rem;
 }
 
+.heading span {
+  color: var(--color-primary);
+}
+
 .body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 15rem;

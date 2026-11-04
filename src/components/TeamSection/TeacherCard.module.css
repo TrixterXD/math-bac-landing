@@ -12,9 +12,8 @@
   cursor: pointer;
 }
 
-.card:focus-visible {
-  outline: 3px solid var(--color-text);
-  outline-offset: 4px;
+.card:focus {
+  outline: none;
 }
 
 .badge {
@@ -30,9 +29,14 @@
   overflow-wrap: anywhere;
 }
 
+.badge svg {
+  display: inline-block;
+  vertical-align: -0.125em;
+}
+
 .card:focus-visible .badge {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 3px;
 }
 
 @media (hover: hover) and (pointer: fine) {

@@ -18,7 +18,7 @@ export default function FAQSection({
     <section id="faq" className={styles.section} aria-labelledby="faq-heading">
       <div className={styles.inner}>
         <h2 id="faq-heading" className={styles.heading}>
-          {messages.heading}
+          {messages.heading} <span>{messages.headingEmphasis}</span>
         </h2>
         <div className={styles.body}>
           <div className={styles.items}>
