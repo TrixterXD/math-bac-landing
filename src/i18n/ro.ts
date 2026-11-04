@@ -48,7 +48,8 @@ export const ro = {
   },
   hero: {
     pill: "Școală online · Matematică · Pregătire pentru BAC",
-    heading: "Meditații individuale la matematică",
+    heading: "Meditații individuale",
+    headingEmphasis: "la matematică",
     description:
       "Cunoștințe solide. Părinți liniștiți.\nRezultate înalte la examen.",
     benefits: {
@@ -126,7 +127,7 @@ export const ro = {
     },
     profile: {
       title: "Despre Anastasia",
-      badge: "Despre Anastasia ↗",
+      badge: "Despre Anastasia",
       close: "Închide",
       biography: [
         "Bună! Sunt Anastasia, fondatoarea acestui proiect educațional și profesor de matematică cu peste 5 ani de experiență.",
@@ -198,7 +199,8 @@ export const ro = {
     },
   },
   faq: {
-    heading: "Întrebări frecvente",
+    heading: "Întrebări",
+    headingEmphasis: "frecvente",
     items: {
       lessons: {
         question: "Cum se desfășoară lecțiile?",

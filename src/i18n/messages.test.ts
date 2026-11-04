@@ -136,7 +136,8 @@ test("existing navigation, FAQ, advantage and teacher IDs/copy stay aligned", ()
 test("Hero updates the headline and preserves its description and benefits in both locales", () => {
   assert.deepEqual(ru.hero, {
     pill: "Онлайн-школа · Математика · Подготовка к BAC",
-    heading: "Индивидуальные занятия по математике",
+    heading: "Индивидуальные занятия",
+    headingEmphasis: "по математике",
     description:
       "Уверенные знания. Спокойные родители.\nВысокие результаты на экзамене.",
     benefits: {
@@ -158,7 +159,8 @@ test("Hero updates the headline and preserves its description and benefits in bo
     assert.equal(hero.description.split("\n").length, 2);
     for (const { id } of heroBenefits) assert.ok(hero.benefits[id]);
   }
-  assert.equal(ro.hero.heading, "Meditații individuale la matematică");
+  assert.equal(ro.hero.heading, "Meditații individuale");
+  assert.equal(ro.hero.headingEmphasis, "la matematică");
   assert.equal(ro.hero.cta, "Lasă o solicitare");
 });
 

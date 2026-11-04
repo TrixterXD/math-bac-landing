@@ -19,7 +19,7 @@ export default function Hero({
         <div className={styles.copy}>
           <p className={styles.pill}>{messages.pill}</p>
           <h1 id="hero-heading" className={styles.heading}>
-            {messages.heading}
+            {messages.heading} <span>{messages.headingEmphasis}</span>
           </h1>
           <p className={styles.description}>
             {description}
@@ -51,7 +51,22 @@ export default function Hero({
             ))}
           </ul>
           <a className={styles.cta} href="#contact">
-            {messages.cta} <span aria-hidden="true">⟶</span>
+            {messages.cta}
+            <svg
+              aria-hidden="true"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M4 12h16m-6-6 6 6-6 6"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </a>
         </div>
         <div className={styles.visual}>
