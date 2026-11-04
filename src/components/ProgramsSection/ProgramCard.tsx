@@ -5,7 +5,7 @@ import matematicaNoteRu from "../../../public/images/programs/matematica-note_ru
 import type { Program, ProgramId } from "./programs.data";
 import styles from "./ProgramsSection.module.css";
 
-const symbols = { middle: "∑", ninth: "x²", bac: "π" };
+const symbols = { middle: "x²", ninth: "π", bac: "∑" };
 
 export default function ProgramCard({
   id,

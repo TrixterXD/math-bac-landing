@@ -29,7 +29,7 @@ export const ro = {
       "Schimbarea limbii este blocată cât timp solicitarea se trimite sau rezultatul trimiterii este incert.",
   },
   footer: {
-    description: "Pregătire individuală la matematică pentru BAC.",
+    description: "Pregătire individuală la matematică.",
     navigationTitle: "Navigare",
     home: "Acasă",
     about: "Despre mine",
@@ -228,7 +228,7 @@ export const ro = {
     heading: "Ai întrebări",
     headingEmphasis: "sau vrei să te înscrii?",
     description:
-      "Lasă o solicitare pentru a discuta despre pregătirea online pentru BAC la matematică.",
+      "Lasă o solicitare pentru a discuta despre lecții individuale de matematică online.",
     form: {
       legend: "Solicitare pentru pregătire",
       name: "Nume",
