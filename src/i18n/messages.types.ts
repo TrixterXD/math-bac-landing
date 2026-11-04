@@ -75,6 +75,24 @@ export type Messages = {
     switchUnavailable: string;
     switchFailed: string;
   };
+  footer: {
+    description: string;
+    navigationTitle: string;
+    home: string;
+    about: string;
+    advantages: string;
+    faq: string;
+    informationTitle: string;
+    terms: string;
+    privacy: string;
+    close: string;
+    contactTitle: string;
+    contactLink: string;
+    tiktokLabel: string;
+    instagramLabel: string;
+    copyright: string;
+    phrase: string;
+  };
   hero: {
     pill: string;
     heading: string;
