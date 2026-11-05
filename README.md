@@ -1,23 +1,28 @@
 # Math BAC Landing
 
-Educational prototype for online mathematics BAC preparation in Moldova, not a
-production-ready school website. Business copy and teacher content still include
-explicit demo placeholders; public-use permissions and release checks remain open.
+EasyMath is an educational prototype for individual online mathematics lessons
+and BAC preparation in Moldova, not a production-readiness claim. Public-use
+permissions, content approval and release checks require separate verification.
 
 ## Current implementation
 
-Source-inspected on `feature/localization-routing` for TASK-012D; this is not a
-claim that PR #10 is merged or that runtime acceptance passed.
+Updated against local source for TASK-AUDIT-004; deployment, PR status and runtime
+acceptance were not verified in this documentation update.
 
-- Landing sections: Hero → Team → Advantages → FAQ → Contact. Programs is deferred;
-  Footer and Reviews are not implemented. Some navigation targets remain unresolved.
+- Landing sections: Hero → Team (including a reviews carousel) → Advantages →
+  Programs → FAQ → Contact, with a shared Header and Footer. Current Header
+  navigation targets have matching section IDs.
+- Footer includes social links, contact navigation and legal dialogs. The legal
+  dialogs currently contain only a heading and close button, not legal policy text.
 - Contact form: shared client/server validation, international phone parsing with
   `libphonenumber-js`, MD default, Server Action, server-side Turnstile verification
   and Resend notification. Provider acceptance is not proof of inbox delivery.
 - Typed Romanian/Russian dictionaries and `/ro` / `/ru` routing exist. `/` uses a
   valid remembered preference, otherwise Romanian. Header, document language and
-  metadata use the route locale; page sections, form/widget copy and image assets
-  are **not yet fully localized**.
+  metadata, page sections (including reviews and Footer), form copy and Turnstile
+  messages use the route locale. Text-bearing illustrations have RO/RU variants;
+  Turnstile also receives the locale. Translation quality and runtime presentation
+  still require review.
 - Language switching uses client-side navigation, preserving query/hash and scroll.
   TASK-012E.2 replaces the visit-long contact-use lock with explicit form-state
   coordination: empty/focused-empty and successful forms allow switching; drafts
@@ -26,15 +31,18 @@ claim that PR #10 is merged or that runtime acceptance passed.
 
 ## Planned and deferred
 
-The language-switch contract is implemented on this branch (TASK-012E.2), with
+The language-switch contract is implemented (TASK-012E.2), with
 browser/mobile/cache acceptance still requiring manual review. **Contact submission
 takes priority.** Reload/remount can reset the in-memory uncertainty protection;
 it is not an exactly-once delivery guarantee.
 The detailed localization research plan is kept locally and is not part of the
-repository. The agreed switching behavior is documented in
-[Product Specification](PRODUCT_SPEC.md) and [Decision Log](DECISIONS.md).
-Remaining work includes section/form/widget translations and localized image
-assets. Rate limiting is deferred until evidence of abuse;
+repository. The implemented switching behavior is documented in
+[contact delivery and locale/form coordination](docs/contact-delivery.md).
+Production contact delivery still requires Resend and Turnstile configuration,
+a verified sending domain and an approved sender: the implementation currently
+uses Resend's restricted test sender, `onboarding@resend.dev`. Deployment settings,
+live delivery and inbox receipt were not verified in this update.
+Rate limiting is deferred until evidence of abuse;
 Turnstile is implemented but is not a rate limiter. No planned feature is a release claim.
 
 ## Local setup
@@ -76,5 +84,6 @@ sources live in `src/i18n/messages.test.ts` and `src/proxy.test.ts`.
 
 TASK-012D checked documentation against source only; no application tests, build,
 browser QA or live email was run. Historical verification reports remain in the
-linked documents and do not establish current-branch acceptance. After PR #10
-merges, revisit branch/status wording, routing acceptance and the next switch task.
+linked documents and do not establish current-branch acceptance. TASK-AUDIT-004
+also checked source and documentation only; it did not verify deployment or run
+application tests, a build, browser QA or live email.
