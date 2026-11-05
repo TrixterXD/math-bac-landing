@@ -189,6 +189,7 @@ export type Messages = {
       fieldErrors: string;
       verification_error: string;
       delivery_error: string;
+      delivery_uncertain: string;
       server_error: string;
       network_error: string;
     };

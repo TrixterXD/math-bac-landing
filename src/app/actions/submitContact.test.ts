@@ -98,7 +98,11 @@ test("external invalid fields are independently rejected without sending email",
 test("provider rejection returns delivery_error without exposing provider details", async () => {
   const request = mockDelivery(async () =>
     Response.json(
-      { name: "validation_error", message: "private provider detail" },
+      {
+        statusCode: 403,
+        name: "validation_error",
+        message: "private provider detail",
+      },
       { status: 403 },
     ),
   );
@@ -106,6 +110,26 @@ test("provider rejection returns delivery_error without exposing provider detail
     status: "delivery_error",
   });
   assert.equal(request.mock.callCount(), 2);
+});
+
+test("ambiguous provider responses and SDK transport errors pass through as uncertainty", async () => {
+  for (const deliver of [
+    async () => Response.json({}),
+    async () =>
+      Response.json(
+        { statusCode: 429, name: "rate_limit_exceeded" },
+        { status: 429 },
+      ),
+    async () => {
+      throw new Error("private transport detail");
+    },
+  ]) {
+    const request = mockDelivery(deliver);
+    assert.deepEqual(await submitContact(draft, token), {
+      status: "delivery_uncertain",
+    });
+    assert.equal(request.mock.callCount(), 2);
+  }
 });
 
 test("missing delivery configuration returns delivery_error", async () => {

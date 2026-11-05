@@ -39,9 +39,15 @@ content never becomes HTML, recipient, subject, or other message headers.
   misconfigured, or returned an unapproved hostname; no Resend call.
 - `accepted`: Resend returned a message ID without an error. This is provider
   acceptance, not proof of inbox arrival or reading.
-- `delivery_error`: missing configuration, provider rejection, missing message ID,
-  timeout, or transport failure. A timeout/lost response can leave the send outcome
-  unknown; this status must not be presented as proof that no email was sent.
+- `delivery_error`: confirmed non-delivery: configuration/debug guards prevented a
+  request, or Resend returned a recognized validation/authorization rejection with
+  status code 400, 401, 403 or 422. The draft is retained and an explicit retry with
+  fresh Turnstile verification is allowed.
+- `delivery_uncertain`: acceptance cannot be established: missing/invalid message ID,
+  transport failure, timeout, malformed response or unclassified SDK error. The SDK
+  returns transport failures as error objects too; an error alone is not proof of
+  rejection. Missing status codes, generic `application_error`, 408, 409, 429 and 5xx
+  remain uncertain. No safe-retry guarantee for 429 is assumed.
 - `server_error`: an unexpected action-level failure; no internal details returned.
 
 Responses contain no applicant data, message body, provider errors, or credentials.
@@ -171,8 +177,10 @@ summary or submission feedback, avoiding competing announcements.
 
 ### Explicit uncertainty safeguard — TASK-012E.1
 
-Both `delivery_error` (which combines definite and ambiguous provider failures)
-and a rejected Server Action invocation enter `uncertain`, not ordinary `error`.
+TASK-AUDIT-006 separates confirmed non-delivery (`delivery_error`, ordinary `error`)
+from `delivery_uncertain` and rejected Server Action invocations, which enter
+`uncertain`. Confirmed failure retains the draft, renews Turnstile verification and
+allows an explicit retry; locale navigation requires the existing discard confirmation.
 The existing visible, polite/atomic warning remains after editing any draft field,
 phone blur, or widget retry. The submit button is disabled and the submit handler
 rejects further attempts even with a fresh Turnstile token. Draft values remain
@@ -210,8 +218,12 @@ do not replace these checks with repeated live sends or a public test endpoint.
   and polite supporting text. Click “Отправить ещё одну заявку”: empty fields, MD,
   no stale feedback/errors, Name focused, and zero additional action calls. Fill and
   explicitly submit again: exactly one new action call.
-- Resolve with `delivery_error` or `server_error`, then reject the action promise:
-  friendly feedback, no technical details, all values retained, no automatic retry.
+- Resolve with `delivery_error` or `server_error`: friendly feedback, no technical
+  details, all values retained, no automatic retry. Confirmed delivery failure allows
+  an explicit retry only with a fresh Turnstile token and allows confirmed draft-discard
+  navigation.
+- Resolve with `delivery_uncertain` or reject the action promise: retain the warning
+  and draft; edits and fresh tokens must not enable resending or locale switching.
 - At 360px, 390px and 1440px: inspect long feedback wrapping, form bounds, keyboard
   focus, and the single live region with an assistive-technology check.
 

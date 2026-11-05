@@ -68,14 +68,19 @@ test("empty optional comment is omitted", async () => {
   assert.equal(request.mock.callCount(), 1);
 });
 
-test("provider errors and missing acknowledgments never return accepted", async () => {
-  for (const [status, body] of [
-    [403, { name: "validation_error", message: "private provider detail" }],
-    [429, { name: "rate_limit_exceeded", message: "private provider detail" }],
-    [200, {}],
-  ] satisfies [number, object][]) {
+test("explicit API validation and authorization rejections confirm non-delivery", async () => {
+  for (const [status, name] of [
+    [400, "validation_error"],
+    [401, "invalid_api_key"],
+    [403, "validation_error"],
+    [403, "restricted_api_key"],
+    [422, "invalid_from_address"],
+  ] satisfies [number, string][]) {
     const request = mock.method(globalThis, "fetch", async () =>
-      Response.json(body, { status }),
+      Response.json(
+        { statusCode: status, name, message: "private provider detail" },
+        { status },
+      ),
     );
     assert.deepEqual(await sendContactNotification(validatedContact()), {
       status: "delivery_error",
@@ -84,14 +89,57 @@ test("provider errors and missing acknowledgments never return accepted", async 
   }
 });
 
-test("transport failures are safe and not retried", async () => {
-  const request = mock.method(globalThis, "fetch", async () => {
-    throw new Error("private transport detail");
-  });
-  assert.deepEqual(await sendContactNotification(validatedContact()), {
-    status: "delivery_error",
-  });
-  assert.equal(request.mock.callCount(), 1);
+test("ambiguous SDK errors and missing acknowledgments remain uncertain", async () => {
+  for (const [status, body] of [
+    [403, { name: "validation_error", message: "missing status code" }],
+    [403, { statusCode: 403, name: "application_error" }],
+    [408, { statusCode: 408, name: "validation_error" }],
+    [409, { statusCode: 409, name: "concurrent_idempotent_requests" }],
+    [429, { statusCode: 429, name: "rate_limit_exceeded" }],
+    [500, { statusCode: 500, name: "validation_error" }],
+    [200, {}],
+    [200, { id: "" }],
+    [200, { id: "  " }],
+    [200, { id: 123 }],
+  ] satisfies [number, object][]) {
+    const request = mock.method(globalThis, "fetch", async () =>
+      Response.json(body, { status }),
+    );
+    assert.deepEqual(await sendContactNotification(validatedContact()), {
+      status: "delivery_uncertain",
+    });
+    assert.equal(request.mock.callCount(), 1);
+  }
+});
+
+test("SDK-converted network and abort errors remain uncertain and are not retried", async () => {
+  for (const error of [
+    new Error("private transport detail"),
+    new DOMException("Mock timeout", "TimeoutError"),
+    new DOMException("Mock abort", "AbortError"),
+  ]) {
+    const request = mock.method(globalThis, "fetch", async () => {
+      throw error;
+    });
+    assert.deepEqual(await sendContactNotification(validatedContact()), {
+      status: "delivery_uncertain",
+    });
+    assert.equal(request.mock.callCount(), 1);
+  }
+});
+
+test("malformed provider responses remain uncertain", async () => {
+  for (const status of [200, 403, 500]) {
+    const request = mock.method(
+      globalThis,
+      "fetch",
+      async () => new Response("not JSON", { status }),
+    );
+    assert.deepEqual(await sendContactNotification(validatedContact()), {
+      status: "delivery_uncertain",
+    });
+    assert.equal(request.mock.callCount(), 1);
+  }
 });
 
 test("missing or blank required configuration prevents all requests", async () => {

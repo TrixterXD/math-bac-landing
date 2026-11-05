@@ -279,6 +279,8 @@ export const ro = {
       verification_error:
         "Verificarea de securitate nu a fost confirmată. Datele au fost păstrate. Efectuează o nouă verificare și trimite din nou solicitarea.",
       delivery_error:
+        "Solicitarea nu a fost trimisă. Datele au fost păstrate. Încearcă mai târziu, efectuând o nouă verificare de securitate.",
+      delivery_uncertain:
         "Nu s-a putut confirma trimiterea solicitării. Datele au fost păstrate. Este posibil ca solicitarea să fi fost acceptată — nu o trimite din nou până când rezultatul nu este clarificat.",
       server_error:
         "Solicitarea nu a putut fi procesată pe server. Datele au fost păstrate. Încearcă mai târziu.",
