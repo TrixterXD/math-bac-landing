@@ -48,7 +48,13 @@ export default function TeacherCard({
           viewBox="0 0 24 24"
           fill="none"
         >
-          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+          <circle
+            cx="12"
+            cy="12"
+            r="9"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
           <path
             d="M12 7v6"
             stroke="currentColor"

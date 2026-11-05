@@ -178,7 +178,8 @@ export const ro = {
         title: "Clasa a IX-a",
         groups: [
           {
-            content: "Consolidarea programei școlare, aprofundarea noțiunilor importante și pregătirea sistematică pentru examenul național de absolvire a gimnaziului cu rezolvarea variantelor de examen.",
+            content:
+              "Consolidarea programei școlare, aprofundarea noțiunilor importante și pregătirea sistematică pentru examenul național de absolvire a gimnaziului cu rezolvarea variantelor de examen.",
           },
         ],
       },
@@ -187,11 +188,13 @@ export const ro = {
         groups: [
           {
             heading: "Clasele X–XII",
-            content: "Înțelegerea și aprofundarea programei școlare, rezolvarea exercițiilor complexe și pregătirea pentru tezele semestriale.",
+            content:
+              "Înțelegerea și aprofundarea programei școlare, rezolvarea exercițiilor complexe și pregătirea pentru tezele semestriale.",
           },
           {
             heading: "Pregătire pentru examenul de BAC",
-            content: "Program intensiv de pregătire, cu recapitularea materiei, rezolvarea variantelor de examen și exersarea subiectelor, pentru obținerea unui rezultat cât mai bun la BAC.",
+            content:
+              "Program intensiv de pregătire, cu recapitularea materiei, rezolvarea variantelor de examen și exersarea subiectelor, pentru obținerea unui rezultat cât mai bun la BAC.",
           },
         ],
       },

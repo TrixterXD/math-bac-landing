@@ -20,7 +20,9 @@ export default function Footer({
       <div className={styles.inner}>
         <div className={styles.columns}>
           <div className={styles.brandArea}>
-            <a className={styles.brand} href="#page-top">EasyMath</a>
+            <a className={styles.brand} href="#page-top">
+              EasyMath
+            </a>
             <p className={styles.description}>{messages.description}</p>
             <div className={styles.socials}>
               <a
@@ -39,41 +41,84 @@ export default function Footer({
                 rel="noopener noreferrer"
                 aria-label={messages.instagramLabel}
               >
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                >
                   <rect x="3" y="3" width="18" height="18" rx="5" />
                   <circle cx="12" cy="12" r="4" />
-                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                  <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="1"
+                    fill="currentColor"
+                    stroke="none"
+                  />
                 </svg>
               </a>
             </div>
             <Image className={styles.sigma} src={sigma} alt="" sizes="64px" />
           </div>
           <nav aria-labelledby="footer-navigation-heading">
-            <h2 id="footer-navigation-heading" className={styles.heading}>{messages.navigationTitle}</h2>
+            <h2 id="footer-navigation-heading" className={styles.heading}>
+              {messages.navigationTitle}
+            </h2>
             <ul className={styles.links}>
-              <li><a href="#">{messages.home}</a></li>
-              <li><a href="#about">{messages.about}</a></li>
-              <li><a href="#advantages">{messages.advantages}</a></li>
-              <li><a href="#faq">{messages.faq}</a></li>
+              <li>
+                <a href="#">{messages.home}</a>
+              </li>
+              <li>
+                <a href="#about">{messages.about}</a>
+              </li>
+              <li>
+                <a href="#advantages">{messages.advantages}</a>
+              </li>
+              <li>
+                <a href="#faq">{messages.faq}</a>
+              </li>
             </ul>
           </nav>
           <div>
             <h2 className={styles.heading}>{messages.informationTitle}</h2>
             <ul className={styles.links}>
-              <li><LegalDialog title={messages.terms} closeLabel={messages.close} /></li>
-              <li><LegalDialog title={messages.privacy} closeLabel={messages.close} /></li>
+              <li>
+                <LegalDialog
+                  title={messages.terms}
+                  closeLabel={messages.close}
+                />
+              </li>
+              <li>
+                <LegalDialog
+                  title={messages.privacy}
+                  closeLabel={messages.close}
+                />
+              </li>
             </ul>
           </div>
           <div className={styles.contact}>
             <h2 className={styles.heading}>{messages.contactTitle}</h2>
             <a className={styles.contactLink} href="#contact">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
                 <rect x="3" y="5" width="18" height="14" rx="2" />
                 <path d="m3 6 9 7 9-7" />
               </svg>
               {messages.contactLink}
             </a>
-            <Image className={styles.pyramid} src={pyramid} alt="" sizes="120px" />
+            <Image
+              className={styles.pyramid}
+              src={pyramid}
+              alt=""
+              sizes="120px"
+            />
           </div>
         </div>
         <div className={styles.bottom}>

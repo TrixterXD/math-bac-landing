@@ -16,7 +16,11 @@ export default function ProgramsSection({
   messages: Messages["programs"];
 }) {
   return (
-    <section id="programs" className={styles.section} aria-labelledby="programs-heading">
+    <section
+      id="programs"
+      className={styles.section}
+      aria-labelledby="programs-heading"
+    >
       <div className={styles.header}>
         <h2 id="programs-heading" className={styles.heading}>
           <span className={styles.headingAccent}>{messages.heading}</span>{" "}
