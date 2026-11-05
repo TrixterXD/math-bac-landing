@@ -29,9 +29,13 @@ export default function Footer({
                 href="https://www.tiktok.com/@anastasia.easymath?_r=1&_t=ZS-9AM5WYzAttc"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={messages.tiktokLabel}
               >
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+                <svg
+                  role="img"
+                  aria-label={messages.tiktokLabel}
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
                   <path d="M14 3h3c0 2.2 1.8 4 4 4v3a7 7 0 0 1-4-1.3V16a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V3Z" />
                 </svg>
               </a>
@@ -39,10 +43,10 @@ export default function Footer({
                 href="https://www.instagram.com/anastasia.easymath/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={messages.instagramLabel}
               >
                 <svg
-                  aria-hidden="true"
+                  role="img"
+                  aria-label={messages.instagramLabel}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -68,7 +72,7 @@ export default function Footer({
             </h2>
             <ul className={styles.links}>
               <li>
-                <a href="#">{messages.home}</a>
+                <a href="#page-top">{messages.home}</a>
               </li>
               <li>
                 <a href="#about">{messages.about}</a>

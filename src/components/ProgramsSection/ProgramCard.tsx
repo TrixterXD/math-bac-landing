@@ -24,7 +24,7 @@ export default function ProgramCard({
         </span>
         <span className={styles.title}>{program.title}</span>
         <span className={styles.indicator} aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
             <path
               d="m5 9 7 7 7-7"
               stroke="currentColor"
