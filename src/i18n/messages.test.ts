@@ -17,10 +17,7 @@ function strings(value: unknown, path = ""): Map<string, string> {
     assert.ok(value.trim(), `Empty translation: ${path}`);
     return new Map([[path, value]]);
   }
-  assert.ok(
-    value !== null && typeof value === "object" && !Array.isArray(value),
-    path,
-  );
+  assert.ok(value !== null && typeof value === "object", path);
   const entries = Object.entries(value);
   assert.ok(entries.length > 0, `Empty translation group: ${path}`);
   return new Map(
@@ -75,8 +72,30 @@ test("dictionary paths match, every leaf is non-empty, and placeholders agree", 
   assert.deepEqual(placeholders(ro.contact.feedback.fieldErrors), ["count"]);
 });
 
+test("dictionary traversal includes nested arrays with indexed paths", () => {
+  assert.deepEqual(
+    [...strings({ items: ["First", { content: [["Hello {name}"]] }] })],
+    [
+      ["items.0", "First"],
+      ["items.1.content.0.0", "Hello {name}"],
+    ],
+  );
+});
+
 test("dictionary validation rejects empty or missing translation groups", () => {
-  for (const value of ["", " \n ", {}, { missing: undefined }, { empty: "" }]) {
+  for (const value of [
+    "",
+    " \n ",
+    {},
+    { missing: undefined },
+    { empty: "" },
+    [],
+    { items: [[" \n "]] },
+    { items: [{ content: [] }] },
+    { items: [undefined] },
+    { items: [null] },
+    { items: [42] },
+  ]) {
     assert.throws(() => strings(value));
   }
 });
