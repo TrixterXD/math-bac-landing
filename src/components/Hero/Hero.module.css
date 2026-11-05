@@ -187,7 +187,7 @@
 
 .lessonNote {
   top: 15rem;
-  right: -5rem;
+  right: 0;
   width: 12rem;
 }
 
@@ -312,7 +312,7 @@
 
   .lessonNote {
     top: var(--space-8);
-    right: 0;
+    right: var(--space-4);
     width: min(27%, 8rem);
   }
 
