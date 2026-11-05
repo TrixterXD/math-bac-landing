@@ -11,7 +11,8 @@ type ValidatedContact = Extract<
 
 export type ContactNotificationResult =
   | { status: "accepted" }
-  | { status: "delivery_error" };
+  | { status: "delivery_error" }
+  | { status: "delivery_uncertain" };
 
 export async function sendContactNotification(
   contact: ValidatedContact,
@@ -44,11 +45,29 @@ export async function sendContactNotification(
       },
       { signal: AbortSignal.timeout(15000) },
     );
-    return !error && data?.id
-      ? { status: "accepted" }
-      : { status: "delivery_error" };
+    if (!error && typeof data?.id === "string" && data.id.trim()) {
+      return { status: "accepted" };
+    }
+    // The SDK also returns transport errors; only explicit validation/auth rejections are safe to retry.
+    if (
+      error &&
+      [400, 401, 403, 422].includes(error.statusCode ?? 0) &&
+      [
+        "validation_error",
+        "missing_api_key",
+        "invalid_api_key",
+        "restricted_api_key",
+        "invalid_from_address",
+        "invalid_access",
+        "invalid_parameter",
+        "missing_required_field",
+      ].includes(error.name)
+    ) {
+      return { status: "delivery_error" };
+    }
+    return { status: "delivery_uncertain" };
   } catch {
     // A thrown transport failure can leave delivery uncertain; never retry automatically.
-    return { status: "delivery_error" };
+    return { status: "delivery_uncertain" };
   }
 }

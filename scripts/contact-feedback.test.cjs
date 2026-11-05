@@ -5,8 +5,20 @@ const vm = require("node:vm");
 const ts = require("typescript");
 const { ru } = require("../src/i18n/ru.ts");
 
+const coordinationModule = { exports: {} };
+vm.runInNewContext(
+  ts.transpileModule(
+    readFileSync("src/components/Header/contactCoordination.ts", "utf8"),
+    { compilerOptions: { module: ts.ModuleKind.CommonJS } },
+  ).outputText,
+  { module: coordinationModule, exports: coordinationModule.exports, require },
+);
+
 // Match the existing Turnstile tests: run component handlers with isolated hook/action mocks.
 function mountForm() {
+  const coordination = coordinationModule.exports.createContactCoordination(
+    () => {},
+  );
   const slots = [];
   let cursor = 0;
   let calls = 0;
@@ -55,10 +67,7 @@ function mountForm() {
         };
       if (name.includes("Header/contactCoordination"))
         return {
-          useContactCoordination: () => ({
-            update() {},
-            beginSubmission: () => true,
-          }),
+          useContactCoordination: () => coordination,
         };
       if (name.includes("actions/submitContact"))
         return {
@@ -104,6 +113,7 @@ function mountForm() {
   }
   return {
     find,
+    coordination,
     submit() {
       render().props.onSubmit({ preventDefault() {} });
     },
@@ -148,6 +158,7 @@ test("retry starts a fresh widget without stale requested feedback or losing dra
 for (const result of [
   { status: "verification_error" },
   { status: "delivery_error" },
+  { status: "delivery_uncertain" },
   { status: "server_error" },
   { status: "validation_error", errors: { name: "invalid" } },
   new Error("Mock transport failure"),
@@ -186,13 +197,13 @@ for (const result of [
     assert.equal(form.calls(), 1);
     assert.equal(
       form.challenge().props.requested,
-      result.status !== "delivery_error" && !(result instanceof Error),
+      result.status !== "delivery_uncertain" && !(result instanceof Error),
     );
   });
 }
 
 for (const result of [
-  { status: "delivery_error" },
+  { status: "delivery_uncertain" },
   new Error("Mock transport failure"),
 ]) {
   test(`uncertainty survives all edits and blocks submission: ${result.status ?? "transport failure"}`, async () => {
@@ -204,6 +215,10 @@ for (const result of [
     const feedback = () =>
       form.find((node) => node.props?.["aria-live"] === "polite");
     const warning = feedback().props.children;
+    assert.equal(
+      form.coordination.beginNavigation(() => assert.fail("must not prompt")),
+      false,
+    );
     assert.match(warning, /не отправляйте/i);
     assert.equal(feedback().props["aria-atomic"], "true");
     assert.equal(form.name().props.value, "Synthetic");
@@ -235,6 +250,67 @@ for (const result of [
     assert.equal(form.calls(), 1);
   });
 }
+
+test("confirmed non-delivery preserves the draft, permits navigation and requires a fresh token to retry", async () => {
+  const form = mountForm();
+  const draft = {
+    name: "Synthetic",
+    phone: "0721234567",
+    comment: "Context",
+    country: "RO",
+  };
+  for (const [field, value] of Object.entries(draft)) {
+    form
+      .find((node) => node.props?.id === `contact-${field}`)
+      .props.onChange({
+        currentTarget: { value },
+      });
+  }
+  form.challenge().props.onToken("first-token");
+  const previous = form.challenge();
+  form.submit();
+  assert.equal(
+    form.coordination.beginNavigation(() => assert.fail("must not prompt")),
+    false,
+  );
+  await form.finish({ status: "delivery_error" });
+  for (const [field, value] of Object.entries(draft)) {
+    assert.equal(
+      form.find((node) => node.props?.id === `contact-${field}`).props.value,
+      value,
+    );
+  }
+  assert.equal(
+    form.find((node) => node.props?.["aria-live"] === "polite").props.children,
+    ru.contact.feedback.delivery_error,
+  );
+  assert.notEqual(form.challenge().key, previous.key);
+  assert.equal(
+    form.find((node) => node.props?.type === "submit").props.disabled,
+    false,
+  );
+  let confirmations = 0;
+  assert.equal(
+    form.coordination.beginNavigation(() => {
+      confirmations++;
+      return false;
+    }),
+    false,
+  );
+  assert.equal(confirmations, 1);
+  assert.equal(
+    form.coordination.beginNavigation(() => true),
+    true,
+  );
+  form.coordination.endNavigation();
+  form.submit();
+  assert.equal(form.calls(), 1);
+  assert.equal(form.challenge().props.requested, true);
+  form.challenge().props.onToken("fresh-token");
+  form.submit();
+  assert.equal(form.calls(), 2);
+  await form.finish({ status: "accepted" });
+});
 
 test("server field validation is recoverable and pending prevents edits and duplicate sends", async () => {
   const form = mountForm();

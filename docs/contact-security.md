@@ -100,8 +100,10 @@ All external requests are mocked. Existing validation and notification tests rem
   tokens must not allow submission. Retry must render a new challenge, not send.
 - Solve; dispatch rapid duplicate submits while the mocked action is unresolved:
   exactly one call, controls disabled, draft unchanged.
-- Return `verification_error`, `validation_error`, `delivery_error`, `server_error`,
-  or reject the action promise: retain fields and mount a fresh widget; no auto send.
+- Return `verification_error`, `validation_error`, `delivery_error`, `delivery_uncertain`,
+  `server_error`, or reject the action promise: retain fields and mount a fresh widget;
+  no auto send. Confirmed `delivery_error` permits explicit retry with a fresh token;
+  `delivery_uncertain` and invocation failures continue to block resending.
 - Return `accepted`: original success screen/focus remains. Reset-only button
   restores empty fields/MD and Name focus; fresh widget, no action call.
 - Inspect 360/390/1440px, keyboard navigation, status announcements and iframe

@@ -1,4 +1,7 @@
-import type { Program, ProgramId } from "../components/ProgramsSection/programs.data";
+import type {
+  Program,
+  ProgramId,
+} from "../components/ProgramsSection/programs.data";
 import type {
   ContactFieldErrors,
   FieldError,
@@ -111,12 +114,22 @@ export type Messages = {
     reviewsHeading: string;
     reviewsNavigation: { previous: string; next: string };
     reviews: Record<
-      "parent" | "bianca" | "andreea" | "corina" | "dumitru" | "milenaMother" | "elena",
+      | "parent"
+      | "bianca"
+      | "andreea"
+      | "corina"
+      | "dumitru"
+      | "milenaMother"
+      | "elena",
       {
         fullName: string;
         role: string;
         text: string;
-        expansion?: { text: string; expandLabel: string; collapseLabel: string };
+        expansion?: {
+          text: string;
+          expandLabel: string;
+          collapseLabel: string;
+        };
       }
     >;
     description: string;
@@ -145,10 +158,7 @@ export type Messages = {
     heading: string;
     headingEmphasis: string;
     items: Record<
-      | "lessons"
-      | "group-size"
-      | "languages"
-      | "starting-level",
+      "lessons" | "group-size" | "languages" | "starting-level",
       { question: string; answer: string }
     >;
   };
@@ -179,6 +189,7 @@ export type Messages = {
       fieldErrors: string;
       verification_error: string;
       delivery_error: string;
+      delivery_uncertain: string;
       server_error: string;
       network_error: string;
     };

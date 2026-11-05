@@ -142,8 +142,14 @@ export default function ContactForm({
             break;
           case "delivery_error":
             setSubmission({
-              status: "uncertain",
+              status: "error",
               message: messages.feedback.delivery_error,
+            });
+            break;
+          case "delivery_uncertain":
+            setSubmission({
+              status: "uncertain",
+              message: messages.feedback.delivery_uncertain,
             });
             break;
           case "verification_error":
