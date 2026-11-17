@@ -6,6 +6,7 @@ import Footer from "@/components/Footer/Footer";
 import LocaleShell from "@/components/Header/LocaleShell";
 import { getMessages } from "@/i18n/getMessages";
 import { isLocale, supportedLocales } from "@/i18n/locales";
+import { getSocialImageUrl } from "@/lib/getSocialImageUrl";
 import "../globals.css";
 
 const manrope = Manrope({
@@ -25,7 +26,31 @@ export async function generateMetadata({
 }: LocaleParams): Promise<Metadata> {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return (await getMessages(locale)).metadata;
+  const metadata = (await getMessages(locale)).metadata;
+  const image = {
+    url: getSocialImageUrl(),
+    width: 1200,
+    height: 630,
+    alt:
+      locale === "ro"
+        ? "Sigla EasyMath cu o coroană și accente violet"
+        : "Логотип EasyMath с короной и фиолетовыми акцентами",
+  };
+
+  return {
+    ...metadata,
+    openGraph: {
+      ...metadata,
+      type: "website",
+      locale: locale === "ro" ? "ro_MD" : "ru_MD",
+      images: [image],
+    },
+    twitter: {
+      ...metadata,
+      card: "summary_large_image",
+      images: [image],
+    },
+  };
 }
 
 export default async function RootLayout({
