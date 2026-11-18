@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/locales";
 import type { Messages } from "@/i18n/messages.types";
 import { heroBenefits } from "./Hero.data";
 import styles from "./Hero.module.css";
+import HeroVideo from "./HeroVideo";
 
 export default function Hero({
   locale,
@@ -50,24 +51,27 @@ export default function Hero({
               </li>
             ))}
           </ul>
-          <a className={styles.cta} href="#contact">
-            {messages.cta}
-            <svg
-              aria-hidden="true"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M4 12h16m-6-6 6 6-6 6"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
+          <div className={styles.actions}>
+            <a className={styles.cta} href="#contact">
+              {messages.cta}
+              <svg
+                aria-hidden="true"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M4 12h16m-6-6 6 6-6 6"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+            <HeroVideo messages={messages.video} />
+          </div>
         </div>
         <div className={styles.visual}>
           <div className={styles.blob} aria-hidden="true" />

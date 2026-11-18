@@ -67,6 +67,12 @@ export const ro = {
       },
     },
     cta: "Lasă o solicitare",
+    video: {
+      play: "Vezi videoclipul cu Anastasia",
+      title: "Videoclip cu Anastasia",
+      close: "Închide",
+      iframeTitle: "Videoclip TikTok cu Anastasia — EasyMath",
+    },
     portraitAlt: "Nastya stă la masă cu un caiet și un pix",
   },
   team: {

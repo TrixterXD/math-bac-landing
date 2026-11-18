@@ -63,6 +63,12 @@ export const ru = {
       },
     },
     cta: "Оставить заявку",
+    video: {
+      play: "Смотреть видео с Анастасией",
+      title: "Видео с Анастасией",
+      close: "Закрыть",
+      iframeTitle: "Видео TikTok с Анастасией — EasyMath",
+    },
     portraitAlt: "Настя сидит за столом с тетрадью и ручкой",
   },
   team: {
