@@ -172,6 +172,12 @@ test("Hero updates the headline and preserves its description and benefits in bo
       },
     },
     cta: "Оставить заявку",
+    video: {
+      play: "Смотреть видео с Анастасией",
+      title: "Видео с Анастасией",
+      close: "Закрыть",
+      iframeTitle: "Видео TikTok с Анастасией — EasyMath",
+    },
     portraitAlt: "Настя сидит за столом с тетрадью и ручкой",
   });
   for (const { hero } of [ro, ru]) {
@@ -218,6 +224,7 @@ test("current Russian component text, accessibility labels and runtime messages 
   const components = [
     "Header/Header",
     "Hero/Hero",
+    "Hero/HeroVideo",
     "TeamSection/TeamSection",
     "TeamSection/TeacherCard",
     "TeamSection/NastyaProfile",

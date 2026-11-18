@@ -107,6 +107,12 @@ export type Messages = {
       support: { text: string; detail: string; ending: string };
     };
     cta: string;
+    video: {
+      play: string;
+      title: string;
+      close: string;
+      iframeTitle: string;
+    };
     portraitAlt: string;
   };
   team: {
